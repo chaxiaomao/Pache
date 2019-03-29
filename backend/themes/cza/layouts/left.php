@@ -39,13 +39,35 @@ $directoryAsset = \Yii::$app->czaHelper->getEnvData('AdminlteAssets');
                         ['label' => Yii::t('app.c2', 'Menu'), 'options' => ['class' => 'header']],
                         ['label' => Yii::t('app.c2', 'Dashboard'), 'icon' => 'fa fa-circle-o', 'url' => ['/']],
                         [
-                            'label' => Yii::t('app.c2', 'CRM'), 'icon' => 'fa fa-circle-o', 'url' => ['#'], 'options' => ['class' => 'treeview'],
+                            'label' => Yii::t('app.c2', 'Database'), 'visible' => \Yii::$app->user->can('P_Logistics'), 'icon' => 'fa fa-circle-o', 'url' => ['#'], 'options' => ['class' => 'treeview'],
                             'items' => [
-                                ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Chess')]), 'icon' => 'fa fa-circle-o', 'url' => ['/crm/chess']],
-                                ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'User Degree')]), 'icon' => 'fa fa-circle-o', 'url' => ['/crm/user-degree']],
-                                ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Lord')]), 'icon' => 'fa fa-circle-o', 'url' => ['/crm/lord']],
-                                ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Elder')]), 'icon' => 'fa fa-circle-o', 'url' => ['/crm/elder']],
-                                ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Chieftain')]), 'icon' => 'fa fa-circle-o', 'url' => ['/crm/chieftain']],
+                                ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Product')]), 'icon' => 'fa fa-circle-o', 'url' => ['/database/product']],
+                                ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Attribute')]), 'icon' => 'fa fa-circle-o', 'url' => ['/database/attribute']],
+                                ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Attributeset')]), 'icon' => 'fa fa-circle-o', 'url' => ['/database/attributeset']],
+                            ]
+                        ],
+                        [
+                            'label' => Yii::t('app.c2', 'Purchase Sale Storage System'), 'icon' => 'fa fa-circle-o', 'url' => ['#'], 'options' => ['class' => 'treeview'],
+                            'visible' => \Yii::$app->user->can('P_P3S'),
+                            'items' => [
+                                ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Inventory')]), 'icon' => 'fa fa-circle-o', 'url' => ['#'], 'options' => ['class' => 'treeview'],
+                                    'items' => [
+                                        ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Inventory Receipt Notes')]), 'icon' => 'fa fa-circle-o', 'url' => ['/p3s/inventory/receipt-note']],
+                                        ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Inventory Delivery Notes')]), 'icon' => 'fa fa-circle-o', 'url' => ['/p3s/inventory/delivery-note']],
+                                        ['label' => Yii::t('app.c2', 'Product Stock'), 'icon' => 'fa fa-circle-o', 'url' => ['/p3s/inventory/stock']],
+                                        ['label' => Yii::t('app.c2', 'Logs'), 'icon' => 'fa fa-circle-o', 'url' => ['/p3s/inventory/logs']],
+                                    ]
+                                ],
+                                // ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Finance')]), 'icon' => 'fa fa-circle-o', 'url' => ['#'], 'options' => ['class' => 'treeview'], 'items' => [
+                                // ]],
+                                ['label' => Yii::t('app.c2', 'Config'), 'icon' => 'fa fa-circle-o', 'url' => ['#'], 'options' => ['class' => 'treeview'],
+                                    'items' => [
+                                        ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Warehouse')]), 'icon' => 'fa fa-circle-o', 'url' => ['/p3s/config/warehouse/default']],
+                                        ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Supplier')]), 'icon' => 'fa fa-circle-o', 'url' => ['/p3s/config/supplier']],
+                                        ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Measure')]), 'icon' => 'fa fa-circle-o', 'url' => ['/p3s/config/measure']],
+                                        ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Currency')]), 'icon' => 'fa fa-circle-o', 'url' => ['/p3s/config/currency']],
+                                    ]
+                                ],
                             ]
                         ],
                         [
@@ -59,16 +81,16 @@ $directoryAsset = \Yii::$app->czaHelper->getEnvData('AdminlteAssets');
                             'items' => [
                                 ['label' => Yii::t('app.c2', 'Configuration'), 'icon' => 'fa fa-circle-o', 'url' => ['#'], 'options' => ['class' => 'treeview'],
                                     'items' => [
-                                        ['label' => Yii::t('app.c2', 'Merchant Management'), 'icon' => 'fa fa-circle-o', 'url' => ['/crm/merchant'],],
-                                        ['label' => Yii::t('app.c2', 'Params Settings'), 'icon' => 'fa fa-circle-o', 'url' => ['/sys/config/default/params-settings']],
+                                        // ['label' => Yii::t('app.c2', 'Merchant Management'), 'icon' => 'fa fa-circle-o', 'url' => ['/crm/merchant'],],
+                                        // ['label' => Yii::t('app.c2', 'Params Settings'), 'icon' => 'fa fa-circle-o', 'url' => ['/sys/config/default/params-settings']],
                                         ['label' => Yii::t('app.c2', 'Common Resource'), 'icon' => 'fa fa-circle-o', 'url' => ['#'], 'options' => ['class' => 'treeview'],
                                             'items' => [
                                                 ['label' => Yii::t('app.c2', 'Attachement Management'), 'icon' => 'fa fa-circle-o', 'url' => ['/sys/common-resource/attachment'],],
                                                 ['label' => Yii::t('app.c2', 'Global Settings'), 'icon' => 'fa fa-circle-o', 'url' => ['/sys/config']],
                                             ]
                                         ],
-                                        ['label' => Yii::t('app.c2', 'Transfer Settings'), 'icon' => 'fa fa-circle-o', 'url' => ['/sys/config/default/transfer-settings']],
-                                        ['label' => Yii::t('app.c2', 'Api'), 'icon' => 'fa fa-circle-o', 'url' => ['/api']],
+                                        // ['label' => Yii::t('app.c2', 'Transfer Settings'), 'icon' => 'fa fa-circle-o', 'url' => ['/sys/config/default/transfer-settings']],
+                                        // ['label' => Yii::t('app.c2', 'Api'), 'icon' => 'fa fa-circle-o', 'url' => ['/api']],
                                     ]
                                 ],
                                 ['label' => Yii::t('app.c2', 'Security'), 'icon' => 'fa fa-circle-o', 'url' => ['#'], 'options' => ['class' => 'treeview'],

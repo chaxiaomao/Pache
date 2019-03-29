@@ -10,8 +10,12 @@ return [
     'crm' => [
         'class' => 'backend\modules\CRM\Module',
     ],
-
-    'sys' => [ 'class' => 'backend\modules\Sys\Module',],
+    'p3s' => ['class' => 'backend\modules\P3S\Module',],
+    'logistics' => ['class' => 'backend\modules\Logistics\Module',],
+    'database' => [
+        'class' => 'backend\modules\Database\Module',
+    ],
+    'sys' => ['class' => 'backend\modules\Sys\Module',],
     'rbac' => [
         'class' => 'backend\modules\Sys\modules\Rbac\Module',
         'permission' => 'P_System',
