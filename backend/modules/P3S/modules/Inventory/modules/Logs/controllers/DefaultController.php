@@ -3,8 +3,8 @@
 namespace backend\modules\P3S\modules\Inventory\modules\Logs\controllers;
 
 use Yii;
-use common\models\c2\entity\InventoryNoteLog;
-use common\models\c2\search\InventoryNoteLog as InventoryNoteLogSearch;
+use common\models\c2\entity\InventoryNoteLogModel;
+use common\models\c2\search\InventoryNoteLogSearch;
 
 use cza\base\components\controllers\backend\ModelController as Controller;
 use yii\web\NotFoundHttpException;
@@ -15,7 +15,7 @@ use yii\filters\VerbFilter;
  */
 class DefaultController extends Controller
 {
-    public $modelClass = 'common\models\c2\entity\InventoryNoteLog';
+    public $modelClass = 'common\models\c2\entity\InventoryNoteLogModel';
     
     /**
      * Lists all InventoryNoteLog models.
@@ -69,12 +69,12 @@ class DefaultController extends Controller
      * Finds the InventoryNoteLog model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id
-     * @return InventoryNoteLog the loaded model
+     * @return InventoryNoteLogModel the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = InventoryNoteLog::findOne($id)) !== null) {
+        if (($model = InventoryNoteLogModel::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

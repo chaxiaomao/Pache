@@ -53,8 +53,8 @@ $form = ActiveForm::begin([
                 'code' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('code')]],
                 'label' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('label')]],
                 'type' => ['type' => Form::INPUT_DROPDOWN_LIST, 'items' => \common\models\c2\statics\InventoryReceiptType::getHashMap('id', 'label')],
-                'warehouse_id' => ['type' => Form::INPUT_DROPDOWN_LIST, 'items' => \common\models\c2\entity\Warehouse::getHashMap('id', 'label')],
-                'supplier_id' => ['type' => Form::INPUT_DROPDOWN_LIST, 'items' => \common\models\c2\entity\Supplier::getHashMap('id', 'label')],
+                'warehouse_id' => ['type' => Form::INPUT_DROPDOWN_LIST, 'items' => \common\models\c2\entity\WarehouseModel::getHashMap('id', 'label')],
+                'supplier_id' => ['type' => Form::INPUT_DROPDOWN_LIST, 'items' => \common\models\c2\entity\SupplierModel::getHashMap('id', 'label')],
                 'arrival_number' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('arrival_number')]],
                 'occurrence_date' => ['type' => Form::INPUT_WIDGET, 'widgetClass' => '\kartik\widgets\DateTimePicker', 'options' => [
                         'options' => ['placeholder' => Yii::t('app.c2', 'Date Time...')], 'pluginOptions' => ['format' => 'yyyy-mm-dd hh:ii:ss', 'autoclose' => true],
@@ -89,47 +89,69 @@ $form = ActiveForm::begin([
                                 'name' => 'id',
                                 'type' => 'hiddenInput',
                             ],
+                            // [
+                            //     'name' => 'product_id',
+                            //     'type' => 'dropDownList',
+                            //     'title' => Yii::t('app.c2', 'Product'),
+                            //     'enableError' => true,
+                            //     'items' => ['' => Yii::t("app.c2", "Select options ..")] + Product::getHashMap('id', 'label', ['status' => EntityModelStatus::STATUS_ACTIVE]),
+                            //     'options' => [
+                            //         'onchange' => new \yii\web\JsExpression("
+                            //                     $.post('" . Url::toRoute(['skus']) . "', {'depdrop_all_params[product_id]':$(this).val(),'depdrop_parents[]':$(this).val()}, function(data){
+                            //                         if(data.output !== undefined){
+                            //                             $('select#subcat-{multiple_index_{$multipleItemsId}}').empty();
+                            //                             $.each(data.output, function(key, item){
+                            //                                 $('select#subcat-{multiple_index_{$multipleItemsId}}').append('<option value=' + item.id + '>' + item.name + '</option>');
+                            //                             });
+                            //                         }
+                            //                     });
+                            //                 "),
+                            //     ],
+                            // ],
                             [
                                 'name' => 'product_id',
-                                'type' => 'dropDownList',
-                                'title' => Yii::t('app.c2', 'Product'),
-                                'enableError' => true,
-                                'items' => ['' => Yii::t("app.c2", "Select options ..")] + Product::getHashMap('id', 'label', ['status' => EntityModelStatus::STATUS_ACTIVE]),
+                                'title' => Yii::t('app.c2', 'Product Num'),
+                                'type' => \kartik\select2\Select2::className(),
                                 'options' => [
-                                    'onchange' => new \yii\web\JsExpression("
-                                                $.post('" . Url::toRoute(['skus']) . "', {'depdrop_all_params[product_id]':$(this).val(),'depdrop_parents[]':$(this).val()}, function(data){
-                                                    if(data.output !== undefined){
-                                                        $('select#subcat-{multiple_index_{$multipleItemsId}}').empty();
-                                                        $.each(data.output, function(key, item){
-                                                            $('select#subcat-{multiple_index_{$multipleItemsId}}').append('<option value=' + item.id + '>' + item.name + '</option>');
-                                                        });
-                                                    }
-                                                });
-                                            "),
-                                ],
+                                    'data' => \common\models\c2\entity\AttributeModel::getHashMap('id', 'label', ['status' => EntityModelStatus::STATUS_ACTIVE]),
+                                    'pluginOptions' => [
+                                        'placeholder' => $model->getAttributeLabel('Select options ..')
+                                    ]
+                                ]
                             ],
                             [
                                 'name' => 'product_sku_id',
-                                'type' => 'dropDownList',
-                                'title' => Yii::t('app.c2', 'Product Sku'),
-                                'enableError' => true,
-                                'items' => $model->isNewRecord ? [] : function($data) {
-                                            if (is_object($data)) {
-                                                return $data->product->getProductSkuOptionsList();
-                                            }
-                                            return [];
-                                        },
+                                'title' => Yii::t('app.c2', 'Material Num'),
+                                'type' => \kartik\select2\Select2::className(),
                                 'options' => [
-                                    'id' => "subcat-{multiple_index_{$multipleItemsId}}",
-                                ],
+                                    'data' => \common\models\c2\entity\AttributeModel::getHashMap('id', 'label', ['status' => EntityModelStatus::STATUS_ACTIVE]),
+                                    'pluginOptions' => [
+                                        'placeholder' => $model->getAttributeLabel('Select options ..')
+                                    ]
+                                ]
                             ],
+                            // [
+                            //     'name' => 'product_sku_id',
+                            //     'type' => 'dropDownList',
+                            //     'title' => Yii::t('app.c2', 'Product Sku'),
+                            //     'enableError' => true,
+                            //     'items' => $model->isNewRecord ? [] : function($data) {
+                            //                 if (is_object($data)) {
+                            //                     return $data->product->getProductSkuOptionsList();
+                            //                 }
+                            //                 return [];
+                            //             },
+                            //     'options' => [
+                            //         'id' => "subcat-{multiple_index_{$multipleItemsId}}",
+                            //     ],
+                            // ],
                             [
                                 'name' => 'measure_id',
                                 'title' => Yii::t('app.c2', 'Measure'),
                                 'type' => 'dropDownList',
-                                'headerOptions' => ['style' => 'width: 70px',],
+                                // 'headerOptions' => ['style' => 'width: 70px',],
                                 'enableError' => true,
-                                'items' => \common\models\c2\entity\Measure::getHashMap('id', 'label'),
+                                'items' => \common\models\c2\entity\MeasureModel::getHashMap('id', 'label'),
                             ],
                             [
                                 'name' => 'quantity',
@@ -143,9 +165,24 @@ $form = ActiveForm::begin([
                                     ],
                                 ]
                             ],
+                            // [
+                            //     'name' => 'purcharse_order_code',
+                            //     'title' => Yii::t('app.c2', 'Purcharse Order Code'),
+                            //     'enableError' => true,
+                            // ],
                             [
-                                'name' => 'purcharse_order_code',
-                                'title' => Yii::t('app.c2', 'Purcharse Order Code'),
+                                'name' => 'until_price',
+                                'title' => Yii::t('app.c2', 'Until Price'),
+                                'enableError' => true,
+                            ],
+                            [
+                                'name' => 'subtotal',
+                                'title' => Yii::t('app.c2', 'Subtotal'),
+                                'enableError' => true,
+                            ],
+                            [
+                                'name' => 'memo',
+                                'title' => Yii::t('app.c2', 'Memo'),
                                 'enableError' => true,
                             ],
                         ]

@@ -6,7 +6,7 @@ use yii\widgets\Pjax;
 use backend\modules\P3S\modules\Inventory\modules\ReceiptNote\widgets\EntityDetail;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\c2\entity\InventoryReceiptNote */
+/* @var $model common\models\c2\entity\InventoryReceiptNoteModel */
 
 if($model->isNewRecord){
 $this->title = Yii::t('app.c2', '{actionTips} {modelClass}: ', ['actionTips' => Yii::t('app.c2', 'Create'), 'modelClass' => Yii::t('app.c2', 'Inventory Receipt Notes'),]);

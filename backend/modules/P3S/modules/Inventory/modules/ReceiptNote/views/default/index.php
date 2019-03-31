@@ -10,7 +10,7 @@ use yii\bootstrap\Modal;
 use yii\web\JsExpression;
 
 /* @var $this yii\web\View */
-/* @var $searchModel common\models\c2\search\InventoryReceiptNote */
+/* @var $searchModel common\models\c2\search\InventoryReceiptNoteSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('app.c2', 'Inventory Receipt Notes');
@@ -184,22 +184,22 @@ $this->params['breadcrumbs'][] = $this->title;
     Modal::end();
 
     $js = "";
-    $js .= "jQuery(document).off('" . OperationEvent::CREATE . "', '.inventory-receipt-note-index').on('" . OperationEvent::CREATE . "', '.inventory-receipt-note-index', function(e, data) {
+    $js .= "jQuery(document).off('" . OperationEvent::CREATE . "', '.inventory-receipt-note-model-index').on('" . OperationEvent::CREATE . "', '.inventory-receipt-note-model-index', function(e, data) {
                     e.preventDefault();
                     jQuery('#inventory-receipt-note-modal').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(data.url);
                 });";
 
-    $js .= "jQuery(document).off('click', '.inventory-receipt-note-index a.update').on('click', '.inventory-receipt-note-index a.update', function(e) {
+    $js .= "jQuery(document).off('click', '.inventory-receipt-note-model-index a.update').on('click', '.inventory-receipt-note-model-index a.update', function(e) {
                 e.preventDefault();
                 jQuery('#inventory-receipt-note-modal').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(jQuery(e.currentTarget).attr('href'));
             });";
     
-    $js .= "jQuery(document).off('click', '.inventory-receipt-note-index a.view').on('click', '.inventory-receipt-note-index a.view', function(e) {
+    $js .= "jQuery(document).off('click', '.inventory-receipt-note-model-index a.view').on('click', '.inventory-receipt-note-model-index a.view', function(e) {
                 e.preventDefault();
                 jQuery('#inventory-receipt-note-modal').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(jQuery(e.currentTarget).attr('href'));
             });";
 
-    $js .= "jQuery(document).off('click', '.inventory-receipt-note-index a.ensure-do').on('click', '.inventory-receipt-note-index a.ensure-do', function(e) {
+    $js .= "jQuery(document).off('click', '.inventory-receipt-note-model-index a.ensure-do').on('click', '.inventory-receipt-note-model-index a.ensure-do', function(e) {
                 e.preventDefault();
                 var lib = window['krajeeDialog'];
                 var url = jQuery(e.currentTarget).attr('href');

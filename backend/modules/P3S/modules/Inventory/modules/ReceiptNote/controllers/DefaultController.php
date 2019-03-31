@@ -2,22 +2,19 @@
 
 namespace backend\modules\P3S\modules\Inventory\modules\ReceiptNote\controllers;
 
+use common\models\c2\entity\InventoryReceiptNoteModel;
 use Yii;
-use common\models\c2\entity\InventoryReceiptNote;
-use common\models\c2\entity\InventoryReceiptNoteItem;
-use common\models\c2\search\InventoryReceiptNote as InventoryReceiptNoteSearch;
+use common\models\c2\search\InventoryReceiptNoteSearch;
 use cza\base\components\controllers\backend\ModelController as Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 use cza\base\models\statics\ResponseDatum;
-use common\models\c2\entity\ProductStock;
 
 /**
  * DefaultController implements the CRUD actions for InventoryReceiptNote model.
  */
 class DefaultController extends Controller {
 
-    public $modelClass = 'common\models\c2\entity\InventoryReceiptNote';
+    public $modelClass = 'common\models\c2\entity\InventoryReceiptNoteModel';
 
     public function actions() {
         return \yii\helpers\ArrayHelper::merge(parent::actions(), [
@@ -91,7 +88,7 @@ class DefaultController extends Controller {
     }
 
     public function actionDeleteSubitem($id) {
-        if (($model = \common\models\c2\entity\InventoryReceiptNoteItem::findOne($id)) !== null) {
+        if (($model = \common\models\c2\entity\InventoryReceiptNoteItemModel::findOne($id)) !== null) {
             if ($model->delete()) {
                 $responseData = ResponseDatum::getSuccessDatum(['message' => Yii::t('cza', 'Operation completed successfully!')], $id);
             } else {
@@ -106,7 +103,7 @@ class DefaultController extends Controller {
     public function actionEnsureDo($id) {
         try {
             $model = $this->retrieveModel($id);
-            if (ProductStock::takeinByReceiptNote($model)) {
+            if ($model) {
                 $model->setStateToFinish();
                 $responseData = ResponseDatum::getSuccessDatum(['message' => Yii::t('cza', 'Operation completed successfully!')], $id);
             } else {
@@ -123,11 +120,11 @@ class DefaultController extends Controller {
      * Finds the InventoryReceiptNote model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id
-     * @return InventoryReceiptNote the loaded model
+     * @return InventoryReceiptNoteModel the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id) {
-        if (($model = InventoryReceiptNote::findOne($id)) !== null) {
+        if (($model = InventoryReceiptNoteModel::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

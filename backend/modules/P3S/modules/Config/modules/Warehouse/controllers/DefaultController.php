@@ -7,6 +7,7 @@ use common\models\c2\entity\WarehouseModel;
 use common\models\c2\search\WareHouseSearch;
 
 use cza\base\components\controllers\backend\ModelController as Controller;
+use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -16,7 +17,19 @@ use yii\filters\VerbFilter;
 class DefaultController extends Controller
 {
     public $modelClass = 'common\models\c2\entity\WarehouseModel';
-    
+
+    public function actions()
+    {
+        return ArrayHelper::merge(parent::actions(), [
+            'citys' => [
+                'class' => 'common\components\actions\RegionOptionsAction',
+            ],
+            'districts' => [
+                'class' => 'common\components\actions\DistricRegionOptionsAction',
+            ],
+        ]);
+    }
+
     /**
      * Lists all WarehouseModel models.
      * @return mixed

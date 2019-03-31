@@ -12,7 +12,7 @@ use Yii;
  * @property string $name
  * @property string $code
  * @property string $contact_name
- * @property integer $phone
+ * @property string $phone
  * @property string $eshop_id
  * @property string $entity_id
  * @property string $entity_class
@@ -47,9 +47,9 @@ class WarehouseModel extends \cza\base\models\ActiveRecord
     public function rules()
     {
         return [
-            [['phone', 'eshop_id', 'entity_id', 'country_id', 'province_id', 'city_id', 'district_id', 'area_id', 'position'], 'integer'],
+            [['eshop_id', 'entity_id', 'country_id', 'province_id', 'city_id', 'district_id', 'area_id', 'position'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
-            [['label', 'name', 'code', 'contact_name', 'entity_class', 'address', 'geo_longitude', 'geo_latitude', 'geo_marker_color'], 'string', 'max' => 255],
+            [['phone', 'label', 'name', 'code', 'contact_name', 'entity_class', 'address', 'geo_longitude', 'geo_latitude', 'geo_marker_color'], 'string', 'max' => 255],
             [['state', 'status'], 'integer', 'max' => 4],
         ];
     }

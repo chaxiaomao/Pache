@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2019-03-29 18:08:58
+Date: 2019-03-31 18:55:36
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -308,7 +308,7 @@ CREATE TABLE `c2_be_user` (
 -- ----------------------------
 -- Records of c2_be_user
 -- ----------------------------
-INSERT INTO `c2_be_user` VALUES ('1', '0', '0', 'admin', 'admin@zdt6.com', '$2y$10$L2ELm8yMYvl2429Id0M1u.g0l1lCnOyGIcYY.26T.k91y5RsWkyv.', 'wh3xjpD0cazZIwLEDNK785pe54bG6Dm1', '0000-00-00 00:00:00', null, null, '127.0.0.1', '0', '2019-03-29 04:44:12', null, null, '0', '0', '1', '0', '2017-01-25 11:01:00', '2017-05-17 05:42:02');
+INSERT INTO `c2_be_user` VALUES ('1', '0', '0', 'admin', 'admin@zdt6.com', '$2y$10$L2ELm8yMYvl2429Id0M1u.g0l1lCnOyGIcYY.26T.k91y5RsWkyv.', 'wh3xjpD0cazZIwLEDNK785pe54bG6Dm1', '0000-00-00 00:00:00', null, null, '127.0.0.1', '0', '2019-03-30 06:15:17', null, null, '0', '0', '1', '0', '2017-01-25 11:01:00', '2017-05-17 05:42:02');
 INSERT INTO `c2_be_user` VALUES ('2', '0', '0', 'tester1', 'tester1@zdt6.com', '$2y$10$QDFHh.AvjI7RnBmBnHNavOmw/H2cRSt69s0SIe9l4oGy0.03Rvkt.', 'T1yk3EUV6Qf4KwVz7jJspdR5PiX3F8yk', '0000-00-00 00:00:00', null, null, '127.0.0.1', null, '2017-05-18 03:25:05', null, null, '0', '0', '1', '0', '0000-00-00 00:00:00', '2017-05-17 05:43:39');
 INSERT INTO `c2_be_user` VALUES ('3', '0', '0', 'tester2', 'tester2@zdt6.com', '$2y$10$F3fC9b1cgSJZ/LzG1451Su2s3NkPYs8jDM/p0A9iur.vBX2BPDSti', 'fgm17RciIC0qaCAiF6lj8s7DX07A_con', '0000-00-00 00:00:00', null, null, '127.0.0.1', null, null, null, null, '0', '0', '1', '0', '2017-05-16 12:07:01', '2017-05-24 03:41:30');
 
@@ -547,11 +547,12 @@ CREATE TABLE `c2_inventory_delivery_note` (
   KEY `Index_2` (`warehouse_id`),
   KEY `Index_3` (`occurrence_date`),
   KEY `Index_4` (`customer_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of c2_inventory_delivery_note
 -- ----------------------------
+INSERT INTO `c2_inventory_delivery_note` VALUES ('4', '1', 'DN20190331JN00000001', '', '1', null, '0', '2019-03-08 07:15:21', '1.00', 'cc', 'cc', 'cc', 'cc', 'cc', 'cc', 0x3C703E78783C2F703E, null, '0', '0', '1', '1', '3', '1', '0', '2019-03-31 11:08:44', '2019-03-31 11:08:44');
 
 -- ----------------------------
 -- Table structure for c2_inventory_delivery_note_item
@@ -562,16 +563,17 @@ CREATE TABLE `c2_inventory_delivery_note_item` (
   `note_id` bigint(20) DEFAULT '0',
   `product_id` bigint(20) DEFAULT '0',
   `product_sku_id` bigint(20) DEFAULT '0',
-  `sku_label` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `sku_label` varchar(255) DEFAULT NULL,
   `customer_id` bigint(20) DEFAULT '0',
   `quantity` mediumint(9) NOT NULL DEFAULT '0',
   `measure_id` bigint(20) DEFAULT '0',
-  `volume` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
-  `weight` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
-  `pieces` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `volume` varchar(255) DEFAULT NULL,
+  `weight` varchar(255) DEFAULT NULL,
+  `pieces` varchar(255) DEFAULT NULL,
   `product_price` decimal(10,2) DEFAULT '0.00',
   `factory_price` decimal(10,2) DEFAULT '0.00',
   `subtotal` decimal(10,2) DEFAULT '0.00',
+  `memo` varchar(255) DEFAULT NULL,
   `status` tinyint(4) DEFAULT '1',
   `position` int(11) DEFAULT '0',
   `created_at` datetime DEFAULT NULL,
@@ -581,11 +583,12 @@ CREATE TABLE `c2_inventory_delivery_note_item` (
   KEY `Index_2` (`product_id`),
   KEY `Index_3` (`product_sku_id`),
   KEY `Index_4` (`customer_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of c2_inventory_delivery_note_item
 -- ----------------------------
+INSERT INTO `c2_inventory_delivery_note_item` VALUES ('1', '4', '1', '1', null, '0', '1', '1', null, null, null, '0.00', '1.00', '1.00', null, '1', '0', '2019-03-31 11:08:44', '2019-03-31 11:08:44');
 
 -- ----------------------------
 -- Table structure for c2_inventory_note_log
@@ -608,11 +611,13 @@ CREATE TABLE `c2_inventory_note_log` (
   PRIMARY KEY (`id`),
   KEY `Index_1` (`note_id`,`type`),
   KEY `Index_2` (`warehouse_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of c2_inventory_note_log
 -- ----------------------------
+INSERT INTO `c2_inventory_note_log` VALUES ('1', '1', '1', null, '1', '2019-03-15 14:30:02', '', '1', '1', '1', '0', '2019-03-30 17:42:36', '2019-03-30 17:42:36');
+INSERT INTO `c2_inventory_note_log` VALUES ('2', '4', '2', null, '1', '2019-03-08 07:15:21', 0x3C703E78783C2F703E, '1', '1', '1', '0', '2019-03-31 11:16:37', '2019-03-31 11:16:37');
 
 -- ----------------------------
 -- Table structure for c2_inventory_receipt_note
@@ -623,8 +628,8 @@ CREATE TABLE `c2_inventory_receipt_note` (
   `type` tinyint(4) DEFAULT NULL,
   `code` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
   `label` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
-  `warehouse_name` varchar(255) COLLATE utf8mb4_bin DEFAULT '0',
-  `supplier_name` varchar(255) COLLATE utf8mb4_bin DEFAULT '0',
+  `warehouse_id` bigint(20) DEFAULT '0',
+  `supplier_id` bigint(20) DEFAULT '0',
   `occurrence_date` datetime DEFAULT NULL,
   `arrival_number` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
   `buyer_name` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
@@ -643,11 +648,13 @@ CREATE TABLE `c2_inventory_receipt_note` (
   PRIMARY KEY (`id`),
   KEY `Index_1` (`code`(191)),
   KEY `Index_3` (`occurrence_date`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of c2_inventory_receipt_note
 -- ----------------------------
+INSERT INTO `c2_inventory_receipt_note` VALUES ('1', '1', 'IR20190330Y900000001', '表情', '1', '1', '2019-03-15 14:30:02', '0000909090', 'xun', 'xun', 'xun', 'xun', '', null, '1', '1', '3', '1', '0', '2019-03-30 17:35:52', '2019-03-30 17:22:24');
+INSERT INTO `c2_inventory_receipt_note` VALUES ('2', '1', 'RN20190331_W00000002', '表情vv', '1', '1', '2019-03-15 14:30:02', '0000909090', 'vv', 'vv', 'vv', 'vv', '', null, '1', '1', '1', '1', '0', '2019-03-31 09:59:09', '2019-03-31 09:58:17');
 
 -- ----------------------------
 -- Table structure for c2_inventory_receipt_note_item
@@ -658,11 +665,14 @@ CREATE TABLE `c2_inventory_receipt_note_item` (
   `note_id` bigint(20) DEFAULT '0',
   `product_id` int(11) DEFAULT '0',
   `product_sku_id` int(11) DEFAULT '0',
-  `sku_label` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `sku_label` varchar(255) DEFAULT NULL,
   `supplier_id` bigint(20) DEFAULT '0',
   `quantity` mediumint(9) NOT NULL DEFAULT '0',
+  `until_price` decimal(10,2) DEFAULT NULL,
+  `subtotal` decimal(10,2) DEFAULT NULL,
   `measure_id` bigint(20) DEFAULT '0',
-  `purcharse_order_code` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
+  `purcharse_order_code` varchar(255) DEFAULT NULL,
+  `memo` varchar(255) DEFAULT NULL,
   `status` tinyint(4) DEFAULT '1',
   `position` int(11) DEFAULT '0',
   `created_at` datetime DEFAULT NULL,
@@ -672,11 +682,13 @@ CREATE TABLE `c2_inventory_receipt_note_item` (
   KEY `Index_2` (`product_sku_id`),
   KEY `Index_3` (`sku_label`(191)),
   KEY `Index_4` (`purcharse_order_code`(191))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of c2_inventory_receipt_note_item
 -- ----------------------------
+INSERT INTO `c2_inventory_receipt_note_item` VALUES ('1', '1', '11', '11', '', '1', '1', '1.00', '1.00', '1', '', '1111', '1', '0', '2019-03-30 17:35:52', '2019-03-30 17:35:52');
+INSERT INTO `c2_inventory_receipt_note_item` VALUES ('2', '2', '11', '11', '', '1', '1', '1.00', '1.00', '1', '', '1111', '1', '0', '2019-03-31 09:58:17', '2019-03-31 09:58:17');
 
 -- ----------------------------
 -- Table structure for c2_measure
@@ -711,17 +723,38 @@ INSERT INTO `c2_measure` VALUES ('2', 'M02', '斤', '斤', '', '0', '1', '0', '2
 DROP TABLE IF EXISTS `c2_product`;
 CREATE TABLE `c2_product` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `eshop_id` bigint(20) DEFAULT '1',
   `type` tinyint(4) DEFAULT '0',
-  `sku` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
-  `serial_number` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
-  `breadcrumb` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
-  `name` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
-  `label` varchar(255) COLLATE utf8mb4_bin NOT NULL,
+  `seo_code` varchar(255) DEFAULT NULL,
+  `sku` varchar(255) DEFAULT NULL,
+  `serial_number` varchar(255) DEFAULT NULL,
+  `breadcrumb` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `label` varchar(255) NOT NULL,
+  `meta_title` varchar(255) DEFAULT NULL,
+  `meta_keywords` varchar(255) DEFAULT NULL,
+  `meta_description` text,
+  `is_score_exchange` tinyint(4) DEFAULT '0',
+  `score_exchange_method` tinyint(4) DEFAULT '1',
+  `score` decimal(10,2) DEFAULT '0.00',
+  `gift_score` decimal(10,2) DEFAULT '0.00',
+  `require_setup` tinyint(4) DEFAULT '1',
+  `is_install` tinyint(4) DEFAULT '1',
+  `install_price` decimal(10,2) DEFAULT '0.00',
+  `low_price` decimal(10,2) DEFAULT '0.00',
   `sales_price` decimal(10,2) DEFAULT NULL,
-  `summary` text COLLATE utf8mb4_bin,
-  `description` text COLLATE utf8mb4_bin,
-  `currency_id` bigint(20) DEFAULT NULL,
-  `measure_id` bigint(20) DEFAULT NULL,
+  `cost_price` decimal(10,2) DEFAULT NULL,
+  `market_price` decimal(10,2) DEFAULT NULL,
+  `brand_id` bigint(20) DEFAULT '0',
+  `supplier_id` bigint(20) DEFAULT '0',
+  `currency_id` bigint(20) DEFAULT '0',
+  `measure_id` bigint(20) DEFAULT '0',
+  `summary` text,
+  `description` text,
+  `views_count` int(11) DEFAULT '0',
+  `comment_count` int(11) DEFAULT '0',
+  `sold_count` int(11) DEFAULT '0',
+  `virtual_sold_count` int(11) DEFAULT '0',
   `is_released` tinyint(4) DEFAULT '0',
   `released_at` datetime DEFAULT NULL,
   `created_by` bigint(20) DEFAULT '0',
@@ -731,18 +764,19 @@ CREATE TABLE `c2_product` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `Index_1` (`is_released`),
-  KEY `Index_2` (`sku`(191),`is_released`),
+  KEY `Index_1` (`seo_code`(191),`eshop_id`,`is_released`),
+  KEY `Index_2` (`sku`(191),`eshop_id`,`is_released`),
   KEY `Index_3` (`name`(191),`label`(191)),
   KEY `Index_4` (`status`,`is_released`,`position`),
-  KEY `Index_5` (`is_released`),
-  KEY `Index_6` (`serial_number`(191),`is_released`),
-  KEY `Index_7` (`is_released`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+  KEY `Index_5` (`eshop_id`,`is_released`),
+  KEY `Index_6` (`serial_number`(191),`eshop_id`,`is_released`),
+  KEY `Index_7` (`brand_id`,`eshop_id`,`is_released`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of c2_product
 -- ----------------------------
+INSERT INTO `c2_product` VALUES ('1', '1', '0', null, 'C1', null, null, '瓶盖', '瓶盖', null, null, null, '0', '1', '0.00', '0.00', '1', '1', '0.00', '0.00', '2.00', null, null, '0', '0', '0', '0', null, null, '0', '0', '0', '0', '0', null, '1', '1', '1', '50', '2019-03-31 10:15:02', '2019-03-31 10:15:02');
 
 -- ----------------------------
 -- Table structure for c2_product_attributeset_rs
@@ -7846,11 +7880,12 @@ CREATE TABLE `c2_supplier` (
   KEY `Index_1` (`code`(191)),
   KEY `Index_2` (`label`(191)),
   KEY `Index_3` (`name`(191))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of c2_supplier
 -- ----------------------------
+INSERT INTO `c2_supplier` VALUES ('1', 'HHGYS', '黑货供应商', '黑货供应商', '25', '392', '2921', '', '', '', 0x3C703EE593A6E59388E59388E59388E59388E59388E59388E59388E593883C2F703E, '0', '1', '0', '2019-03-30 11:22:49', '2019-03-30 17:10:03');
 
 -- ----------------------------
 -- Table structure for c2_warehouse
@@ -7862,7 +7897,7 @@ CREATE TABLE `c2_warehouse` (
   `name` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
   `code` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
   `contact_name` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
-  `phone` int(11) DEFAULT NULL,
+  `phone` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
   `eshop_id` bigint(20) DEFAULT NULL,
   `entity_id` bigint(20) DEFAULT '0',
   `entity_class` varchar(255) COLLATE utf8mb4_bin DEFAULT '0',
@@ -7885,8 +7920,9 @@ CREATE TABLE `c2_warehouse` (
   KEY `Index_2` (`entity_id`),
   KEY `Index_3` (`province_id`,`country_id`,`city_id`,`area_id`),
   KEY `Index_4` (`geo_longitude`(191),`geo_latitude`(191))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of c2_warehouse
 -- ----------------------------
+INSERT INTO `c2_warehouse` VALUES ('1', '矮人仓库', '矮人仓库', '矮人仓库', '矮人', '1562296556', null, '0', '0', null, '9', '147', '1213', null, '东方', '', '', '', null, '1', '0', '2019-03-30 11:18:06', '2019-03-30 11:26:18');

@@ -1224,6 +1224,11 @@ return [
     'Chieftain' => 'C3',
     'User Degree' => '用户等级',
     'Database' => '资料库',
+    'Until Price' => '单价',
+    'Material Num' => '料号',
+    'Product Num' => '品名',
+    'Product Sku2' => '规格',
+    'Product/Sku' => '名称/规格',
     '' => '',
 ];
 

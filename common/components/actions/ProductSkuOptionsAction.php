@@ -2,6 +2,7 @@
 
 namespace common\components\actions;
 
+use common\models\c2\entity\ProductModel;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\helpers\FileHelper;
@@ -64,32 +65,13 @@ class ProductSkuOptionsAction extends \yii\base\Action {
             throw new Exception('Require parameter "depdrop_parents"!');
         }
 
-        $model = Product::findOne(['id' => $params['depdrop_all_params']['product_id']]);
+        $model = ProductModel::findOne(['id' => $params['depdrop_all_params']['product_id']]);
 
         $result = [
-            'output' => [],
+            'output' => $model,
             'seletcted' => "",
         ];
 
-        $options = [];
-//            $options = $model->getProductSkus()->select([$this->keyAttribute, 'name' => $this->valueAttribute])->asArray()->all();
-//        $items = $model->getProductSkuOptionsList($this->keyAttribute, $this->valueAttribute, ['withPrice' => $this->withPrice]);
-//        foreach ($items as $k => $v) {
-//            $options[] = [
-//                'id' => $k,
-//                'name' => $v,
-//            ];
-//        }
-
-        foreach ($model->productSkus as $model) {
-            $options[] = [
-                'id' => $model->id,
-                'name' => $model->name . " (" . $model->getPrice() . Yii::t('app.c2', 'Yuan') . ")",
-                'price' => $model->getPrice(),
-            ];
-        }
-
-        $result['output'] = $options;
         return $this->controller->asJson($result);
     }
 

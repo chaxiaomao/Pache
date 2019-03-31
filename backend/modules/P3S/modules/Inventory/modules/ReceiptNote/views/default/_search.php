@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\c2\search\InventoryReceiptNote */
+/* @var $model common\models\c2\search\InventoryReceiptNoteSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 

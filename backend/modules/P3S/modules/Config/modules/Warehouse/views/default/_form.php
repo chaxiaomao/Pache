@@ -51,29 +51,38 @@ $form = ActiveForm::begin([
                 'code' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('code')]],
                 'contact_name' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('contact_name')]],
                 'phone' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('phone')]],
-                'eshop_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('eshop_id')]],
+                // 'eshop_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('eshop_id')]],
                 // 'entity_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('entity_id')]],
                 // 'entity_class' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('entity_class')]],
                 // 'country_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('country_id')]],
-                'city_id' => ['type' => Form::INPUT_WIDGET, 'widgetClass' => '\kartik\widgets\DepDrop', 'options' => [
-                    'data' => empty($model->province_id) ? [] : RegionProvince::findOne(['id' => $model->province_id])->getCityHashMap(),
-                    'options' => [
-                        'id' => 'city-id'
+                'province_id' => [
+                    'type' => Form::INPUT_DROPDOWN_LIST,
+                    'items' => ['0' => Yii::t('app.c2', 'Please select province')] + RegionProvince::getHashMap('id', 'label'),
+                    'options' => ['id' => 'province-id']
+                ],
+                'city_id' => [
+                    'type' => Form::INPUT_WIDGET, 'widgetClass' => '\kartik\widgets\DepDrop', 'options' => [
+                        'data' => empty($model->province_id) ? [] : RegionProvince::findOne(['id' => $model->province_id])->getCityHashMap(),
+                        'options' => [
+                            'id' => 'city-id'
+                        ],
+                        'pluginOptions' => [
+                            'depends' => ['province-id'],
+                            'placeholder' => Yii::t('app.c2', 'Select options ..'),
+                            'url' => Url::toRoute(['citys'])
+                        ],
                     ],
-                    'pluginOptions' => [
-                        'depends' => ['province-id'],
-                        'placeholder' => Yii::t('app.c2', 'Select options ..'),
-                        'url' => Url::toRoute(['citys'])
+                ],
+                'district_id' => [
+                    'type' => Form::INPUT_WIDGET, 'widgetClass' => '\kartik\widgets\DepDrop', 'options' => [
+                        'data' => empty($model->city_id) ? [] : RegionCity::findOne(['id' => $model->city_id])->getDistrictHashMap(),
+                        'pluginOptions' => [
+                            'depends' => ['city-id', 'province-id'],
+                            'placeholder' => Yii::t('app.c2', 'Select options ..'),
+                            'url' => Url::toRoute(['districts'])
+                        ],
                     ],
-                ],],
-                'district_id' => ['type' => Form::INPUT_WIDGET, 'widgetClass' => '\kartik\widgets\DepDrop', 'options' => [
-                    'data' => empty($model->city_id) ? [] : RegionCity::findOne(['id' => $model->city_id])->getDistrictHashMap(),
-                    'pluginOptions' => [
-                        'depends' => ['city-id', 'province-id'],
-                        'placeholder' => Yii::t('app.c2', 'Select options ..'),
-                        'url' => Url::toRoute(['districts'])
-                    ],
-                ],],
+                ],
                 // 'area_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('area_id')]],
                 'address' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('address')]],
                 'geo_longitude' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('geo_longitude')]],

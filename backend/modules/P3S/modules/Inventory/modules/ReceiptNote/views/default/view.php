@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\c2\entity\InventoryReceiptNote */
+/* @var $model common\models\c2\entity\InventoryReceiptNoteModel */
 
 $this->title = "# {$model->code}";
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app.c2', 'Inventory Receipt Notes'), 'url' => ['index']];

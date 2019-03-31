@@ -33,6 +33,16 @@ class RegionProvince extends RegionModel
             ->viaTable('{{%region_rs}}', ['parent_id' => 'id']);
     }
 
+    /**
+     *
+     * @param type $keyField
+     * @param type $valField - could be string or alias array
+     * @return type
+     */
+    public function getCityHashMap($keyField = 'id', $valField = 'label') {
+        return ArrayHelper::map($this->getCitys()->select([$keyField, $valField])->asArray()->all(), $keyField, $valField);
+    }
+
     public static function getAll()
     {
         if (!isset(static::$_cacheData['all'])) {
