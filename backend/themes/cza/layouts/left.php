@@ -38,7 +38,7 @@ $directoryAsset = \Yii::$app->czaHelper->getEnvData('AdminlteAssets');
                     'items' => [
                         ['label' => Yii::t('app.c2', 'Menu'), 'options' => ['class' => 'header']],
                         ['label' => Yii::t('app.c2', 'Dashboard'), 'icon' => 'fa fa-circle-o', 'url' => ['/']],
-                        // ['label' => Yii::t('app.c2', 'Resume'), 'icon' => 'fa fa-circle-o', 'url' => ['/resume']],
+                        ['label' => Yii::t('app.c2', 'Resume'), 'icon' => 'fa fa-circle-o', 'url' => ['/resume']],
                         [
                             'label' => Yii::t('app.c2', 'Database'), 'visible' => \Yii::$app->user->can('P_Logistics'), 'icon' => 'fa fa-circle-o', 'url' => ['#'], 'options' => ['class' => 'treeview'],
                             'items' => [
