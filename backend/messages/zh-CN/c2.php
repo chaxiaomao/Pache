@@ -1229,6 +1229,10 @@ return [
     'Product Num' => '品名',
     'Product Sku2' => '规格',
     'Product/Sku' => '名称/规格',
+    'Resume' => '简历',
+    'Self Profile' => '个人介绍',
+    'Experience' => '工作经验',
+    'Situation' => '在校情况',
     '' => '',
 ];
 

@@ -7,14 +7,11 @@
  */
 
 return [
-    'crm' => [
-        'class' => 'backend\modules\CRM\Module',
-    ],
+    'crm' => ['class' => 'backend\modules\CRM\Module',],
     'p3s' => ['class' => 'backend\modules\P3S\Module',],
     'logistics' => ['class' => 'backend\modules\Logistics\Module',],
-    'database' => [
-        'class' => 'backend\modules\Database\Module',
-    ],
+    'database' => ['class' => 'backend\modules\Database\Module',],
+    'resume' => ['class' => 'backend\modules\Resume\Module',],
     'sys' => ['class' => 'backend\modules\Sys\Module',],
     'rbac' => [
         'class' => 'backend\modules\Sys\modules\Rbac\Module',
