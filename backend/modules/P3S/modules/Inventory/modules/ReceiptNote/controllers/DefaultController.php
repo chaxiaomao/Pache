@@ -18,8 +18,8 @@ class DefaultController extends Controller {
 
     public function actions() {
         return \yii\helpers\ArrayHelper::merge(parent::actions(), [
-                    'skus' => [
-                        'class' => 'common\components\actions\ProductSkuOptionsAction',
+                    'attributes' => [
+                        'class' => 'common\components\actions\AttributesOptionsAction',
                     ],
         ]);
     }

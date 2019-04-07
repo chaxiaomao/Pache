@@ -127,6 +127,7 @@ class AttributeModel extends \cza\base\models\ActiveRecord
     **/
     public function loadDefaultValues($skipIfSet = true) {
         parent::loadDefaultValues($skipIfSet);
+        $this->is_sku = 1;
     }
 
     public function getEavDefaultValue() {

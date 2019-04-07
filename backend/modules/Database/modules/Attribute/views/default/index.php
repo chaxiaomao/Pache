@@ -61,7 +61,13 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'id',
             // 'eshop_id',
-            'type',
+            // 'type',
+            [
+                'attribute' => 'type',
+                'value' => function($model) {
+                    return \common\models\c2\statics\AttributesetType::getLabel($model->type);
+                },
+            ],
             'code',
             'name',
             'label',

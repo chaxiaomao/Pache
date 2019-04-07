@@ -98,7 +98,6 @@ class DefaultController extends Controller
     }
 
     public function actionDeleteSubitem($id) {
-        return 0;
         if (($model = AttributeItemModel::findOne($id)) !== null) {
             if ($model->delete()) {
                 $responseData = ResponseDatum::getSuccessDatum(['message' => Yii::t('cza', 'Operation completed successfully!')], $id);

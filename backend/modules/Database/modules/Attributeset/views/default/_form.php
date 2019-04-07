@@ -56,7 +56,9 @@ $form = ActiveForm::begin([
             'model' => $model,
             'attribute' => 'attrs_ids',
             'items' => \yii\helpers\ArrayHelper::map($model->getAllAttr(), 'id', 'name'),
-            //            'options' => [],
+            'options' => [
+                'style' => 'height:400px'
+            ],
             'clientOptions' => [
                 'moveOnSelect' => true,
                 'selectedListLabel' => Yii::t('app.c2', 'Selected Items'),

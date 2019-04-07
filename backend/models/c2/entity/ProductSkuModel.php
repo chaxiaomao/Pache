@@ -2,23 +2,23 @@
 
 namespace backend\models\c2\entity;
 
+use common\models\c2\entity\ProductSkuModel as BaseModel;
+use cza\base\models\statics\ImageSize;
 use Yii;
 use common\behaviors\CmsContentBehavior;
 use common\models\c2\entity\EntityAttachment;
 use common\models\c2\entity\EntityAttachmentImage;
 use common\models\c2\entity\EntityAttachmentFile;
 use cza\base\models\statics\EntityModelStatus;
-use common\models\c2\entity\ProductSku as BaseModel;
-use common\models\c2\statics\CheckoutPoint;
 
-class ProductSku extends BaseModel {
+class ProductSkuModel extends BaseModel {
     public function behaviors() {
         return \yii\helpers\ArrayHelper::merge(parent::behaviors(), [
                     \yii\behaviors\BlameableBehavior::className(), 
                     'attachmentsBehavior' => [
                         'class' => \cza\base\modules\Attachments\behaviors\AttachmentBehavior::className(),
                         'config' => [
-                            'entity_class' => BaseModel::className()
+                            'entity_class' => ProductSkuModel::className()
                         ],
                         'attributesDefinition' => [
                             'addto_cart_sku' => [
@@ -51,14 +51,14 @@ class ProductSku extends BaseModel {
     }
 
     public function getAllAttachments() {
-        $condition = ['entity_class' => BaseModel::className()];
+        $condition = ['entity_class' => ProductSkuModel::className()];
         return $this->hasMany(EntityAttachment::className(), ['entity_id' => 'id'])
                         ->andOnCondition($condition)
                         ->orderBy(['position' => SORT_DESC, 'id' => SORT_ASC]);
     }
 
     public function getAttachmentImages($attribute = 'addto_cart_sku') {
-        $condition = !empty($attribute) ? ['entity_class' => BaseModel::className(), 'entity_attribute' => $attribute, 'status' => EntityModelStatus::STATUS_ACTIVE] : ['entity_class' => BaseModel::className(), 'status' => EntityModelStatus::STATUS_ACTIVE];
+        $condition = !empty($attribute) ? ['entity_class' => ProductSkuModel::className(), 'entity_attribute' => $attribute, 'status' => EntityModelStatus::STATUS_ACTIVE] : ['entity_class' => BaseModel::className(), 'status' => EntityModelStatus::STATUS_ACTIVE];
         return $this->hasMany(EntityAttachmentImage::className(), ['entity_id' => 'id'])
                         ->andOnCondition($condition)
                         ->orderBy(['position' => SORT_DESC, 'id' => SORT_ASC]);
@@ -66,12 +66,12 @@ class ProductSku extends BaseModel {
 
     public function getAttachmentFiles($attribute = 'files') {
         return $this->hasMany(EntityAttachmentFile::className(), ['entity_id' => 'id'])
-                        ->andOnCondition(['entity_class' => BaseModel::className(), 'entity_attribute' => $attribute, 'status' => EntityModelStatus::STATUS_ACTIVE])
+                        ->andOnCondition(['entity_class' => ProductSkuModel::className(), 'entity_attribute' => $attribute, 'status' => EntityModelStatus::STATUS_ACTIVE])
                         ->orderBy(['position' => SORT_DESC, 'id' => SORT_ASC]);
     }
 
-    public function getInstallPrice($checkoutPoint = CheckoutPoint::TYPE_SHOW) {
-        return $this->install_price;
+    public function getIconUrl($attribute = 'avatar') {
+        return $this->getImageUrl($attribute, ImageSize::ICON);
     }
 
 }

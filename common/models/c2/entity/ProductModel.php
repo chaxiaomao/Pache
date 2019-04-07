@@ -222,4 +222,34 @@ class ProductModel extends \cza\base\models\ActiveRecord
             ->orderBy(['position' => SORT_DESC]);
     }
 
+    // public function getIconUrl($attribute = 'avatar') {
+    //     return $this->getImageUrl($attribute, ImageSize::ICON);
+    // }
+
+    public function getProductSkus() {
+        return $this->hasMany(ProductSkuModel::className(), ['product_id' => 'id']);
+    }
+
+    /**
+     * @return array dropdown list options
+     */
+    public function getProductSkuOptionsList($key = 'id', $val = 'label', $params = []) {
+        $options = ArrayHelper::map($this->getProductSkus()->all(), $key, $val);
+        return $options;
+    }
+
+    public function getPrice($checkoutPoint = 0) {
+        if (!isset($this->_data['price'])) {
+            $this->_data['price'] = Yii::$app->activityHelper->getSingleProductPrice($this, [], $checkoutPoint, true);
+        }
+        return $this->_data['price'];
+    }
+
+    public function beforeDelete() {
+        foreach ($this->productSkus as $item) {
+            $item->delete();
+        }
+        return parent::beforeDelete();
+    }
+
 }

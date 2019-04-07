@@ -126,32 +126,39 @@ $form = ActiveForm::begin([
                                     'type' => 'hiddenInput',
                                 ],
                                 [
-                                    'name' => 'product_sku_id',
+                                    'name' => 'product_id',
                                     'type' => 'dropDownList',
                                     'title' => Yii::t('app.c2', 'Product Sku2'),
                                     'enableError' => true,
-                                    'items' => ['' => Yii::t("app.c2", "Select options ..")] + \common\models\c2\entity\ProductModel::getHashMap('id', 'sku', ['status' => EntityModelStatus::STATUS_ACTIVE]),
+                                    // 'items' => ['' => Yii::t("app.c2", "Select options ..")] + \common\models\c2\entity\ProductModel::getHashMap('id', 'sku', ['status' => EntityModelStatus::STATUS_ACTIVE]),
+                                    'type' => \kartik\select2\Select2::className(),
                                     'options' => [
-                                        'onchange' => new \yii\web\JsExpression("
-                                                $.post('" . Url::toRoute(['skus']) . "', {'depdrop_all_params[product_id]':$(this).val(),'depdrop_parents[]':$(this).val()}, function(data){
-                                                    if(data.output !== undefined){
+                                        'data' => ['' => Yii::t("app.c2", "Select options ..")] + \common\models\c2\entity\ProductModel::getHashMap('id', 'sku', ['status' => EntityModelStatus::STATUS_ACTIVE]),
+                                        'pluginEvents' => [
+                                            'change' => "function() {
+                                                $.post('" . Url::toRoute(['skus']) . "', {'depdrop_all_params[product_id]':$(this).val(),'depdrop_parents[]':$(this).val()}, function(data) {
+                                                    if(data.output !== undefined) {
                                                         $('select#subcat-{multiple_index_{$multipleItemsId}}').empty();
-                                                        $('select#subcat-{multiple_index_{$multipleItemsId}}').append('<option value=' + data.output.id + '>' + data.output.name + '</option>');
+                                                        $.each(data.output, function(key, item){
+                                                                $('select#subcat-{multiple_index_{$multipleItemsId}}').append('<option value=' + item.id + '>' + item.name + '</option>');
+                                                            });
                                                     }
-                                                });
-                                            "),
+                                                })
+                                            }",
+                                        ],
                                     ],
                                 ],
                                 [
-                                    'name' => 'product_id',
+                                    'name' => 'product_sku_id',
                                     'type' => 'dropDownList',
                                     'title' => Yii::t('app.c2', 'Product/Sku'),
                                     'enableError' => true,
                                     'items' => $model->isNewRecord ? [] : function ($data) {
                                         if (is_object($data)) {
-                                            return \common\models\c2\entity\ProductModel::getHashMap('id', 'name');
+                                            return $data->product->getProductSkuOptionsList();
                                         }
                                         return [];
+                                        // return \common\models\c2\entity\ProductModel::getHashMap('id', 'name');
                                     },
                                     'options' => [
                                         'id' => "subcat-{multiple_index_{$multipleItemsId}}",

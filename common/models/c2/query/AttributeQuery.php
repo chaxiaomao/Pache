@@ -1,6 +1,7 @@
 <?php
 
 namespace common\models\c2\query;
+use cza\base\models\statics\EntityModelStatus;
 
 /**
  * This is the ActiveQuery class for [[\common\models\c2\entity\AttributeModel]].
@@ -31,4 +32,9 @@ class AttributeQuery extends \yii\db\ActiveQuery
     {
         return parent::one($db);
     }
+
+    public function active() {
+        return $this->andWhere(['{{%attribute}}.status' => EntityModelStatus::STATUS_ACTIVE]);
+    }
+
 }

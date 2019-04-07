@@ -725,7 +725,7 @@ return [
     'Tips: if checked, will be act as required attribute.' => '提示：勾选后将成为必填属性',
     'Tips: if checked, will be validate unique when input.' => '提示：勾选后输入时将验证唯一值',
     'Generate' => '生成货品',
-    'Stock num' => '库存',
+    'Stock Num' => '库存',
     '{s1} Associated' => '关联{s1}',
     'Product Promotion' => '产品推广',
     'There are not available attributes for now!' => '暂无可用的属性！',
@@ -1233,6 +1233,7 @@ return [
     'Self Profile' => '个人介绍',
     'Experience' => '工作经验',
     'Situation' => '在校情况',
+    'Refresh' => '刷新',
     '' => '',
 ];
 

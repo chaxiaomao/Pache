@@ -2,6 +2,7 @@
 
 namespace common\components\actions;
 
+use common\models\c2\entity\AttributeModel;
 use common\models\c2\entity\ProductModel;
 use Yii;
 use yii\data\ActiveDataProvider;
@@ -18,7 +19,7 @@ use yii\helpers\Url;
  * @copyright 2014-2016 CCIZA Software LLC
  * @license
  */
-class ProductSkuOptionsAction extends \yii\base\Action {
+class AttributesOptionsAction extends \yii\base\Action {
 
     public $keyAttribute = 'id';
     public $valueAttribute = 'label';
@@ -64,7 +65,7 @@ class ProductSkuOptionsAction extends \yii\base\Action {
             throw new \Exception('Require parameter "depdrop_parents"!');
         }
 
-        $model = ProductModel::findOne(['id' => $params['depdrop_all_params']['product_id']]);
+        $model = AttributeModel::findOne(['id' => $params['depdrop_all_params']['attribute_id']]);
 
         $result = [
             'output' => $model,
@@ -72,7 +73,7 @@ class ProductSkuOptionsAction extends \yii\base\Action {
         ];
 
         $options = [];
-        foreach ($model->productSkus as $model) {
+        foreach ($model->attributeItems as $model) {
             $options[] = [
                 'id' => $model->id,
                 'name' => $model->label,

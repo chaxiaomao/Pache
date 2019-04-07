@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2019-03-31 18:55:36
+Date: 2019-04-07 17:27:19
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -44,12 +44,27 @@ CREATE TABLE `c2_attribute` (
   KEY `Index_1` (`code`(191)),
   KEY `Index_2` (`type`),
   KEY `Index_3` (`position`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of c2_attribute
 -- ----------------------------
-INSERT INTO `c2_attribute` VALUES ('11', '1', '1', 'C1', '尺寸', '尺寸', '', 'checkboxList', '', '', '1', '1', '0', '0', '0', null, '1', '0', '2019-03-29 08:59:34', '2019-03-29 08:59:34');
+INSERT INTO `c2_attribute` VALUES ('12', '1', '1', 'C2', '瓶盖', '瓶盖', '', 'checkboxList', '', '', '1', '1', '0', '0', '0', null, '1', '0', '2019-04-06 05:34:49', '2019-04-06 18:45:00');
+INSERT INTO `c2_attribute` VALUES ('13', '1', '1', 'C3', '海绵(粉红+灰)', '海绵(粉红+灰)', '', 'checkboxList', '', '', '1', '1', '0', '0', '0', null, '1', '0', '2019-04-06 15:21:40', '2019-04-06 15:57:45');
+INSERT INTO `c2_attribute` VALUES ('14', '1', '1', 'C4', '鞋油', '鞋油', '', 'checkboxList', '', '', '1', '1', '0', '0', '0', null, '1', '0', '2019-04-06 15:23:23', '2019-04-06 15:50:22');
+INSERT INTO `c2_attribute` VALUES ('15', '1', '1', 'C5', '不干胶', '不干胶', '', 'checkboxList', '', '', '1', '1', '0', '0', '0', null, '1', '0', '2019-04-06 15:24:28', '2019-04-07 09:42:14');
+INSERT INTO `c2_attribute` VALUES ('16', '1', '1', 'C6', '收缩膜', '收缩膜', '', 'checkboxList', '', '', '1', '1', '0', '0', '0', null, '1', '0', '2019-04-06 15:24:56', '2019-04-06 15:51:21');
+INSERT INTO `c2_attribute` VALUES ('17', '1', '1', 'C7', '外箱', '外箱', '', 'checkboxList', '', '', '1', '1', '0', '0', '0', null, '1', '0', '2019-04-06 15:25:42', '2019-04-07 09:46:53');
+INSERT INTO `c2_attribute` VALUES ('18', '1', '1', 'C8', '中板', '中板', '', 'checkboxList', '', '', '1', '1', '0', '0', '0', null, '1', '0', '2019-04-06 15:37:51', '2019-04-06 15:52:31');
+INSERT INTO `c2_attribute` VALUES ('19', '1', '1', 'C9', '海绵(灰)', '海绵(灰)', '', 'checkboxList', '', '', '1', '1', '0', '0', '0', null, '1', '0', '2019-04-06 15:54:29', '2019-04-07 09:35:57');
+INSERT INTO `c2_attribute` VALUES ('20', '1', '1', 'C10', '过滤绵(黑色)', '过滤绵(黑色)', '', 'radioList', '', '', '1', '1', '0', '0', '0', null, '1', '0', '2019-04-07 08:59:34', '2019-04-07 08:59:34');
+INSERT INTO `c2_attribute` VALUES ('21', '1', '1', 'C11', '上盖', '上盖', '', 'checkboxList', '', '', '1', '1', '0', '0', '0', null, '1', '0', '2019-04-07 09:04:46', '2019-04-07 09:04:46');
+INSERT INTO `c2_attribute` VALUES ('22', '1', '1', 'C12', '底盒', '底盒', '', 'checkboxList', '', '', '1', '1', '0', '0', '0', null, '1', '0', '2019-04-07 09:05:20', '2019-04-07 09:05:20');
+INSERT INTO `c2_attribute` VALUES ('23', '1', '1', 'C13', '吸塑盒', '吸塑盒', '', 'checkboxList', '', '', '1', '1', '0', '0', '0', null, '1', '0', '2019-04-07 09:05:43', '2019-04-07 09:29:40');
+INSERT INTO `c2_attribute` VALUES ('24', '1', '1', 'C14', '套袋', '套袋', '', 'checkboxList', '', '', '1', '1', '0', '0', '0', null, '1', '0', '2019-04-07 09:07:31', '2019-04-07 09:07:31');
+INSERT INTO `c2_attribute` VALUES ('25', '1', '1', 'C15', '彩盒', '彩盒', '', 'checkboxList', '', '', '1', '1', '0', '0', '0', null, '1', '0', '2019-04-07 09:09:02', '2019-04-07 09:45:41');
+INSERT INTO `c2_attribute` VALUES ('26', '1', '1', 'C16', '软管', '软管', '', 'checkboxList', '', '', '1', '1', '0', '0', '0', null, '1', '0', '2019-04-07 09:09:56', '2019-04-07 09:10:04');
+INSERT INTO `c2_attribute` VALUES ('27', '1', '1', 'C17', '黑色绵羊鞋膏', '黑色绵羊鞋膏', '', 'checkboxList', '', '', '1', '1', '0', '0', '0', null, '1', '0', '2019-04-07 09:11:54', '2019-04-07 09:11:54');
 
 -- ----------------------------
 -- Table structure for c2_attributeset
@@ -70,12 +85,13 @@ CREATE TABLE `c2_attributeset` (
   KEY `Index_1` (`code`(191)),
   KEY `Index_2` (`type`),
   KEY `Index_3` (`position`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of c2_attributeset
 -- ----------------------------
-INSERT INTO `c2_attributeset` VALUES ('1', '1', '1', 'C1', '大床', 'bed', '1', '0', '2019-03-29 09:03:33', '2019-03-29 09:03:33');
+INSERT INTO `c2_attributeset` VALUES ('3', '1', '1', 'XCSXZ', '鞋擦属性组', '鞋擦属性组', '1', '0', '2019-04-06 15:26:40', '2019-04-06 18:41:06');
+INSERT INTO `c2_attributeset` VALUES ('4', '1', '1', 'QJS', '清洁刷属性', '清洁刷属性', '1', '0', '2019-04-07 09:25:53', '2019-04-07 09:44:15');
 
 -- ----------------------------
 -- Table structure for c2_attributeset_attribute_rs
@@ -92,12 +108,31 @@ CREATE TABLE `c2_attributeset_attribute_rs` (
   PRIMARY KEY (`id`),
   KEY `Index_1` (`attributeset_id`),
   KEY `Index_2` (`attribute_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of c2_attributeset_attribute_rs
 -- ----------------------------
-INSERT INTO `c2_attributeset_attribute_rs` VALUES ('1', '1', '11', '1', '0', '2019-03-29 09:03:33', '2019-03-29 09:03:33');
+INSERT INTO `c2_attributeset_attribute_rs` VALUES ('10', '3', '13', '1', '0', '2019-04-06 15:26:40', '2019-04-06 15:26:40');
+INSERT INTO `c2_attributeset_attribute_rs` VALUES ('16', '3', '12', '1', '0', '2019-04-06 15:38:22', '2019-04-06 15:38:22');
+INSERT INTO `c2_attributeset_attribute_rs` VALUES ('17', '3', '14', '1', '0', '2019-04-06 15:38:22', '2019-04-06 15:38:22');
+INSERT INTO `c2_attributeset_attribute_rs` VALUES ('18', '3', '15', '1', '0', '2019-04-06 15:38:22', '2019-04-06 15:38:22');
+INSERT INTO `c2_attributeset_attribute_rs` VALUES ('19', '3', '16', '1', '0', '2019-04-06 15:38:22', '2019-04-06 15:38:22');
+INSERT INTO `c2_attributeset_attribute_rs` VALUES ('20', '3', '17', '1', '0', '2019-04-06 15:38:22', '2019-04-06 15:38:22');
+INSERT INTO `c2_attributeset_attribute_rs` VALUES ('21', '3', '18', '1', '0', '2019-04-06 15:38:22', '2019-04-06 15:38:22');
+INSERT INTO `c2_attributeset_attribute_rs` VALUES ('23', '3', '19', '1', '0', '2019-04-06 18:41:06', '2019-04-06 18:41:06');
+INSERT INTO `c2_attributeset_attribute_rs` VALUES ('24', '4', '15', '1', '0', '2019-04-07 09:25:53', '2019-04-07 09:25:53');
+INSERT INTO `c2_attributeset_attribute_rs` VALUES ('25', '4', '16', '1', '0', '2019-04-07 09:25:53', '2019-04-07 09:25:53');
+INSERT INTO `c2_attributeset_attribute_rs` VALUES ('26', '4', '17', '1', '0', '2019-04-07 09:25:53', '2019-04-07 09:25:53');
+INSERT INTO `c2_attributeset_attribute_rs` VALUES ('27', '4', '20', '1', '0', '2019-04-07 09:25:53', '2019-04-07 09:25:53');
+INSERT INTO `c2_attributeset_attribute_rs` VALUES ('28', '4', '21', '1', '0', '2019-04-07 09:25:53', '2019-04-07 09:25:53');
+INSERT INTO `c2_attributeset_attribute_rs` VALUES ('29', '4', '22', '1', '0', '2019-04-07 09:25:53', '2019-04-07 09:25:53');
+INSERT INTO `c2_attributeset_attribute_rs` VALUES ('30', '4', '23', '1', '0', '2019-04-07 09:27:34', '2019-04-07 09:27:34');
+INSERT INTO `c2_attributeset_attribute_rs` VALUES ('31', '4', '19', '1', '0', '2019-04-07 09:31:37', '2019-04-07 09:31:37');
+INSERT INTO `c2_attributeset_attribute_rs` VALUES ('32', '4', '25', '1', '0', '2019-04-07 09:37:39', '2019-04-07 09:37:39');
+INSERT INTO `c2_attributeset_attribute_rs` VALUES ('33', '4', '24', '1', '0', '2019-04-07 09:44:15', '2019-04-07 09:44:15');
+INSERT INTO `c2_attributeset_attribute_rs` VALUES ('34', '4', '26', '1', '0', '2019-04-07 09:44:16', '2019-04-07 09:44:16');
+INSERT INTO `c2_attributeset_attribute_rs` VALUES ('35', '4', '27', '1', '0', '2019-04-07 09:44:16', '2019-04-07 09:44:16');
 
 -- ----------------------------
 -- Table structure for c2_attributeset_lang
@@ -142,13 +177,45 @@ CREATE TABLE `c2_attribute_item` (
   PRIMARY KEY (`id`),
   KEY `Index_1` (`attribute_id`),
   KEY `Index_2` (`code`(191))
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of c2_attribute_item
 -- ----------------------------
-INSERT INTO `c2_attribute_item` VALUES ('1', '11', '01', '', '1000*600*1160 ', '01', '2', '1', '50', '2019-03-29 08:59:34', '2019-03-29 08:59:34');
-INSERT INTO `c2_attribute_item` VALUES ('2', '11', '02', '', '800*800*860 ', '02', '2', '1', '50', '2019-03-29 08:59:34', '2019-03-29 08:59:34');
+INSERT INTO `c2_attribute_item` VALUES ('3', '12', '01', '', '黄色', '163#', '2', '1', '50', '2019-04-06 07:39:31', '2019-04-06 07:39:31');
+INSERT INTO `c2_attribute_item` VALUES ('4', '12', '02', '', '白色', '163#', '2', '1', '50', '2019-04-06 07:39:31', '2019-04-06 07:39:31');
+INSERT INTO `c2_attribute_item` VALUES ('5', '13', '01', '', '87*17mm', '87*17mm', '2', '1', '50', '2019-04-06 15:21:41', '2019-04-06 15:21:41');
+INSERT INTO `c2_attribute_item` VALUES ('6', '14', '01', '', '无色', '无色', '2', '1', '50', '2019-04-06 15:23:23', '2019-04-06 15:23:23');
+INSERT INTO `c2_attribute_item` VALUES ('7', '15', '01', '', '163#', '163#', '2', '1', '50', '2019-04-06 15:24:28', '2019-04-06 15:24:28');
+INSERT INTO `c2_attribute_item` VALUES ('8', '16', '01', '', '450mm*1.5c', '450mm*1.5c', '2', '1', '50', '2019-04-06 15:24:56', '2019-04-06 15:24:56');
+INSERT INTO `c2_attribute_item` VALUES ('9', '17', '01', '', '58.5*40*41.5cm', '58.5*40*41.5cm', '2', '1', '50', '2019-04-06 15:25:42', '2019-04-06 15:25:42');
+INSERT INTO `c2_attribute_item` VALUES ('10', '18', '01', '', '白中板', '163#', '2', '1', '50', '2019-04-06 15:37:51', '2019-04-06 15:37:51');
+INSERT INTO `c2_attribute_item` VALUES ('11', '18', '', '', '黑中板', '163#', '2', '1', '50', '2019-04-06 15:37:51', '2019-04-06 15:37:51');
+INSERT INTO `c2_attribute_item` VALUES ('13', '16', '02', '', '350mm*1.9c', '350mm*1.9c', '2', '1', '50', '2019-04-06 15:51:21', '2019-04-06 15:51:21');
+INSERT INTO `c2_attribute_item` VALUES ('14', '17', '02', '', '58*39*39cm', '58*39*39cm', '2', '1', '50', '2019-04-06 15:51:51', '2019-04-06 15:51:51');
+INSERT INTO `c2_attribute_item` VALUES ('15', '19', '01', '', '87*15', '87*15', '2', '1', '50', '2019-04-06 15:54:30', '2019-04-06 15:54:30');
+INSERT INTO `c2_attribute_item` VALUES ('16', '12', '03', '', '黑色', '163#', '2', '1', '50', '2019-04-06 18:45:00', '2019-04-06 18:45:00');
+INSERT INTO `c2_attribute_item` VALUES ('17', '20', '01', '', '47.44*110.72*40mm', '47.44*110.72*40mm', '2', '1', '50', '2019-04-07 08:59:34', '2019-04-07 08:59:34');
+INSERT INTO `c2_attribute_item` VALUES ('18', '21', '01', '', '167#', '167#', '2', '1', '50', '2019-04-07 09:04:46', '2019-04-07 09:04:46');
+INSERT INTO `c2_attribute_item` VALUES ('19', '22', '01', '', '167#', '167#', '2', '1', '50', '2019-04-07 09:05:20', '2019-04-07 09:05:20');
+INSERT INTO `c2_attribute_item` VALUES ('20', '23', '01', '', '167#', '167#', '2', '1', '50', '2019-04-07 09:05:43', '2019-04-07 09:05:43');
+INSERT INTO `c2_attribute_item` VALUES ('21', '17', '03', '', '64*49*31cm', '64*49*31cm', '2', '1', '50', '2019-04-07 09:06:03', '2019-04-07 09:06:03');
+INSERT INTO `c2_attribute_item` VALUES ('22', '24', '01', '', '270*430mm*0.03c', '270*430mm*0.03c', '2', '1', '50', '2019-04-07 09:07:31', '2019-04-07 09:07:31');
+INSERT INTO `c2_attribute_item` VALUES ('24', '25', '01', '', '166#', '166#', '2', '1', '50', '2019-04-07 09:09:03', '2019-04-07 09:09:03');
+INSERT INTO `c2_attribute_item` VALUES ('25', '26', '01', '', '黑色丝印软管30G', '黑色丝印软管30G', '2', '1', '50', '2019-04-07 09:09:56', '2019-04-07 09:09:56');
+INSERT INTO `c2_attribute_item` VALUES ('26', '26', '02', '', '无色丝印软管30G', '无色丝印软管30G', '2', '1', '50', '2019-04-07 09:09:56', '2019-04-07 09:09:56');
+INSERT INTO `c2_attribute_item` VALUES ('27', '26', '03', '', '棕色丝印软管30G', '棕色丝印软管30G', '2', '1', '50', '2019-04-07 09:10:05', '2019-04-07 09:10:05');
+INSERT INTO `c2_attribute_item` VALUES ('28', '25', '02', '', '838无色彩盒', '838无色彩盒', '2', '1', '50', '2019-04-07 09:10:43', '2019-04-07 09:10:43');
+INSERT INTO `c2_attribute_item` VALUES ('29', '25', '03', '', '838棕色彩盒', '838棕色彩盒', '2', '1', '50', '2019-04-07 09:10:43', '2019-04-07 09:10:43');
+INSERT INTO `c2_attribute_item` VALUES ('30', '27', '01', '', '黑色', '黑色', '2', '1', '50', '2019-04-07 09:11:54', '2019-04-07 09:11:54');
+INSERT INTO `c2_attribute_item` VALUES ('31', '27', '02', '', '自然色', '自然色', '2', '1', '50', '2019-04-07 09:11:54', '2019-04-07 09:11:54');
+INSERT INTO `c2_attribute_item` VALUES ('32', '27', '03', '', '棕色', '棕色', '2', '1', '50', '2019-04-07 09:11:54', '2019-04-07 09:11:54');
+INSERT INTO `c2_attribute_item` VALUES ('33', '23', '02', '', '1167#', '1167#', '2', '1', '50', '2019-04-07 09:29:40', '2019-04-07 09:29:40');
+INSERT INTO `c2_attribute_item` VALUES ('34', '19', '02', '', '47.44*110.72*40mm', '47.44*110.72*40mm', '2', '1', '50', '2019-04-07 09:35:57', '2019-04-07 09:35:57');
+INSERT INTO `c2_attribute_item` VALUES ('35', '17', '04', '', '52.3*37.8*53.2cm', '52.3*37.8*53.2cm', '2', '1', '50', '2019-04-07 09:38:49', '2019-04-07 09:38:49');
+INSERT INTO `c2_attribute_item` VALUES ('36', '15', '02', '', '1166#', '1166#', '2', '1', '50', '2019-04-07 09:42:14', '2019-04-07 09:42:14');
+INSERT INTO `c2_attribute_item` VALUES ('37', '25', '04', '', '838黑色彩盒', '838黑色彩盒', '2', '1', '50', '2019-04-07 09:45:41', '2019-04-07 09:45:41');
+INSERT INTO `c2_attribute_item` VALUES ('38', '17', '05', '', '48*44*26cm', '48*44*26cm', '2', '1', '50', '2019-04-07 09:46:53', '2019-04-07 09:46:53');
 
 -- ----------------------------
 -- Table structure for c2_attribute_lang
@@ -308,7 +375,7 @@ CREATE TABLE `c2_be_user` (
 -- ----------------------------
 -- Records of c2_be_user
 -- ----------------------------
-INSERT INTO `c2_be_user` VALUES ('1', '0', '0', 'admin', 'admin@zdt6.com', '$2y$10$L2ELm8yMYvl2429Id0M1u.g0l1lCnOyGIcYY.26T.k91y5RsWkyv.', 'wh3xjpD0cazZIwLEDNK785pe54bG6Dm1', '0000-00-00 00:00:00', null, null, '127.0.0.1', '0', '2019-03-30 06:15:17', null, null, '0', '0', '1', '0', '2017-01-25 11:01:00', '2017-05-17 05:42:02');
+INSERT INTO `c2_be_user` VALUES ('1', '0', '0', 'admin', 'admin@zdt6.com', '$2y$10$L2ELm8yMYvl2429Id0M1u.g0l1lCnOyGIcYY.26T.k91y5RsWkyv.', 'wh3xjpD0cazZIwLEDNK785pe54bG6Dm1', '0000-00-00 00:00:00', null, null, '127.0.0.1', '0', '2019-04-07 08:39:07', null, null, '0', '0', '1', '0', '2017-01-25 11:01:00', '2017-05-17 05:42:02');
 INSERT INTO `c2_be_user` VALUES ('2', '0', '0', 'tester1', 'tester1@zdt6.com', '$2y$10$QDFHh.AvjI7RnBmBnHNavOmw/H2cRSt69s0SIe9l4oGy0.03Rvkt.', 'T1yk3EUV6Qf4KwVz7jJspdR5PiX3F8yk', '0000-00-00 00:00:00', null, null, '127.0.0.1', null, '2017-05-18 03:25:05', null, null, '0', '0', '1', '0', '0000-00-00 00:00:00', '2017-05-17 05:43:39');
 INSERT INTO `c2_be_user` VALUES ('3', '0', '0', 'tester2', 'tester2@zdt6.com', '$2y$10$F3fC9b1cgSJZ/LzG1451Su2s3NkPYs8jDM/p0A9iur.vBX2BPDSti', 'fgm17RciIC0qaCAiF6lj8s7DX07A_con', '0000-00-00 00:00:00', null, null, '127.0.0.1', null, null, null, null, '0', '0', '1', '0', '2017-05-16 12:07:01', '2017-05-24 03:41:30');
 
@@ -547,12 +614,11 @@ CREATE TABLE `c2_inventory_delivery_note` (
   KEY `Index_2` (`warehouse_id`),
   KEY `Index_3` (`occurrence_date`),
   KEY `Index_4` (`customer_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of c2_inventory_delivery_note
 -- ----------------------------
-INSERT INTO `c2_inventory_delivery_note` VALUES ('4', '1', 'DN20190331JN00000001', '', '1', null, '0', '2019-03-08 07:15:21', '1.00', 'cc', 'cc', 'cc', 'cc', 'cc', 'cc', 0x3C703E78783C2F703E, null, '0', '0', '1', '1', '3', '1', '0', '2019-03-31 11:08:44', '2019-03-31 11:08:44');
 
 -- ----------------------------
 -- Table structure for c2_inventory_delivery_note_item
@@ -583,12 +649,11 @@ CREATE TABLE `c2_inventory_delivery_note_item` (
   KEY `Index_2` (`product_id`),
   KEY `Index_3` (`product_sku_id`),
   KEY `Index_4` (`customer_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of c2_inventory_delivery_note_item
 -- ----------------------------
-INSERT INTO `c2_inventory_delivery_note_item` VALUES ('1', '4', '1', '1', null, '0', '1', '1', null, null, null, '0.00', '1.00', '1.00', null, '1', '0', '2019-03-31 11:08:44', '2019-03-31 11:08:44');
 
 -- ----------------------------
 -- Table structure for c2_inventory_note_log
@@ -611,13 +676,11 @@ CREATE TABLE `c2_inventory_note_log` (
   PRIMARY KEY (`id`),
   KEY `Index_1` (`note_id`,`type`),
   KEY `Index_2` (`warehouse_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of c2_inventory_note_log
 -- ----------------------------
-INSERT INTO `c2_inventory_note_log` VALUES ('1', '1', '1', null, '1', '2019-03-15 14:30:02', '', '1', '1', '1', '0', '2019-03-30 17:42:36', '2019-03-30 17:42:36');
-INSERT INTO `c2_inventory_note_log` VALUES ('2', '4', '2', null, '1', '2019-03-08 07:15:21', 0x3C703E78783C2F703E, '1', '1', '1', '0', '2019-03-31 11:16:37', '2019-03-31 11:16:37');
 
 -- ----------------------------
 -- Table structure for c2_inventory_receipt_note
@@ -653,8 +716,6 @@ CREATE TABLE `c2_inventory_receipt_note` (
 -- ----------------------------
 -- Records of c2_inventory_receipt_note
 -- ----------------------------
-INSERT INTO `c2_inventory_receipt_note` VALUES ('1', '1', 'IR20190330Y900000001', '表情', '1', '1', '2019-03-15 14:30:02', '0000909090', 'xun', 'xun', 'xun', 'xun', '', null, '1', '1', '3', '1', '0', '2019-03-30 17:35:52', '2019-03-30 17:22:24');
-INSERT INTO `c2_inventory_receipt_note` VALUES ('2', '1', 'RN20190331_W00000002', '表情vv', '1', '1', '2019-03-15 14:30:02', '0000909090', 'vv', 'vv', 'vv', 'vv', '', null, '1', '1', '1', '1', '0', '2019-03-31 09:59:09', '2019-03-31 09:58:17');
 
 -- ----------------------------
 -- Table structure for c2_inventory_receipt_note_item
@@ -687,8 +748,6 @@ CREATE TABLE `c2_inventory_receipt_note_item` (
 -- ----------------------------
 -- Records of c2_inventory_receipt_note_item
 -- ----------------------------
-INSERT INTO `c2_inventory_receipt_note_item` VALUES ('1', '1', '11', '11', '', '1', '1', '1.00', '1.00', '1', '', '1111', '1', '0', '2019-03-30 17:35:52', '2019-03-30 17:35:52');
-INSERT INTO `c2_inventory_receipt_note_item` VALUES ('2', '2', '11', '11', '', '1', '1', '1.00', '1.00', '1', '', '1111', '1', '0', '2019-03-31 09:58:17', '2019-03-31 09:58:17');
 
 -- ----------------------------
 -- Table structure for c2_measure
@@ -771,12 +830,20 @@ CREATE TABLE `c2_product` (
   KEY `Index_5` (`eshop_id`,`is_released`),
   KEY `Index_6` (`serial_number`(191),`eshop_id`,`is_released`),
   KEY `Index_7` (`brand_id`,`eshop_id`,`is_released`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of c2_product
 -- ----------------------------
-INSERT INTO `c2_product` VALUES ('1', '1', '0', null, 'C1', null, null, '瓶盖', '瓶盖', null, null, null, '0', '1', '0.00', '0.00', '1', '1', '0.00', '0.00', '2.00', null, null, '0', '0', '0', '0', null, null, '0', '0', '0', '0', '0', null, '1', '1', '1', '50', '2019-03-31 10:15:02', '2019-03-31 10:15:02');
+INSERT INTO `c2_product` VALUES ('3', '1', '0', null, 'PA-163-HB', null, null, '大圆鞋擦(黄白)', '大圆鞋擦(黄白)', null, null, null, '0', '1', '0.00', '0.00', '1', '1', '0.00', '0.00', null, null, null, '0', '0', '0', '0', null, null, '0', '0', '0', '0', '0', null, '1', '1', '1', '50', '2019-04-06 15:08:52', '2019-04-06 15:58:20');
+INSERT INTO `c2_product` VALUES ('4', '1', '0', null, 'PA-163-QB', null, null, '大圆鞋擦(全黑)', '大圆鞋擦（全黑）', null, null, null, '0', '1', '0.00', '0.00', '1', '1', '0.00', '0.00', null, null, null, '0', '0', '0', '0', null, null, '0', '0', '0', '0', '0', null, '1', '1', '1', '50', '2019-04-06 18:40:45', '2019-04-06 18:41:36');
+INSERT INTO `c2_product` VALUES ('5', '1', '0', null, 'PA-167-GG', null, null, '反绒皮清洁刷(内销)', '反绒皮清洁刷(内销)', null, null, null, '0', '1', '0.00', '0.00', '1', '1', '0.00', '0.00', null, null, null, '0', '0', '0', '0', null, null, '0', '0', '0', '0', '0', null, '1', '1', '1', '50', '2019-04-07 09:26:11', '2019-04-07 09:33:48');
+INSERT INTO `c2_product` VALUES ('6', '1', '0', null, 'PA-1167-CC', null, null, '反绒皮清洁刷(出口)', '反绒皮清洁刷(出口)', null, null, null, '0', '1', '0.00', '0.00', '1', '1', '0.00', '0.00', null, null, null, '0', '0', '0', '0', null, null, '0', '0', '0', '0', '0', null, '1', '1', '1', '50', '2019-04-07 09:28:55', '2019-04-07 09:28:55');
+INSERT INTO `c2_product` VALUES ('7', '1', '0', null, 'PA-166-LX', null, null, '海绵鞋蜡刷(内销)', '海绵鞋蜡刷(内销)', null, null, null, '0', '1', '0.00', '0.00', '1', '1', '0.00', '0.00', null, null, null, '0', '0', '0', '0', null, null, '0', '0', '0', '0', '0', null, '1', '1', '1', '50', '2019-04-07 09:31:57', '2019-04-07 09:43:14');
+INSERT INTO `c2_product` VALUES ('8', '1', '0', null, 'PA-1166-CK', null, null, '海绵鞋蜡刷(出口)', '海绵鞋蜡刷(出口)', null, null, null, '0', '1', '0.00', '0.00', '1', '1', '0.00', '0.00', null, null, null, '0', '0', '0', '0', null, null, '0', '0', '0', '0', '0', null, '1', '1', '1', '50', '2019-04-07 09:40:47', '2019-04-07 09:40:47');
+INSERT INTO `c2_product` VALUES ('9', '1', '0', null, 'PA-838-HS', null, null, '软管黑色绵羊鞋蜡(30G)', '软管黑色绵羊鞋蜡(30G)', null, null, null, '0', '1', '0.00', '0.00', '1', '1', '0.00', '0.00', null, null, null, '0', '0', '0', '0', null, null, '0', '0', '0', '0', '0', null, '1', '1', '1', '50', '2019-04-07 09:44:43', '2019-04-07 09:44:43');
+INSERT INTO `c2_product` VALUES ('10', '1', '0', null, 'PA-838-WS', null, null, '软管无色绵羊鞋蜡(30G)', '软管无色绵羊鞋蜡(30G)', null, null, null, '0', '1', '0.00', '0.00', '1', '1', '0.00', '0.00', null, null, null, '0', '0', '0', '0', null, null, '0', '0', '0', '0', '0', null, '1', '1', '1', '50', '2019-04-07 09:47:36', '2019-04-07 09:47:36');
+INSERT INTO `c2_product` VALUES ('11', '1', '0', null, 'PA-838-ZS', null, null, '软管棕色绵羊鞋蜡(30G)', '软管棕色绵羊鞋蜡(30G)', null, null, null, '0', '1', '0.00', '0.00', '1', '1', '0.00', '0.00', null, null, null, '0', '0', '0', '0', null, null, '0', '0', '0', '0', '0', null, '1', '1', '1', '50', '2019-04-07 09:48:18', '2019-04-07 09:48:18');
 
 -- ----------------------------
 -- Table structure for c2_product_attributeset_rs
@@ -793,11 +860,22 @@ CREATE TABLE `c2_product_attributeset_rs` (
   PRIMARY KEY (`id`),
   KEY `Index_1` (`product_id`),
   KEY `Index_2` (`attributeset_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of c2_product_attributeset_rs
 -- ----------------------------
+INSERT INTO `c2_product_attributeset_rs` VALUES ('5', '3', '3', '1', '0', '2019-04-06 15:58:20', '2019-04-06 15:58:20');
+INSERT INTO `c2_product_attributeset_rs` VALUES ('6', '4', '3', '1', '0', '2019-04-06 18:40:45', '2019-04-06 18:40:45');
+INSERT INTO `c2_product_attributeset_rs` VALUES ('7', '5', '4', '1', '0', '2019-04-07 09:26:11', '2019-04-07 09:26:11');
+INSERT INTO `c2_product_attributeset_rs` VALUES ('8', '6', '4', '1', '0', '2019-04-07 09:28:55', '2019-04-07 09:28:55');
+INSERT INTO `c2_product_attributeset_rs` VALUES ('10', '7', '4', '1', '0', '2019-04-07 09:32:16', '2019-04-07 09:32:16');
+INSERT INTO `c2_product_attributeset_rs` VALUES ('11', '7', '3', '1', '0', '2019-04-07 09:36:39', '2019-04-07 09:36:39');
+INSERT INTO `c2_product_attributeset_rs` VALUES ('12', '8', '3', '1', '0', '2019-04-07 09:40:47', '2019-04-07 09:40:47');
+INSERT INTO `c2_product_attributeset_rs` VALUES ('13', '8', '4', '1', '0', '2019-04-07 09:40:47', '2019-04-07 09:40:47');
+INSERT INTO `c2_product_attributeset_rs` VALUES ('14', '9', '4', '1', '0', '2019-04-07 09:44:44', '2019-04-07 09:44:44');
+INSERT INTO `c2_product_attributeset_rs` VALUES ('15', '10', '4', '1', '0', '2019-04-07 09:47:36', '2019-04-07 09:47:36');
+INSERT INTO `c2_product_attributeset_rs` VALUES ('16', '11', '4', '1', '0', '2019-04-07 09:48:18', '2019-04-07 09:48:18');
 
 -- ----------------------------
 -- Table structure for c2_product_eav
@@ -817,11 +895,123 @@ CREATE TABLE `c2_product_eav` (
   KEY `Index_1` (`entity_id`,`attribute_id`),
   KEY `Index_2` (`entity_id`),
   KEY `Index_3` (`attribute_code`(191))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=135 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of c2_product_eav
 -- ----------------------------
+INSERT INTO `c2_product_eav` VALUES ('5', '2', '12', 'C2', 0x7B2233223A22E9BB84E889B2222C2234223A22E799BDE889B2227D, '1', '0', '2019-04-06 09:44:17', '2019-04-06 09:44:17');
+INSERT INTO `c2_product_eav` VALUES ('6', '2', '12', 'C2', 0x7B2233223A22E9BB84E889B2222C2234223A22E799BDE889B2227D, '1', '0', '2019-04-06 09:49:32', '2019-04-06 09:49:32');
+INSERT INTO `c2_product_eav` VALUES ('8', '2', '12', 'C2', 0x7B2233223A22E9BB84E889B2222C2234223A22E799BDE889B2227D, '1', '0', '2019-04-06 09:55:44', '2019-04-06 09:55:44');
+INSERT INTO `c2_product_eav` VALUES ('9', '2', '11', 'C1', 0x3130636D, '1', '0', '2019-04-06 11:28:21', '2019-04-06 11:28:21');
+INSERT INTO `c2_product_eav` VALUES ('23', '3', '12', 'C2', 0x7B2233223A22E9BB84E889B2227D, '1', '0', '2019-04-06 15:58:20', '2019-04-06 15:58:20');
+INSERT INTO `c2_product_eav` VALUES ('24', '3', '13', 'C3', 0x7B2235223A2238372A31376D6D227D, '1', '0', '2019-04-06 15:58:20', '2019-04-06 15:58:20');
+INSERT INTO `c2_product_eav` VALUES ('25', '3', '14', 'C4', 0x7B2236223A22E697A0E889B2227D, '1', '0', '2019-04-06 15:58:20', '2019-04-06 15:58:20');
+INSERT INTO `c2_product_eav` VALUES ('26', '3', '15', 'C5', 0x7B2237223A2231363323227D, '1', '0', '2019-04-06 15:58:20', '2019-04-06 15:58:20');
+INSERT INTO `c2_product_eav` VALUES ('27', '3', '16', 'C6', 0x7B2238223A223435306D6D2A312E3563227D, '1', '0', '2019-04-06 15:58:20', '2019-04-06 15:58:20');
+INSERT INTO `c2_product_eav` VALUES ('28', '3', '17', 'C7', 0x7B2239223A2235382E352A34302A34312E35636D227D, '1', '0', '2019-04-06 15:58:20', '2019-04-06 15:58:20');
+INSERT INTO `c2_product_eav` VALUES ('29', '3', '18', 'C8', 0x7B223130223A22E799BDE4B8ADE69DBF227D, '1', '0', '2019-04-06 15:58:21', '2019-04-06 15:58:21');
+INSERT INTO `c2_product_eav` VALUES ('30', '4', '12', 'C2', 0x7B2234223A22E799BDE889B2227D, '1', '0', '2019-04-06 18:40:45', '2019-04-06 18:40:45');
+INSERT INTO `c2_product_eav` VALUES ('31', '4', '13', 'C3', 0x5B5D, '1', '0', '2019-04-06 18:40:45', '2019-04-06 18:40:45');
+INSERT INTO `c2_product_eav` VALUES ('32', '4', '14', 'C4', 0x7B2236223A22E697A0E889B2227D, '1', '0', '2019-04-06 18:40:45', '2019-04-06 18:40:45');
+INSERT INTO `c2_product_eav` VALUES ('33', '4', '15', 'C5', 0x7B2237223A2231363323227D, '1', '0', '2019-04-06 18:40:45', '2019-04-06 18:40:45');
+INSERT INTO `c2_product_eav` VALUES ('34', '4', '16', 'C6', 0x7B223133223A223335306D6D2A312E3963227D, '1', '0', '2019-04-06 18:40:45', '2019-04-06 18:40:45');
+INSERT INTO `c2_product_eav` VALUES ('35', '4', '17', 'C7', 0x7B223134223A2235382A33392A3339636D227D, '1', '0', '2019-04-06 18:40:45', '2019-04-06 18:40:45');
+INSERT INTO `c2_product_eav` VALUES ('36', '4', '18', 'C8', 0x7B223131223A22E9BB91E4B8ADE69DBF227D, '1', '0', '2019-04-06 18:40:45', '2019-04-06 18:40:45');
+INSERT INTO `c2_product_eav` VALUES ('37', '3', '19', 'C9', null, '1', '0', '2019-04-06 18:41:07', '2019-04-06 18:41:07');
+INSERT INTO `c2_product_eav` VALUES ('38', '4', '19', 'C9', 0x7B223135223A2238372A3135227D, '1', '0', '2019-04-06 18:41:07', '2019-04-06 18:41:07');
+INSERT INTO `c2_product_eav` VALUES ('39', '5', '15', 'C5', 0x7B2237223A2231363323227D, '1', '0', '2019-04-07 09:26:11', '2019-04-07 09:26:11');
+INSERT INTO `c2_product_eav` VALUES ('40', '5', '16', 'C6', 0x5B5D, '1', '0', '2019-04-07 09:26:11', '2019-04-07 09:26:11');
+INSERT INTO `c2_product_eav` VALUES ('41', '5', '17', 'C7', 0x7B223231223A2236342A34392A3331636D227D, '1', '0', '2019-04-07 09:26:11', '2019-04-07 09:26:11');
+INSERT INTO `c2_product_eav` VALUES ('42', '5', '20', 'C10', 0x7B223137223A2234372E34342A3131302E37322A34306D6D227D, '1', '0', '2019-04-07 09:26:11', '2019-04-07 09:26:11');
+INSERT INTO `c2_product_eav` VALUES ('43', '5', '21', 'C11', 0x7B223138223A2231363723227D, '1', '0', '2019-04-07 09:26:11', '2019-04-07 09:26:11');
+INSERT INTO `c2_product_eav` VALUES ('44', '5', '22', 'C12', 0x7B223139223A2231363723227D, '1', '0', '2019-04-07 09:26:11', '2019-04-07 09:26:11');
+INSERT INTO `c2_product_eav` VALUES ('45', '5', '23', 'C13', 0x7B223230223A2231363723227D, '1', '0', '2019-04-07 09:27:34', '2019-04-07 09:27:34');
+INSERT INTO `c2_product_eav` VALUES ('46', '6', '15', 'C5', 0x7B2237223A2231363323227D, '1', '0', '2019-04-07 09:28:55', '2019-04-07 09:28:55');
+INSERT INTO `c2_product_eav` VALUES ('47', '6', '16', 'C6', 0x5B5D, '1', '0', '2019-04-07 09:28:55', '2019-04-07 09:28:55');
+INSERT INTO `c2_product_eav` VALUES ('48', '6', '17', 'C7', 0x7B223231223A2236342A34392A3331636D227D, '1', '0', '2019-04-07 09:28:55', '2019-04-07 09:28:55');
+INSERT INTO `c2_product_eav` VALUES ('49', '6', '20', 'C10', 0x7B223137223A2234372E34342A3131302E37322A34306D6D227D, '1', '0', '2019-04-07 09:28:55', '2019-04-07 09:28:55');
+INSERT INTO `c2_product_eav` VALUES ('50', '6', '21', 'C11', 0x7B223138223A2231363723227D, '1', '0', '2019-04-07 09:28:55', '2019-04-07 09:28:55');
+INSERT INTO `c2_product_eav` VALUES ('51', '6', '22', 'C12', 0x7B223139223A2231363723227D, '1', '0', '2019-04-07 09:28:55', '2019-04-07 09:28:55');
+INSERT INTO `c2_product_eav` VALUES ('52', '6', '23', 'C13', 0x7B223333223A223131363723227D, '1', '0', '2019-04-07 09:28:55', '2019-04-07 09:28:55');
+INSERT INTO `c2_product_eav` VALUES ('53', '5', '19', 'C9', null, '1', '0', '2019-04-07 09:31:37', '2019-04-07 09:31:37');
+INSERT INTO `c2_product_eav` VALUES ('54', '6', '19', 'C9', null, '1', '0', '2019-04-07 09:31:37', '2019-04-07 09:31:37');
+INSERT INTO `c2_product_eav` VALUES ('58', '7', '15', 'C5', 0x7B2237223A2231363323227D, '1', '0', '2019-04-07 09:31:57', '2019-04-07 09:31:57');
+INSERT INTO `c2_product_eav` VALUES ('59', '7', '16', 'C6', 0x5B5D, '1', '0', '2019-04-07 09:31:57', '2019-04-07 09:31:57');
+INSERT INTO `c2_product_eav` VALUES ('60', '7', '17', 'C7', 0x7B223335223A2235322E332A33372E382A35332E32636D227D, '1', '0', '2019-04-07 09:31:57', '2019-04-07 09:31:57');
+INSERT INTO `c2_product_eav` VALUES ('62', '7', '19', 'C9', 0x7B223334223A2234372E34342A3131302E37322A34306D6D227D, '1', '0', '2019-04-07 09:31:58', '2019-04-07 09:31:58');
+INSERT INTO `c2_product_eav` VALUES ('63', '7', '20', 'C10', 0x5B5D, '1', '0', '2019-04-07 09:32:17', '2019-04-07 09:32:17');
+INSERT INTO `c2_product_eav` VALUES ('64', '7', '21', 'C11', 0x7B223138223A2231363723227D, '1', '0', '2019-04-07 09:32:17', '2019-04-07 09:32:17');
+INSERT INTO `c2_product_eav` VALUES ('65', '7', '22', 'C12', 0x7B223139223A2231363723227D, '1', '0', '2019-04-07 09:32:17', '2019-04-07 09:32:17');
+INSERT INTO `c2_product_eav` VALUES ('66', '7', '23', 'C13', 0x5B5D, '1', '0', '2019-04-07 09:32:17', '2019-04-07 09:32:17');
+INSERT INTO `c2_product_eav` VALUES ('67', '7', '12', 'C2', 0x5B5D, '1', '0', '2019-04-07 09:36:39', '2019-04-07 09:36:39');
+INSERT INTO `c2_product_eav` VALUES ('68', '7', '13', 'C3', 0x5B5D, '1', '0', '2019-04-07 09:36:39', '2019-04-07 09:36:39');
+INSERT INTO `c2_product_eav` VALUES ('69', '7', '14', 'C4', 0x7B2236223A22E697A0E889B2227D, '1', '0', '2019-04-07 09:36:39', '2019-04-07 09:36:39');
+INSERT INTO `c2_product_eav` VALUES ('70', '7', '18', 'C8', 0x5B5D, '1', '0', '2019-04-07 09:36:39', '2019-04-07 09:36:39');
+INSERT INTO `c2_product_eav` VALUES ('71', '5', '25', 'C15', null, '1', '0', '2019-04-07 09:37:39', '2019-04-07 09:37:39');
+INSERT INTO `c2_product_eav` VALUES ('72', '6', '25', 'C15', null, '1', '0', '2019-04-07 09:37:39', '2019-04-07 09:37:39');
+INSERT INTO `c2_product_eav` VALUES ('73', '7', '25', 'C15', 0x7B223234223A2231363623227D, '1', '0', '2019-04-07 09:37:39', '2019-04-07 09:37:39');
+INSERT INTO `c2_product_eav` VALUES ('74', '8', '12', 'C2', 0x5B5D, '1', '0', '2019-04-07 09:40:47', '2019-04-07 09:40:47');
+INSERT INTO `c2_product_eav` VALUES ('75', '8', '13', 'C3', 0x5B5D, '1', '0', '2019-04-07 09:40:47', '2019-04-07 09:40:47');
+INSERT INTO `c2_product_eav` VALUES ('76', '8', '14', 'C4', 0x7B2236223A22E697A0E889B2227D, '1', '0', '2019-04-07 09:40:47', '2019-04-07 09:40:47');
+INSERT INTO `c2_product_eav` VALUES ('77', '8', '15', 'C5', 0x7B223336223A223131363623227D, '1', '0', '2019-04-07 09:40:48', '2019-04-07 09:40:48');
+INSERT INTO `c2_product_eav` VALUES ('78', '8', '16', 'C6', 0x5B5D, '1', '0', '2019-04-07 09:40:48', '2019-04-07 09:40:48');
+INSERT INTO `c2_product_eav` VALUES ('79', '8', '17', 'C7', 0x7B223335223A2235322E332A33372E382A35332E32636D227D, '1', '0', '2019-04-07 09:40:48', '2019-04-07 09:40:48');
+INSERT INTO `c2_product_eav` VALUES ('80', '8', '18', 'C8', 0x5B5D, '1', '0', '2019-04-07 09:40:48', '2019-04-07 09:40:48');
+INSERT INTO `c2_product_eav` VALUES ('81', '8', '19', 'C9', 0x7B223334223A2234372E34342A3131302E37322A34306D6D227D, '1', '0', '2019-04-07 09:40:48', '2019-04-07 09:40:48');
+INSERT INTO `c2_product_eav` VALUES ('82', '8', '20', 'C10', 0x5B5D, '1', '0', '2019-04-07 09:40:48', '2019-04-07 09:40:48');
+INSERT INTO `c2_product_eav` VALUES ('83', '8', '21', 'C11', 0x7B223138223A2231363723227D, '1', '0', '2019-04-07 09:40:48', '2019-04-07 09:40:48');
+INSERT INTO `c2_product_eav` VALUES ('84', '8', '22', 'C12', 0x7B223139223A2231363723227D, '1', '0', '2019-04-07 09:40:48', '2019-04-07 09:40:48');
+INSERT INTO `c2_product_eav` VALUES ('85', '8', '23', 'C13', 0x5B5D, '1', '0', '2019-04-07 09:40:48', '2019-04-07 09:40:48');
+INSERT INTO `c2_product_eav` VALUES ('86', '8', '25', 'C15', 0x7B223234223A2231363623227D, '1', '0', '2019-04-07 09:40:48', '2019-04-07 09:40:48');
+INSERT INTO `c2_product_eav` VALUES ('87', '5', '24', 'C14', null, '1', '0', '2019-04-07 09:44:16', '2019-04-07 09:44:16');
+INSERT INTO `c2_product_eav` VALUES ('88', '5', '26', 'C16', null, '1', '0', '2019-04-07 09:44:16', '2019-04-07 09:44:16');
+INSERT INTO `c2_product_eav` VALUES ('89', '5', '27', 'C17', null, '1', '0', '2019-04-07 09:44:16', '2019-04-07 09:44:16');
+INSERT INTO `c2_product_eav` VALUES ('90', '6', '24', 'C14', null, '1', '0', '2019-04-07 09:44:16', '2019-04-07 09:44:16');
+INSERT INTO `c2_product_eav` VALUES ('91', '6', '26', 'C16', null, '1', '0', '2019-04-07 09:44:16', '2019-04-07 09:44:16');
+INSERT INTO `c2_product_eav` VALUES ('92', '6', '27', 'C17', null, '1', '0', '2019-04-07 09:44:16', '2019-04-07 09:44:16');
+INSERT INTO `c2_product_eav` VALUES ('93', '7', '24', 'C14', null, '1', '0', '2019-04-07 09:44:16', '2019-04-07 09:44:16');
+INSERT INTO `c2_product_eav` VALUES ('94', '7', '26', 'C16', null, '1', '0', '2019-04-07 09:44:16', '2019-04-07 09:44:16');
+INSERT INTO `c2_product_eav` VALUES ('95', '7', '27', 'C17', null, '1', '0', '2019-04-07 09:44:16', '2019-04-07 09:44:16');
+INSERT INTO `c2_product_eav` VALUES ('96', '8', '24', 'C14', null, '1', '0', '2019-04-07 09:44:16', '2019-04-07 09:44:16');
+INSERT INTO `c2_product_eav` VALUES ('97', '8', '26', 'C16', null, '1', '0', '2019-04-07 09:44:16', '2019-04-07 09:44:16');
+INSERT INTO `c2_product_eav` VALUES ('98', '8', '27', 'C17', null, '1', '0', '2019-04-07 09:44:16', '2019-04-07 09:44:16');
+INSERT INTO `c2_product_eav` VALUES ('99', '9', '15', 'C5', 0x5B5D, '1', '0', '2019-04-07 09:44:44', '2019-04-07 09:44:44');
+INSERT INTO `c2_product_eav` VALUES ('100', '9', '16', 'C6', 0x5B5D, '1', '0', '2019-04-07 09:44:44', '2019-04-07 09:44:44');
+INSERT INTO `c2_product_eav` VALUES ('101', '9', '17', 'C7', 0x7B223338223A2234382A34342A3236636D227D, '1', '0', '2019-04-07 09:44:44', '2019-04-07 09:44:44');
+INSERT INTO `c2_product_eav` VALUES ('102', '9', '19', 'C9', 0x5B5D, '1', '0', '2019-04-07 09:44:44', '2019-04-07 09:44:44');
+INSERT INTO `c2_product_eav` VALUES ('103', '9', '20', 'C10', 0x5B5D, '1', '0', '2019-04-07 09:44:44', '2019-04-07 09:44:44');
+INSERT INTO `c2_product_eav` VALUES ('104', '9', '21', 'C11', 0x5B5D, '1', '0', '2019-04-07 09:44:44', '2019-04-07 09:44:44');
+INSERT INTO `c2_product_eav` VALUES ('105', '9', '22', 'C12', 0x5B5D, '1', '0', '2019-04-07 09:44:44', '2019-04-07 09:44:44');
+INSERT INTO `c2_product_eav` VALUES ('106', '9', '23', 'C13', 0x5B5D, '1', '0', '2019-04-07 09:44:44', '2019-04-07 09:44:44');
+INSERT INTO `c2_product_eav` VALUES ('107', '9', '24', 'C14', 0x7B223232223A223237302A3433306D6D2A302E303363227D, '1', '0', '2019-04-07 09:44:44', '2019-04-07 09:44:44');
+INSERT INTO `c2_product_eav` VALUES ('108', '9', '25', 'C15', 0x7B223337223A22383338E9BB91E889B2E5BDA9E79B92227D, '1', '0', '2019-04-07 09:44:44', '2019-04-07 09:44:44');
+INSERT INTO `c2_product_eav` VALUES ('109', '9', '26', 'C16', 0x7B223235223A22E9BB91E889B2E4B89DE58DB0E8BDAFE7AEA1333047227D, '1', '0', '2019-04-07 09:44:44', '2019-04-07 09:44:44');
+INSERT INTO `c2_product_eav` VALUES ('110', '9', '27', 'C17', 0x7B223330223A22E9BB91E889B2227D, '1', '0', '2019-04-07 09:44:44', '2019-04-07 09:44:44');
+INSERT INTO `c2_product_eav` VALUES ('111', '10', '15', 'C5', 0x5B5D, '1', '0', '2019-04-07 09:47:36', '2019-04-07 09:47:36');
+INSERT INTO `c2_product_eav` VALUES ('112', '10', '16', 'C6', 0x5B5D, '1', '0', '2019-04-07 09:47:36', '2019-04-07 09:47:36');
+INSERT INTO `c2_product_eav` VALUES ('113', '10', '17', 'C7', 0x7B223338223A2234382A34342A3236636D227D, '1', '0', '2019-04-07 09:47:36', '2019-04-07 09:47:36');
+INSERT INTO `c2_product_eav` VALUES ('114', '10', '19', 'C9', 0x5B5D, '1', '0', '2019-04-07 09:47:36', '2019-04-07 09:47:36');
+INSERT INTO `c2_product_eav` VALUES ('115', '10', '20', 'C10', 0x5B5D, '1', '0', '2019-04-07 09:47:36', '2019-04-07 09:47:36');
+INSERT INTO `c2_product_eav` VALUES ('116', '10', '21', 'C11', 0x5B5D, '1', '0', '2019-04-07 09:47:36', '2019-04-07 09:47:36');
+INSERT INTO `c2_product_eav` VALUES ('117', '10', '22', 'C12', 0x5B5D, '1', '0', '2019-04-07 09:47:36', '2019-04-07 09:47:36');
+INSERT INTO `c2_product_eav` VALUES ('118', '10', '23', 'C13', 0x5B5D, '1', '0', '2019-04-07 09:47:36', '2019-04-07 09:47:36');
+INSERT INTO `c2_product_eav` VALUES ('119', '10', '24', 'C14', 0x7B223232223A223237302A3433306D6D2A302E303363227D, '1', '0', '2019-04-07 09:47:36', '2019-04-07 09:47:36');
+INSERT INTO `c2_product_eav` VALUES ('120', '10', '25', 'C15', 0x7B223238223A22383338E697A0E889B2E5BDA9E79B92227D, '1', '0', '2019-04-07 09:47:36', '2019-04-07 09:47:36');
+INSERT INTO `c2_product_eav` VALUES ('121', '10', '26', 'C16', 0x7B223236223A22E697A0E889B2E4B89DE58DB0E8BDAFE7AEA1333047227D, '1', '0', '2019-04-07 09:47:36', '2019-04-07 09:47:36');
+INSERT INTO `c2_product_eav` VALUES ('122', '10', '27', 'C17', 0x7B223331223A22E887AAE784B6E889B2227D, '1', '0', '2019-04-07 09:47:36', '2019-04-07 09:47:36');
+INSERT INTO `c2_product_eav` VALUES ('123', '11', '15', 'C5', 0x5B5D, '1', '0', '2019-04-07 09:48:18', '2019-04-07 09:48:18');
+INSERT INTO `c2_product_eav` VALUES ('124', '11', '16', 'C6', 0x5B5D, '1', '0', '2019-04-07 09:48:18', '2019-04-07 09:48:18');
+INSERT INTO `c2_product_eav` VALUES ('125', '11', '17', 'C7', 0x7B223338223A2234382A34342A3236636D227D, '1', '0', '2019-04-07 09:48:19', '2019-04-07 09:48:19');
+INSERT INTO `c2_product_eav` VALUES ('126', '11', '19', 'C9', 0x5B5D, '1', '0', '2019-04-07 09:48:19', '2019-04-07 09:48:19');
+INSERT INTO `c2_product_eav` VALUES ('127', '11', '20', 'C10', 0x5B5D, '1', '0', '2019-04-07 09:48:19', '2019-04-07 09:48:19');
+INSERT INTO `c2_product_eav` VALUES ('128', '11', '21', 'C11', 0x5B5D, '1', '0', '2019-04-07 09:48:19', '2019-04-07 09:48:19');
+INSERT INTO `c2_product_eav` VALUES ('129', '11', '22', 'C12', 0x5B5D, '1', '0', '2019-04-07 09:48:19', '2019-04-07 09:48:19');
+INSERT INTO `c2_product_eav` VALUES ('130', '11', '23', 'C13', 0x5B5D, '1', '0', '2019-04-07 09:48:19', '2019-04-07 09:48:19');
+INSERT INTO `c2_product_eav` VALUES ('131', '11', '24', 'C14', 0x7B223232223A223237302A3433306D6D2A302E303363227D, '1', '0', '2019-04-07 09:48:19', '2019-04-07 09:48:19');
+INSERT INTO `c2_product_eav` VALUES ('132', '11', '25', 'C15', 0x7B223239223A22383338E6A395E889B2E5BDA9E79B92227D, '1', '0', '2019-04-07 09:48:19', '2019-04-07 09:48:19');
+INSERT INTO `c2_product_eav` VALUES ('133', '11', '26', 'C16', 0x7B223237223A22E6A395E889B2E4B89DE58DB0E8BDAFE7AEA1333047227D, '1', '0', '2019-04-07 09:48:19', '2019-04-07 09:48:19');
+INSERT INTO `c2_product_eav` VALUES ('134', '11', '27', 'C17', 0x7B223332223A22E6A395E889B2227D, '1', '0', '2019-04-07 09:48:19', '2019-04-07 09:48:19');
 
 -- ----------------------------
 -- Table structure for c2_product_eav_lang
@@ -903,11 +1093,20 @@ CREATE TABLE `c2_product_sku` (
   KEY `Index_3` (`hash`(191)),
   KEY `Index_4` (`sku`(191)),
   KEY `Index_5` (`is_released`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 -- ----------------------------
 -- Records of c2_product_sku
 -- ----------------------------
+INSERT INTO `c2_product_sku` VALUES ('6', '3', 0x43323A332F43333A352F43343A362F43353A372F43363A382F43373A392F43383A3130, '33332c352c362c372c382c392c3130', 'PA-163-HB-33332c352c362c372c382c392c3130', '瓶盖:黄色/海绵(粉红+灰):87*17mm/鞋油:无色/不干胶:163#/收缩膜:450mm*1.5c/外箱:58.5*40*41.5cm/中板:白中板', '瓶盖:黄色/海绵(粉红+灰):87*17mm/鞋油:无色/不干胶:163#/收缩膜:450mm*1.5c/外箱:58.5*40*41.5cm/中板:白中板', null, null, '0', '0', '0', null, null, '1', '1', '0', '2019-04-06 16:00:22', '2019-04-06 16:00:22');
+INSERT INTO `c2_product_sku` VALUES ('7', '4', 0x43323A342F43343A362F43353A372F43363A31332F43373A31342F43383A31312F43393A3135, '34342c362c372c31332c31342c31312c3135', 'PA-163-QB-34342c362c372c31332c31342c31312c3135', '瓶盖:白色//鞋油:无色/不干胶:163#/收缩膜:350mm*1.9c/外箱:58*39*39cm/中板:黑中板/海绵(灰+灰):87*15', '瓶盖:白色//鞋油:无色/不干胶:163#/收缩膜:350mm*1.9c/外箱:58*39*39cm/中板:黑中板/海绵(灰+灰):87*15', null, null, '0', '0', '0', null, null, '1', '1', '0', '2019-04-06 18:44:17', '2019-04-06 18:44:17');
+INSERT INTO `c2_product_sku` VALUES ('8', '5', 0x43353A372F43373A32312F4331303A31372F4331313A31382F4331323A31392F4331333A3230, '35372c32312c31372c31382c31392c3230', 'PA-167-GG-35372c32312c31372c31382c31392c3230', '不干胶:163#//外箱:64*49*31cm/过滤绵(黑色):17/上盖:167#/底盒:167#/吸塑盒:167#', '不干胶:163#//外箱:64*49*31cm/过滤绵(黑色):17/上盖:167#/底盒:167#/吸塑盒:167#', null, null, '0', '0', '0', null, null, '1', '1', '0', '2019-04-07 09:28:16', '2019-04-07 09:28:16');
+INSERT INTO `c2_product_sku` VALUES ('9', '6', 0x43353A372F43373A32312F4331303A31372F4331313A31382F4331323A31392F4331333A3333, '36372c32312c31372c31382c31392c3333', 'PA-1167-CC-36372c32312c31372c31382c31392c3333', '不干胶:163#//外箱:64*49*31cm/过滤绵(黑色):17/上盖:167#/底盒:167#/吸塑盒:1167#', '不干胶:163#//外箱:64*49*31cm/过滤绵(黑色):17/上盖:167#/底盒:167#/吸塑盒:1167#', null, null, '0', '0', '0', null, null, '1', '1', '0', '2019-04-07 09:30:18', '2019-04-07 09:30:18');
+INSERT INTO `c2_product_sku` VALUES ('10', '7', 0x43343A362F43353A372F43373A33352F43393A33342F4331313A31382F4331323A31392F4331353A3234, '37362c372c33352c33342c31382c31392c3234', 'PA-166-LX-37362c372c33352c33342c31382c31392c3234', '//鞋油:无色/不干胶:163#//外箱:52.3*37.8*53.2cm//海绵(灰):47.44*110.72*40mm//上盖:167#/底盒:167#//彩盒:166#', '//鞋油:无色/不干胶:163#//外箱:52.3*37.8*53.2cm//海绵(灰):47.44*110.72*40mm//上盖:167#/底盒:167#//彩盒:166#', null, null, '0', '0', '0', null, null, '1', '1', '0', '2019-04-07 09:39:48', '2019-04-07 09:39:48');
+INSERT INTO `c2_product_sku` VALUES ('11', '8', 0x43343A362F43353A33362F43373A33352F43393A33342F4331313A31382F4331323A31392F4331353A3234, '38362c33362c33352c33342c31382c31392c3234', 'PA-1166-CK-38362c33362c33352c33342c31382c31392c3234', '//鞋油:无色/不干胶:1166#//外箱:52.3*37.8*53.2cm//海绵(灰):47.44*110.72*40mm//上盖:167#/底盒:167#//彩盒:166#', '//鞋油:无色/不干胶:1166#//外箱:52.3*37.8*53.2cm//海绵(灰):47.44*110.72*40mm//上盖:167#/底盒:167#//彩盒:166#', null, null, '0', '0', '0', null, null, '1', '1', '0', '2019-04-07 09:42:49', '2019-04-07 09:42:49');
+INSERT INTO `c2_product_sku` VALUES ('12', '9', 0x43373A33382F4331343A32322F4331353A33372F4331363A32352F4331373A3330, '3933382c32322c33372c32352c3330', 'PA-838-HS-3933382c32322c33372c32352c3330', '//外箱:48*44*26cm//////套袋:270*430mm*0.03c/彩盒:838黑色彩盒/软管:黑色丝印软管30G/黑色绵羊鞋膏:黑色', '//外箱:48*44*26cm//////套袋:270*430mm*0.03c/彩盒:838黑色彩盒/软管:黑色丝印软管30G/黑色绵羊鞋膏:黑色', null, null, '0', '0', '0', null, null, '1', '1', '0', '2019-04-07 09:47:17', '2019-04-07 09:47:17');
+INSERT INTO `c2_product_sku` VALUES ('13', '10', 0x43373A33382F4331343A32322F4331353A32382F4331363A32362F4331373A3331, '313033382c32322c32382c32362c3331', 'PA-838-WS-313033382c32322c32382c32362c3331', '//外箱:48*44*26cm//////套袋:270*430mm*0.03c/彩盒:838无色彩盒/软管:无色丝印软管30G/黑色绵羊鞋膏:自然色', '//外箱:48*44*26cm//////套袋:270*430mm*0.03c/彩盒:838无色彩盒/软管:无色丝印软管30G/黑色绵羊鞋膏:自然色', null, null, '0', '0', '0', null, null, '1', '1', '0', '2019-04-07 09:48:00', '2019-04-07 09:48:00');
+INSERT INTO `c2_product_sku` VALUES ('14', '11', 0x43373A33382F4331343A32322F4331353A32392F4331363A32372F4331373A3332, '313133382c32322c32392c32372c3332', 'PA-838-ZS-313133382c32322c32392c32372c3332', '//外箱:48*44*26cm//////套袋:270*430mm*0.03c/彩盒:838棕色彩盒/软管:棕色丝印软管30G/黑色绵羊鞋膏:棕色', '//外箱:48*44*26cm//////套袋:270*430mm*0.03c/彩盒:838棕色彩盒/软管:棕色丝印软管30G/黑色绵羊鞋膏:棕色', null, null, '0', '0', '0', null, null, '1', '1', '0', '2019-04-07 09:48:51', '2019-04-07 09:48:51');
 
 -- ----------------------------
 -- Table structure for c2_region
@@ -7856,6 +8055,36 @@ INSERT INTO `c2_region_rs` VALUES ('3433', '491', '3467', '1', '0', null, null);
 INSERT INTO `c2_region_rs` VALUES ('3434', '492', '3468', '1', '0', null, null);
 
 -- ----------------------------
+-- Table structure for c2_resume
+-- ----------------------------
+DROP TABLE IF EXISTS `c2_resume`;
+CREATE TABLE `c2_resume` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `mobile_num` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `education` varchar(255) DEFAULT NULL,
+  `school` varchar(255) DEFAULT NULL,
+  `major` varchar(255) DEFAULT NULL,
+  `industry` varchar(255) DEFAULT NULL,
+  `expect_salary` varchar(255) DEFAULT NULL,
+  `expect_industry` varchar(255) DEFAULT NULL,
+  `content` text,
+  `memo` varchar(255) DEFAULT NULL,
+  `status` tinyint(4) DEFAULT '1',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `Index_1` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of c2_resume
+-- ----------------------------
+INSERT INTO `c2_resume` VALUES ('1', '陈洵杰', '15622965560', '1145470390@qq.com', '<p><span style=\"font-size: 16px;\">有良好的编程习惯，遵循面相对象开发流程，熟练使用IDE开发工具及日常办公软件。有很好的团队意识和较强的责任心。思维清晰、逻辑严谨、沟通表达能力较强。熟悉YII2，熟用Git，SVN等工具，对Linux系统操作，MySQL有一定了解。技术栈方向有Java安卓开发，JavaScript，PHP，HTML。业余时间参与创业团队的共享类项目修改，智能家居开发等；建立私人仓库，学习开原项目，偶尔会写博客。</span></p>', '本科', '广东科技学院', '互联网IT', '互联网/电子商务', '10K+', '互联网软件开发工程师', '<p><strong><span style=\"font-size: 16px;\">2019/1-至今 明图家居生活</span></strong></p><p><span style=\"font-size: 16px;\">负责微信商城项目的维护和需求开发；</span></p><p><span style=\"font-size: 16px;\">独立负责活微信动投票平台项目的开发以及维护；</span></p><p><span style=\"font-size: 16px;\">负责进销存的功能开发以及维护；</span></p><p><span style=\"font-size: 16px;\">负责分销功能的开发；</span></p><p><span style=\"font-size: 16px;\"><br></span></p><p><strong><span style=\"font-size: 16px;\">2016/9-2019/1 子弹头科技</span></strong></p><p><span style=\"font-size: 16px;\">前期项目参与子弹头CRM系统，商城系统，依照任务执行项目的测试，参与微信端前端功能和界面，参与后台业务，负责使用对应的文档编写；</span></p><p><span style=\"font-size: 16px;\">中期参与可比优居微信小游戏开发，负责移植和简单的二次开发；参与商城平台app客户端开发，完成对应功能开发和测试，功能维护和更新；</span></p><p><span style=\"font-size: 16px;\">后期参与小程序预研并编写方案；参与可比优居CRM系统，包括前端界面和功能，部分后台接口，编写对应使用文档；</span></p><p><span style=\"font-size: 16px;\">参与心到项目，参与部分自定义表单开发，负责客户端app的架构和分工，完成前端功能和业务，编写开发文档规范。</span></p><p><span style=\"font-size: 16px;\"><br></span></p><p><strong><span style=\"font-size: 16px;\">2016/2-2016/9 小世界网络</span></strong></p><p><span style=\"font-size: 16px;\">参与微信分销开发，包括前端功能和界面，参与后端业务，负责对应的功能文档编写；</span></p><p><span style=\"font-size: 16px;\">参与官网后台开发，负责对应的功能文档编写；</span></p>', '<p><strong>获得互联网＋比赛三等级</strong><br><strong>获得学校优秀干部奖</strong><span class=\"redactor-invisible-space\"><br></span></p>', '1', '2019-04-02 14:41:55', '2019-04-02 17:09:19');
+
+-- ----------------------------
 -- Table structure for c2_supplier
 -- ----------------------------
 DROP TABLE IF EXISTS `c2_supplier`;
@@ -7885,7 +8114,7 @@ CREATE TABLE `c2_supplier` (
 -- ----------------------------
 -- Records of c2_supplier
 -- ----------------------------
-INSERT INTO `c2_supplier` VALUES ('1', 'HHGYS', '黑货供应商', '黑货供应商', '25', '392', '2921', '', '', '', 0x3C703EE593A6E59388E59388E59388E59388E59388E59388E59388E593883C2F703E, '0', '1', '0', '2019-03-30 11:22:49', '2019-03-30 17:10:03');
+INSERT INTO `c2_supplier` VALUES ('1', 'HHGYS', '小榄供应商', '小榄供应商', '25', '392', '2921', '', '', '', 0x3C703EE593A6E59388E59388E59388E59388E59388E59388E59388E593883C2F703E, '0', '1', '0', '2019-03-30 11:22:49', '2019-04-07 11:25:53');
 
 -- ----------------------------
 -- Table structure for c2_warehouse
@@ -7925,4 +8154,4 @@ CREATE TABLE `c2_warehouse` (
 -- ----------------------------
 -- Records of c2_warehouse
 -- ----------------------------
-INSERT INTO `c2_warehouse` VALUES ('1', '矮人仓库', '矮人仓库', '矮人仓库', '矮人', '1562296556', null, '0', '0', null, '9', '147', '1213', null, '东方', '', '', '', null, '1', '0', '2019-03-30 11:18:06', '2019-03-30 11:26:18');
+INSERT INTO `c2_warehouse` VALUES ('1', '小榄仓库', '小榄仓库', 'zsck', 'xhun', '1562296556', null, '0', '0', null, '9', '147', '1213', null, '东方', '', '', '', null, '1', '0', '2019-03-30 11:18:06', '2019-04-07 11:25:31');

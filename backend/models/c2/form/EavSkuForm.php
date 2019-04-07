@@ -2,19 +2,20 @@
 
 namespace backend\models\c2\form;
 
+use common\models\c2\entity\AttributeItemModel;
+use common\models\c2\entity\ProductSkuModel;
 use Yii;
 use yii\base\Model;
 use cza\base\models\ModelTrait;
 use common\models\c2\statics\AttributeInputType;
 use yii\validators\Validator;
-use common\models\c2\entity\AttributeItem;
-use common\models\c2\entity\ProductSku;
 use yii\helpers\Json;
 
 /**
  * EavSkuForm is the model behind the contact form.
  */
-class EavSkuForm extends Model {
+class EavSkuForm extends Model
+{
 
     use ModelTrait;
 
@@ -26,14 +27,15 @@ class EavSkuForm extends Model {
     public $entityModel = null;
     public $message;
 
-    public function init() {
+    public function init()
+    {
         parent::init();
         if (is_null($this->entityModel)) {
             throw new \yii\web\NotFoundHttpException("EntityModel is required!");
         }
         $this->entityModel->refresh();
         $this->_values = $this->entityModel->getEavValues();
-//        Yii::info($this->_values);
+        //        Yii::info($this->_values);
 
         $eavAttrs = $this->getEntityEavAttributes();
         foreach ($eavAttrs as $eavCode => $eavAttr) {
@@ -50,13 +52,15 @@ class EavSkuForm extends Model {
         }
     }
 
-    public function addRule($attributes, $validator, $options = []) {
+    public function addRule($attributes, $validator, $options = [])
+    {
         $validators = $this->getValidators();
-        $validators->append(Validator::createValidator($validator, $this, (array) $attributes, $options));
+        $validators->append(Validator::createValidator($validator, $this, (array)$attributes, $options));
         return $this;
     }
 
-    public function getEntityEavAttributeDefault($name) {
+    public function getEntityEavAttributeDefault($name)
+    {
         $attr = $this->getEntityEavAttribute($name);
         if (!is_null($attr)) {
             return $attr->getEavDefaultValue();
@@ -64,7 +68,8 @@ class EavSkuForm extends Model {
         return null;
     }
 
-    public function descartes($arr) {
+    public function descartes($arr)
+    {
         $t = func_get_args();                                    // 获取传入的参数
         if (func_num_args() == 1) {                               // 判断参数个数是否为1
             if (is_array($t[0])) {
@@ -95,7 +100,8 @@ class EavSkuForm extends Model {
         return $r;
     }
 
-    public function generateSkus($params, $labelSpliter = '/') {
+    public function generateSkus($params, $labelSpliter = '/')
+    {
 
         // update eav fields
         $this->entityModel->updateEavAttributes($params);
@@ -108,26 +114,27 @@ class EavSkuForm extends Model {
             $metaEavAttribute = $this->getEntityEavAttribute($k1);
             if (is_string($values) && !empty($values)) {
                 $id = $values;
-//                $skus[$k1] = "{$this->entityModel->id}:{$k1}:{$id}";
+                //                $skus[$k1] = "{$this->entityModel->id}:{$k1}:{$id}";
                 $skus[$k1] = "{$id}";
                 $skuParams[$k1] = "{$k1}:{$id}";
-                $skuLabels[$k1] = $metaEavAttribute->getTitle() . ':' . AttributeItem::findOne(['id' => $id])->label;
+                // $skuLabels[$k1] = $metaEavAttribute->getTitle() . ':' . AttributeItemModel::findOne(['code' => $k1])->label;
+                $skuLabels[$k1] = $metaEavAttribute->getTitle() . ':' . $values;
             } elseif (is_array($values)) {
                 foreach ($values as $k2 => $value) {
-//                    $skus[$k1][$k2] = "{$this->entityModel->id}:{$k1}:{$value}";
+                    //                    $skus[$k1][$k2] = "{$this->entityModel->id}:{$k1}:{$value}";
                     $skus[$k1][$k2] = "{$value}";
                     $skuParams[$k1][$k2] = "{$k1}:{$value}";
-                    $skuLabels[$k1][$k2] = $metaEavAttribute->getTitle() . ':' . AttributeItem::findOne(['id' => $value])->label;
+                    $skuLabels[$k1][$k2] = $metaEavAttribute->getTitle() . ':' . AttributeItemModel::findOne(['id' => $value])->label;
                 }
             }
             $attrsCount++;
         }
 
-//        Yii::info(array_keys($params));
-//        Yii::info("attrsCount: " . $attrsCount);
-//        Yii::info($skus);
-//        Yii::info($skuParams);
-//
+        //        Yii::info(array_keys($params));
+        //        Yii::info("attrsCount: " . $attrsCount);
+        //        Yii::info($skus);
+        //        Yii::info($skuParams);
+        //
         $skus = $this->descartes($skus);
         $skuLabels = $this->descartes($skuLabels);
         $skuParams = $this->descartes($skuParams);
@@ -140,8 +147,8 @@ class EavSkuForm extends Model {
                 foreach ($skus[$i] as $key => $item) {
                     $hashContent = $this->entityModel->id . $item;
                     $hash = $hashEncoder->hexEncode($hashContent);
-//                    Yii::info($key . ':' . $item . ':' . $hash);
-                    ProductSku::createSku([
+                    //                    Yii::info($key . ':' . $item . ':' . $hash);
+                    ProductSkuModel::createSku([
                         'product_id' => $this->entityModel->id,
                         'sku' => $this->entityModel->sku . "-" . $hash,
                         'hash' => $hash,
@@ -155,11 +162,15 @@ class EavSkuForm extends Model {
             $count = count($skus);
             for ($i = 0; $i < $count; $i++) {
                 if ($count > 0) {
-                    $skus[$i] = array_filter($skus[$i], function($value) { return $value !== ''; });
-                    $skuParams[$i] = array_filter($skuParams[$i], function($value) { return $value !== ''; });
+                    $skus[$i] = array_filter($skus[$i], function ($value) {
+                        return $value !== '';
+                    });
+                    $skuParams[$i] = array_filter($skuParams[$i], function ($value) {
+                        return $value !== '';
+                    });
                     $hashContent = $this->entityModel->id . implode(',', $skus[$i]);
                     $hash = $hashEncoder->hexEncode($hashContent);
-                    ProductSku::createSku([
+                    ProductSkuModel::createSku([
                         'product_id' => $this->entityModel->id,
                         'sku' => $this->entityModel->sku . "-" . $hash,
                         'hash' => $hash,
@@ -175,12 +186,14 @@ class EavSkuForm extends Model {
         return true;
     }
 
-    public function getEntityEavAttribute($code) {
+    public function getEntityEavAttribute($code)
+    {
         $attrs = $this->getEntityEavAttributes();
         return isset($attrs[$code]) ? $attrs[$code] : null;
     }
 
-    public function getEntityEavAttributes() {
+    public function getEntityEavAttributes()
+    {
         if (empty($this->_eavAttributes)) {
             $metaAttributes = $this->entityModel->getMetaEavAttributes()->all();
 
@@ -188,15 +201,16 @@ class EavSkuForm extends Model {
                 $this->_eavAttributes[$metaAttribute->code] = $metaAttribute;
             }
         }
-        
+
         return $this->_eavAttributes;
     }
 
-    public function getEavFormAttributes() {
+    public function getEavFormAttributes()
+    {
         $eavAttrs = [];
         $attributes = $this->getEntityEavAttributes();
         $regularLangName = \Yii::$app->czaHelper->getRegularLangName();
-        
+
         foreach ($attributes as $attribute) {
             if ($attribute->is_sku) {
                 switch ($attribute->input_type) {
@@ -207,20 +221,20 @@ class EavSkuForm extends Model {
                         break;
                     case AttributeInputType::INPUT_RICHTEXT:
                         $eavAttrs[$attribute->code] = ['type' => AttributeInputType::INPUT_WIDGET, 'widgetClass' => '\vova07\imperavi\Widget', 'options' => [
-                                'settings' => [
-                                    'minHeight' => 150,
-                                    'buttonSource' => true,
-                                    'lang' => $regularLangName,
-                                    'plugins' => [
-                                        'fontsize',
-                                        'fontfamily',
-                                        'fontcolor',
-                                        'table',
-                                        'textdirection',
-                                        'fullscreen',
-                                    ],
-                                ]
-                            ],];
+                            'settings' => [
+                                'minHeight' => 150,
+                                'buttonSource' => true,
+                                'lang' => $regularLangName,
+                                'plugins' => [
+                                    'fontsize',
+                                    'fontfamily',
+                                    'fontcolor',
+                                    'table',
+                                    'textdirection',
+                                    'fullscreen',
+                                ],
+                            ]
+                        ],];
                         break;
                     case AttributeInputType::INPUT_TEXT:
                     case AttributeInputType::INPUT_TEXTAREA:
@@ -233,11 +247,13 @@ class EavSkuForm extends Model {
         return $eavAttrs;
     }
 
-    public function setExtraParams($v) {
+    public function setExtraParams($v)
+    {
         $this->_extraParams = $v;
     }
 
-    public function getExtraParams($k = null) {
+    public function getExtraParams($k = null)
+    {
         if (is_null($k)) {
             return $this->_extraParams;
         }
@@ -247,7 +263,8 @@ class EavSkuForm extends Model {
     /**
      * @inheritdoc
      */
-    public function attributeLabels() {
+    public function attributeLabels()
+    {
         if (empty($this->_eavAttributesLabels)) {
             $attributes = $this->getEntityEavAttributes();
             $labels = [];
@@ -259,45 +276,50 @@ class EavSkuForm extends Model {
         return $this->_eavAttributesLabels;
     }
 
-    public function beforeValidate() {
+    public function beforeValidate()
+    {
 
         return parent::beforeValidate();
     }
 
-    public function afterValidate() {
+    public function afterValidate()
+    {
         parent::afterValidate();
     }
 
-//    public function save() {
-//        if (!($this->validate())) {
-//            return false;
-//        }
-//
-////        Yii::info($this->_values);
-//        $transaction = Yii::$app->db->beginTransaction();
-//        $this->entityModel->updateEavAttributes($this->_values);
-//        $transaction->commit();
-//
-//        // reload attributes
-//        $this->entityModel->loadEavAttributes(true);
-//        return true;
-//    }
+    //    public function save() {
+    //        if (!($this->validate())) {
+    //            return false;
+    //        }
+    //
+    ////        Yii::info($this->_values);
+    //        $transaction = Yii::$app->db->beginTransaction();
+    //        $this->entityModel->updateEavAttributes($this->_values);
+    //        $transaction->commit();
+    //
+    //        // reload attributes
+    //        $this->entityModel->loadEavAttributes(true);
+    //        return true;
+    //    }
 
-    public function canGetProperty($name, $checkVars = true, $checkBehaviors = true) {
+    public function canGetProperty($name, $checkVars = true, $checkBehaviors = true)
+    {
         if (!parent::canGetProperty($name, $checkVars, $checkBehaviors)) {
             return in_array($name, $this->_attributes);
         }
         return true;
     }
 
-    public function canSetProperty($name, $checkVars = true, $checkBehaviors = true) {
+    public function canSetProperty($name, $checkVars = true, $checkBehaviors = true)
+    {
         if (!parent::canSetProperty($name, $checkVars, $checkBehaviors)) {
             return in_array($name, $this->_attributes);
         }
         return true;
     }
 
-    public function __get($name) {        
+    public function __get($name)
+    {
         if (array_key_exists($name, $this->_values)) {
             if (!empty($this->_values[$name])) {
                 return $this->_values[$name];
@@ -308,7 +330,8 @@ class EavSkuForm extends Model {
         return parent::__get($name);
     }
 
-    public function __set($name, $value) {
+    public function __set($name, $value)
+    {
         if (array_key_exists($name, $this->_values)) {
             $this->_values[$name] = $value;
         } else {
@@ -316,7 +339,8 @@ class EavSkuForm extends Model {
         }
     }
 
-    public function errorSummary($form) {
+    public function errorSummary($form)
+    {
         $errorLists = [];
         foreach ($this->getAllModels() as $id => $model) {
             $errorList = $form->errorSummary($model, [
@@ -328,7 +352,8 @@ class EavSkuForm extends Model {
         return implode('', $errorLists);
     }
 
-    protected function getAllModels() {
+    protected function getAllModels()
+    {
         return [
         ];
     }
