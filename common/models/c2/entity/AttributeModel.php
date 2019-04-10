@@ -149,8 +149,10 @@ class AttributeModel extends \cza\base\models\ActiveRecord
         return !empty($this->label) ? $this->label : $this->name;
     }
 
-    public function getItemsHashMap($keyField, $valField, $condition = '') {
-        return ArrayHelper::map($this->getAttributeItems()->select([$keyField, $valField])->andWhere($condition)->orderBy(['position' => SORT_DESC, 'id' => SORT_ASC])->asArray()->all(), $keyField, $valField);
+    public function getItemsHashMap($keyField = 'id', $valField = 'label', $condition = '') {
+        $options = ArrayHelper::map($this->getAttributeItems()->all(), $keyField, $valField);
+        Yii::info($options);
+        return $options;
     }
 
     public function getAttributeItems() {

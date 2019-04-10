@@ -83,4 +83,9 @@ class AttributeItemModel extends \cza\base\models\ActiveRecord
         return $this->hasOne(AttributeModel::className(), ['id' => 'attribute_id']);
     }
 
+    // public function getOwnerAttribute()
+    // {
+    //     return $this->hasOne(AttributeModel::className(), ['attribute_id' => 'id']);
+    // }
+
 }

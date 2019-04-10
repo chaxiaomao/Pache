@@ -6,6 +6,7 @@ use common\models\c2\statics\InventoryExeState;
 use common\models\c2\statics\InventoryReceiptType;
 use cza\base\models\statics\EntityModelStatus;
 use Yii;
+use yii\helpers\ArrayHelper;
 use yii\validators\RequiredValidator;
 
 /**
@@ -160,6 +161,15 @@ class InventoryReceiptNoteModel extends \cza\base\models\ActiveRecord
             'occurrence_date' => $this->occurrence_date,
             'memo' => $this->memo,
         ]);
+        // $items = $this->activeNoteItems;
+        // foreach ($items as $item) {
+        //     $model = new ProductStock();
+        //     $model->setAttributes([
+        //        'product_id' => $item->product_id,
+        //        'product_sku_id' => $item->product_sku_id,
+        //        'num' => $item->quantity,
+        //     ]);
+        // }
         return $this->updateAttributes(['state' => InventoryExeState::FINISH]);
     }
 
@@ -192,13 +202,13 @@ class InventoryReceiptNoteModel extends \cza\base\models\ActiveRecord
                 $attributes = [
                     'product_id' => isset($item['product_id']) ? $item['product_id'] : 0,
                     'product_sku_id' => isset($item['product_sku_id']) ? $item['product_sku_id'] : 0,
-                    'sku_label' => $item['sku_label'],
+                    'sku_label' => isset($item['sku_label']) ? $item['sku_label'] : "",
                     'measure_id' => isset($item['measure_id']) ? $item['measure_id'] : 0,
-                    'quantity' => isset($item['quantity']) ? $item['quantity'] : 50,
+                    'quantity' => isset($item['quantity']) ? $item['quantity'] : 0,
                     'until_price' => $item['until_price'],
                     'subtotal' => $item['subtotal'],
                     'supplier_id' => $this->supplier_id,
-                    'purcharse_order_code' => isset($item['purcharse_order_code']) ? $item['purcharse_order_code'] : "",
+                    'memo' => isset($item['memo']) ? $item['memo'] : "",
                 ];
                 if (isset($item['id']) && $item['id'] == 0) {  // create new items
                     $itemModel = new InventoryReceiptNoteItemModel();

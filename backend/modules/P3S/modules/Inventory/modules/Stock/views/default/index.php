@@ -63,22 +63,24 @@ $this->params['breadcrumbs'][] = $this->title;
 //            'eshop_id',
             [
                 'attribute' => 'warehouse_id',
-                'filter' => \common\models\c2\entity\Warehouse::getHashMap('id', 'label'),
+                'filter' => \common\models\c2\entity\WarehouseModel::getHashMap('id', 'label'),
                 'value' => function ($model, $key, $index, $column) {
-                    return $model->warehouse->label;
+                    // return $model->warehouse->label;
                 },
             ],
 //            'product_id',
             [
                 'attribute' => 'product_id',
-                'filter' => \common\models\c2\entity\Product::getHashMap('id', 'label'),
+                'filter' => \common\models\c2\entity\ProductModel::getHashMap('id', 'label'),
                 'value' => function ($model, $key, $index, $column) {
                     return $model->product->label;
                 },
             ],
             'sku',
+            'label',
             // 'product_sku_id',
-            'num',
+            // 'num',
+            'stock',
             // 'state',
             // 'status',
             // 'position',

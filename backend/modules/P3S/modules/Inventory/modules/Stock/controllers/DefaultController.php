@@ -2,6 +2,7 @@
 
 namespace backend\modules\P3S\modules\Inventory\modules\Stock\controllers;
 
+use backend\models\c2\search\ProductSkuSearch;
 use Yii;
 use common\models\c2\entity\ProductStock;
 use common\models\c2\search\ProductStock as ProductStockSearch;
@@ -15,15 +16,17 @@ use yii\filters\VerbFilter;
  */
 class DefaultController extends Controller
 {
-    public $modelClass = 'common\models\c2\entity\ProductStock';
-    
+    // public $modelClass = 'common\models\c2\entity\ProductStock';
+    public $modelClass = 'common\models\c2\entity\ProductSkuModel';
+
     /**
      * Lists all ProductStock models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ProductStockSearch();
+        // $searchModel = new ProductStockSearch();
+        $searchModel = new ProductSkuSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [

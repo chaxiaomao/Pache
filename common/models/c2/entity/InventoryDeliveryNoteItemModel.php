@@ -102,7 +102,7 @@ class InventoryDeliveryNoteItemModel extends \cza\base\models\ActiveRecord
     }
 
     public function getProductSku() {
-        return $this->hasOne(ProductSku::className(), ['id' => 'product_sku_id']);
+        return $this->hasOne(ProductSkuModel::className(), ['id' => 'product_sku_id']);
     }
 
     public function getCustomer() {

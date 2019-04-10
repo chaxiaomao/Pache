@@ -95,13 +95,13 @@ $form = ActiveForm::begin([
                                 'title' => Yii::t('app.c2', 'Product Num'),
                                 'type' => \kartik\select2\Select2::className(),
                                 'options' => [
-                                    'data' => \common\models\c2\entity\AttributeModel::getHashMap('id', 'label', ['status' => EntityModelStatus::STATUS_ACTIVE]),
+                                    'data' => \common\models\c2\entity\ProductModel::getHashMap('id', 'sku', ['status' => EntityModelStatus::STATUS_ACTIVE]),
                                     'pluginOptions' => [
                                         'placeholder' => $model->getAttributeLabel('Select options ..')
                                     ],
                                     'pluginEvents' => [
                                         'change' => "function() {
-                                            $.post('".Url::toRoute(['attributes'])."', {'depdrop_all_params[attribute_id]':$(this).val(),'depdrop_parents[]':$(this).val()}, function(data) {
+                                            $.post('".Url::toRoute(['skus'])."', {'depdrop_all_params[product_id]':$(this).val(),'depdrop_parents[]':$(this).val()}, function(data) {
                                                 if(data.output !== undefined) {
                                                     $('select#subcat-{multiple_index_{$multipleItemsId}}').empty();
                                                     $.each(data.output, function(key, item){
@@ -120,7 +120,8 @@ $form = ActiveForm::begin([
                                 'enableError' => true,
                                 'items' => $model->isNewRecord ? [] : function($data) {
                                     if (is_object($data)) {
-                                        return $data->attribute->getItemsHashMap();
+                                        // return $data->ownerAttribute->getItemsHashMap();
+                                        return $data->product->getProductSkuOptionsList();
                                     }
                                     return [];
                                 },

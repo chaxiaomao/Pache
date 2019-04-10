@@ -95,7 +95,7 @@ class InventoryReceiptNoteItemModel extends \cza\base\models\ActiveRecord
     }
 
     public function getProduct() {
-        return $this->hasOne(AttributeModel::className(), ['id' => 'product_id']);
+        return $this->hasOne(ProductModel::className(), ['id' => 'product_id']);
     }
 
     public function getMeasure() {
@@ -103,7 +103,7 @@ class InventoryReceiptNoteItemModel extends \cza\base\models\ActiveRecord
     }
 
     public function getProductSku() {
-        return $this->hasOne(AttributeModel::className(), ['id' => 'product_sku_id']);
+        return $this->hasOne(ProductSkuModel::className(), ['id' => 'product_sku_id']);
     }
 
     public function getSupplier() {
@@ -114,6 +114,19 @@ class InventoryReceiptNoteItemModel extends \cza\base\models\ActiveRecord
         return $this->updateAttributes([
             'status' => EntityModelStatus::STATUS_INACTIVE,
         ]);
+    }
+
+    public function getOwnerAttribute() {
+        return $this->hasOne(AttributeModel::className(), ['id' => 'product_id']);
+    }
+
+    public function getAttributeItem() {
+        return $this->hasOne(AttributeItemModel::className(), ['id' => 'product_sku_id']);
+    }
+
+    public function getStock()
+    {
+        // return $this->hasOne(ProductStock::className(), ['' => ''])
     }
 
 }
