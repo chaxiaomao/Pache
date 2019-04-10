@@ -13,6 +13,9 @@ use yii\web\JsExpression;
 
 $regularLangName = \Yii::$app->czaHelper->getRegularLangName();
 $messageName = $model->getMessageName();
+
+$css = ".form-control-static{padding-top:0;}";
+$this->registerCss($css);
 ?>
 
 <?php
@@ -80,7 +83,7 @@ $form = ActiveForm::begin([
                     'options' => [
                         'id' => $multipleItemsId,
                         'data' => $model->items,
-                        //                        'max' => 4,
+                        // 'max' => 4,
                         'allowEmptyList' => true,
                         'rowOptions' => function ($model, $index, $context) use ($multipleItemsId) {
                             return ['id' => "row{multiple_index_{$multipleItemsId}}", 'data-id' => $model['id']];
@@ -101,9 +104,10 @@ $form = ActiveForm::begin([
                                     ],
                                     'pluginEvents' => [
                                         'change' => "function() {
-                                            $.post('".Url::toRoute(['skus'])."', {'depdrop_all_params[product_id]':$(this).val(),'depdrop_parents[]':$(this).val()}, function(data) {
+                                            $.post('" . Url::toRoute(['skus']) . "', {'depdrop_all_params[product_id]':$(this).val(),'depdrop_parents[]':$(this).val()}, function(data) {
                                                 if(data.output !== undefined) {
                                                     $('select#subcat-{multiple_index_{$multipleItemsId}}').empty();
+                                                    console.log('{multiple_index_{$multipleItemsId}}');
                                                     $.each(data.output, function(key, item){
                                                             $('select#subcat-{multiple_index_{$multipleItemsId}}').append('<option value=' + item.id + '>' + item.name + '</option>');
                                                         });
@@ -118,7 +122,7 @@ $form = ActiveForm::begin([
                                 'type' => 'dropDownList',
                                 'title' => Yii::t('app.c2', 'Material Num'),
                                 'enableError' => true,
-                                'items' => $model->isNewRecord ? [] : function($data) {
+                                'items' => $model->isNewRecord ? [] : function ($data) {
                                     if (is_object($data)) {
                                         // return $data->ownerAttribute->getItemsHashMap();
                                         return $data->product->getProductSkuOptionsList();
@@ -143,7 +147,7 @@ $form = ActiveForm::begin([
                                 'defaultValue' => 0,
                                 'enableError' => true,
                                 'options' => [
-                                    'id' => "price-multiple_index_{$multipleItemsId}",
+                                    'id' => "price-{multiple_index_{$multipleItemsId}}",
                                 ],
                             ],
                             [
@@ -152,20 +156,41 @@ $form = ActiveForm::begin([
                                 'title' => Yii::t('app.c2', 'Quantity'),
                                 'defaultValue' => 1,
                                 'options' => [
+                                    'id' => "quantity-{multiple_index_{$multipleItemsId}}",
                                     'pluginOptions' => [
                                         'buttondown_txt' => '<i class="glyphicon glyphicon-minus-sign"></i>',
                                         'buttonup_txt' => '<i class="glyphicon glyphicon-plus-sign"></i>',
                                     ],
-                                    'pluginEvents' => [
-                                        "touchspin.on.startspin" => "function() {
-                                             var price = $('#price-multiple_index_{$multipleItemsId}').val();
-                                             $('#subtotal-multiple_index_{$multipleItemsId}').val(strip($(this).val() * price));
-                                         }",
-                                        'change' => "function() {
-                                            var price = $('#price-multiple_index_{$multipleItemsId}').val();
-                                             $('#subtotal-multiple_index_{$multipleItemsId}').val(strip($(this).val() * price));
-                                        }"
-                                    ]
+                                    // 'pluginEvents' => [
+                                    //     "touchspin.on.startspin" => "function() {
+                                    //          var price = $('#price-{multiple_index_{$multipleItemsId}}').val();
+                                    //          $('#subtotal-{multiple_index_{$multipleItemsId}}').val(strip($('#quantity-{multiple_index_{$multipleItemsId}}').val() * price));
+                                    //      }",
+                                    //     'change' => "function() {
+                                    //         var price = $('#price-{multiple_index_{$multipleItemsId}}').val();
+                                    //          $('#subtotal-{multiple_index_{$multipleItemsId}}').val(strip($('#quantity-{multiple_index_{$multipleItemsId}}').val() * price));
+                                    //     }"
+                                    // ]
+                                ]
+                            ],
+                            [
+                                'name' => 'comment',
+                                'type' => 'static',
+                                'value' => function ($model) use ($multipleItemsId) {
+                                    return Html::button(Yii::t('app.c2', 'Calculate'), [
+                                        'class' => 'btn btn-success',
+                                        'onclick' => "(function(e) { 
+                                            var price = $('#price-{multiple_index_{$multipleItemsId}}').val();
+                                             $('#subtotal-{multiple_index_{$multipleItemsId}}').val(strip($('#quantity-{multiple_index_{$multipleItemsId}}').val() * price));
+                                        })();",
+                                        // 'id' => "calculate-{multiple_index_{$multipleItemsId}}",
+                                    ]);
+                                },
+                                'headerOptions' => [
+                                    // 'style' => 'width: 70px;',
+                                ],
+                                'options' => [
+
                                 ]
                             ],
                             // [
@@ -178,7 +203,7 @@ $form = ActiveForm::begin([
                                 'title' => Yii::t('app.c2', 'Subtotal'),
                                 'enableError' => true,
                                 'options' => [
-                                    'id' => "subtotal-multiple_index_{$multipleItemsId}",
+                                    'id' => "subtotal-{multiple_index_{$multipleItemsId}}",
                                 ],
                             ],
                             [

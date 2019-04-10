@@ -1234,6 +1234,7 @@ return [
     'Experience' => '工作经验',
     'Situation' => '在校情况',
     'Refresh' => '刷新',
+    'Calculate' => '计算',
     '' => '',
 ];
 

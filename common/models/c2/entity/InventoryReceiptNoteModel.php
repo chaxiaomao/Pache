@@ -161,15 +161,12 @@ class InventoryReceiptNoteModel extends \cza\base\models\ActiveRecord
             'occurrence_date' => $this->occurrence_date,
             'memo' => $this->memo,
         ]);
-        // $items = $this->activeNoteItems;
-        // foreach ($items as $item) {
-        //     $model = new ProductStock();
-        //     $model->setAttributes([
-        //        'product_id' => $item->product_id,
-        //        'product_sku_id' => $item->product_sku_id,
-        //        'num' => $item->quantity,
-        //     ]);
-        // }
+        $items = $this->activeNoteItems;
+        foreach ($items as $item) {
+            $model = $item->productSku;
+            $model->stock += $item->quantity;
+            $model->save();
+        }
         return $this->updateAttributes(['state' => InventoryExeState::FINISH]);
     }
 

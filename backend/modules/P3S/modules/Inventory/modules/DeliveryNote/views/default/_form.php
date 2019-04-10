@@ -13,6 +13,9 @@ use yii\web\JsExpression;
 
 $regularLangName = \Yii::$app->czaHelper->getRegularLangName();
 $messageName = $model->getMessageName();
+
+$css = ".form-control-static{padding-top:0;}";
+$this->registerCss($css);
 ?>
 
 <?php
@@ -173,11 +176,20 @@ $form = ActiveForm::begin([
                                     'items' => \common\models\c2\entity\MeasureModel::getHashMap('id', 'label'),
                                 ],
                                 [
+                                    'name' => 'factory_price',
+                                    'title' => Yii::t('app.c2', 'Factory Price'),
+                                    'enableError' => true,
+                                    'options' => [
+                                        'id' => "price-{multiple_index_{$multipleItemsId}}",
+                                    ],
+                                ],
+                                [
                                     'name' => 'quantity',
                                     'type' => kartik\widgets\TouchSpin::className(),
                                     'title' => Yii::t('app.c2', 'Quantity'),
                                     'defaultValue' => 1,
                                     'options' => [
+                                        'id' => "quantity-{multiple_index_{$multipleItemsId}}",
                                         'pluginOptions' => [
                                             'buttondown_txt' => '<i class="glyphicon glyphicon-minus-sign"></i>',
                                             'buttonup_txt' => '<i class="glyphicon glyphicon-plus-sign"></i>',
@@ -185,9 +197,24 @@ $form = ActiveForm::begin([
                                     ]
                                 ],
                                 [
-                                    'name' => 'factory_price',
-                                    'title' => Yii::t('app.c2', 'Factory Price'),
-                                    'enableError' => true,
+                                    'name' => 'comment',
+                                    'type' => 'static',
+                                    'value' => function ($model) use ($multipleItemsId) {
+                                        return Html::button(Yii::t('app.c2', 'Calculate'), [
+                                            'class' => 'btn btn-success',
+                                            'onclick' => "(function(e) { 
+                                            var price = $('#price-{multiple_index_{$multipleItemsId}}').val();
+                                             $('#subtotal-{multiple_index_{$multipleItemsId}}').val(strip($('#quantity-{multiple_index_{$multipleItemsId}}').val() * price));
+                                        })();",
+                                            // 'id' => "calculate-{multiple_index_{$multipleItemsId}}",
+                                        ]);
+                                    },
+                                    'headerOptions' => [
+                                        // 'style' => 'width: 70px;',
+                                    ],
+                                    'options' => [
+
+                                    ]
                                 ],
                                 // [
                                 //     'name' => 'pieces',
@@ -198,6 +225,9 @@ $form = ActiveForm::begin([
                                     'name' => 'subtotal',
                                     'title' => Yii::t('app.c2', 'Subtotal'),
                                     'enableError' => true,
+                                    'options' => [
+                                        'id' => "subtotal-{multiple_index_{$multipleItemsId}}",
+                                    ],
                                 ],
                                 [
                                     'name' => 'memo',
@@ -268,5 +298,9 @@ $js .= "jQuery('.btn.multiple-input-list__btn.js-input-remove').off('click').on(
        $.ajax({url:'" . Url::toRoute('delete-subitem') . "',data:{id:itemId}}).done(function(result){;}).fail(function(result){alert(result);});
     }
 });\n";
+
+$js = "function strip(num, precision = 12) {
+  return +parseFloat(num.toPrecision(precision));
+}";
 $this->registerJs($js);
 ?>
