@@ -28,6 +28,7 @@ use yii\validators\RequiredValidator;
  * @property integer $is_unique
  * @property integer $is_depend
  * @property string $depend_id
+ * @property string $stock
  * @property integer $status
  * @property integer $position
  * @property string $created_at
@@ -70,7 +71,7 @@ class AttributeModel extends \cza\base\models\ActiveRecord
     public function rules()
     {
         return [
-            [['eshop_id', 'type', 'is_required', 'is_sku', 'is_unique', 'is_depend', 'is_visible', 'depend_id', 'status', 'position'], 'integer'],
+            [['eshop_id', 'type', 'is_required', 'is_sku', 'is_unique', 'is_depend', 'is_visible', 'depend_id', 'status', 'position', 'stock'], 'integer'],
             [['code', 'label'], 'required'],
             [['items',], 'validateItems'],
             [['code'], 'match', 'pattern' => '/\s/', 'not' => true],
@@ -105,6 +106,7 @@ class AttributeModel extends \cza\base\models\ActiveRecord
             'is_unique' => Yii::t('app.c2', 'Is Unique'),
             'is_depend' => Yii::t('app.c2', 'Is Depend'),
             'depend_id' => Yii::t('app.c2', 'Depend Attribute'),
+            'stock' => Yii::t('app.c2', 'Stock'),
             'status' => Yii::t('app.c2', 'Status'),
             'position' => Yii::t('app.c2', 'Position'),
             'created_at' => Yii::t('app.c2', 'Created At'),

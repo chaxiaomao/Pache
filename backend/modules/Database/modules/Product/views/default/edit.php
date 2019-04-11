@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = Yii::t('app.c2', 'Update');
     'model' => $model,
     'tabTitle' =>  $this->title,
     'withBaseInfoTab' => true,
-    'withSkuTab' => true,
+    // 'withSkuTab' => true,
 ]);
 ?>
 

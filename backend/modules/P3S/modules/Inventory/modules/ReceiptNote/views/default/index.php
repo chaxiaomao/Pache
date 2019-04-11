@@ -82,6 +82,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
             ],
             // 'supplier_id',
+            [
+                'attribute' => 'supplier.name',
+            ],
             'occurrence_date',
             // 'arrival_number',
             // 'buyer_name',

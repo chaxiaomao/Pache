@@ -53,6 +53,8 @@ use yii\helpers\ArrayHelper;
  */
 class ProductModel extends \cza\base\models\ActiveRecord
 {
+    public $items;
+
     /**
      * @inheritdoc
      */
@@ -250,6 +252,18 @@ class ProductModel extends \cza\base\models\ActiveRecord
             $item->delete();
         }
         return parent::beforeDelete();
+    }
+
+    public function getProductAttributes()
+    {
+        return $this->hasMany(AttributeModel::className(), ['id' => 'attribute_id'])
+            ->where(['status' => EntityModelStatus::STATUS_ACTIVE])
+            ->viaTable('{{%product_attribute_rs}}', ['product_id' => 'id']);
+    }
+
+    public function loadItems()
+    {
+        $this->items = $this->getProductAttributes()->all();
     }
 
 }

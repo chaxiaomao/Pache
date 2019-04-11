@@ -54,6 +54,7 @@ class EntityDetail extends DetailWidget
                 $this->_tabs['SKU_TAB'] = [
                     'label' => Yii::t('app.c2', 'Product Sku Management'),
                     'content' => $this->controller->renderPartial('/default/_sku_form', ['model' => new EavSkuForm(['entityModel' => $this->model])]),
+                    // 'content' => $this->controller->renderPartial('/default/_material_form', ['model' => $this->model->loadItems()]),
                     'enable' => true
                 ];
             } else {
