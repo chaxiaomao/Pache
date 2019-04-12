@@ -110,6 +110,11 @@ class InventoryReceiptNoteItemModel extends \cza\base\models\ActiveRecord
         return $this->hasOne(SupplierModel::className(), ['id' => 'supplier_id']);
     }
 
+    public function getProductStock()
+    {
+        return $this->hasOne(ProductStock::className(), ['product_id' => 'product_id']);
+    }
+
     public function disable() {
         return $this->updateAttributes([
             'status' => EntityModelStatus::STATUS_INACTIVE,

@@ -2,9 +2,11 @@
 
 namespace common\models\c2\entity;
 
+use common\models\c2\statics\ProductType;
 use cza\base\models\statics\EntityModelStatus;
 use Yii;
 use yii\helpers\ArrayHelper;
+use yii\validators\RequiredValidator;
 
 /**
  * This is the model class for table "{{%product}}".
@@ -53,7 +55,6 @@ use yii\helpers\ArrayHelper;
  */
 class ProductModel extends \cza\base\models\ActiveRecord
 {
-    public $items;
 
     /**
      * @inheritdoc
@@ -105,6 +106,7 @@ class ProductModel extends \cza\base\models\ActiveRecord
             [['sku'], 'match', 'pattern' => '/^[A-Za-z0-9_-]+$/u'],
             // [['sku'], 'match', 'pattern' => '/[A-Za-z0-9]+\-\w+/'],
             [['sku'], 'match', 'pattern' => '/[\x{4e00}-\x{9fa5}]+/u', 'not' => true],
+            [['items',], 'validateItems'],
         ];
     }
 
@@ -154,7 +156,7 @@ class ProductModel extends \cza\base\models\ActiveRecord
             'is_score_exchange' => Yii::t('app.c2', 'Is Score Exchange'),
             'require_setup' => Yii::t('app.c2', 'Require Setup'),
             'sold_count' => Yii::t('app.c2', 'Sold Count'),
-            'virtual_sold_count' => Yii::t('app.c2', 'Virtual Sold Count')
+            'virtual_sold_count' => Yii::t('app.c2', 'Virtual Sold Count'),
         ];
     }
 
@@ -254,16 +256,13 @@ class ProductModel extends \cza\base\models\ActiveRecord
         return parent::beforeDelete();
     }
 
-    public function getProductAttributes()
-    {
-        return $this->hasMany(AttributeModel::className(), ['id' => 'attribute_id'])
-            ->where(['status' => EntityModelStatus::STATUS_ACTIVE])
-            ->viaTable('{{%product_attribute_rs}}', ['product_id' => 'id']);
-    }
+    // public function getProductAttributes()
+    // {
+    //     return $this->hasMany(AttributeModel::className(), ['id' => 'attribute_id'])
+    //         ->where(['status' => EntityModelStatus::STATUS_ACTIVE])
+    //         ->viaTable('{{%product_attribute_rs}}', ['product_id' => 'id']);
+    // }
 
-    public function loadItems()
-    {
-        $this->items = $this->getProductAttributes()->all();
-    }
+
 
 }

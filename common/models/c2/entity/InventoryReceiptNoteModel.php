@@ -101,60 +101,72 @@ class InventoryReceiptNoteModel extends \cza\base\models\ActiveRecord
     {
         return new \common\models\c2\query\InventoryReceiptNoteQuery(get_called_class());
     }
-    
+
     /**
-    * setup default values
-    **/
-    public function loadDefaultValues($skipIfSet = true) {
+     * setup default values
+     **/
+    public function loadDefaultValues($skipIfSet = true)
+    {
         parent::loadDefaultValues($skipIfSet);
         if ($this->isNewRecord) {
             $this->code = \common\helpers\CodeGenerator::getCodeByDate($this, 'RN');
         }
     }
 
-    public function behaviors() {
+    public function behaviors()
+    {
         return \yii\helpers\ArrayHelper::merge(parent::behaviors(), [
             \yii\behaviors\BlameableBehavior::className(), // record created_by and updated_by
         ]);
     }
 
-    public function getWarehouse() {
+    public function getWarehouse()
+    {
         return $this->hasOne(WarehouseModel::className(), ['id' => 'warehouse_id']);
     }
 
-    public function getSupplier() {
+    public function getSupplier()
+    {
         return $this->hasOne(SupplierModel::className(), ['id' => 'supplier_id']);
     }
 
-    public function getActiveNoteItems() {
+    public function getActiveNoteItems()
+    {
         return $this->hasMany(InventoryReceiptNoteItemModel::className(), ['note_id' => 'id'])->onCondition(['status' => EntityModelStatus::STATUS_ACTIVE]);
     }
 
-    public function getAllNoteItems() {
+    public function getAllNoteItems()
+    {
         return $this->hasMany(InventoryReceiptNoteItemModel::className(), ['note_id' => 'id']);
     }
 
-    public function getTypeLabel() {
+    public function getTypeLabel()
+    {
         return InventoryReceiptType::getLabel($this->type);
     }
 
-    public function isStateInit() {
+    public function isStateInit()
+    {
         return ($this->state == InventoryExeState::INIT);
     }
 
-    public function isStateFinish() {
+    public function isStateFinish()
+    {
         return ($this->state == InventoryExeState::FINISH);
     }
 
-    public function getCreator() {
+    public function getCreator()
+    {
         return $this->hasOne(\backend\models\c2\entity\rbac\BeUser::class, ['id' => 'created_by']);
     }
 
-    public function getUpdater() {
+    public function getUpdater()
+    {
         return $this->hasOne(\backend\models\c2\entity\rbac\BeUser::class, ['id' => 'updated_by']);
     }
 
-    public function setStateToFinish() {
+    public function setStateToFinish()
+    {
         InventoryNoteLogModel::logReceiptNote([
             'note_id' => $this->id,
             'warehouse_id' => $this->warehouse_id,
@@ -163,14 +175,28 @@ class InventoryReceiptNoteModel extends \cza\base\models\ActiveRecord
         ]);
         $items = $this->activeNoteItems;
         foreach ($items as $item) {
-            $model = $item->productSku;
-            $model->stock += $item->quantity;
-            $model->save();
+            $model = $item->productStock;
+            if (is_null($model)) {
+                $model = new ProductStock();
+                $model->setAttributes([
+                    'warehouse_id' => $this->warehouse_id,
+                    'product_id' => $item->product->id,
+                    'num' => $item->quantity,
+                ]);
+                $model->save();
+            } else {
+                $model->updateCounters([
+                    'num' => $item->quantity,
+                ]);
+            }
+
         }
+
         return $this->updateAttributes(['state' => InventoryExeState::FINISH]);
     }
 
-    public function validateItems($attribute) {
+    public function validateItems($attribute)
+    {
         $requiredValidator = new RequiredValidator();
         foreach ($this->$attribute as $index => $row) {
             $error = null;
@@ -187,11 +213,13 @@ class InventoryReceiptNoteModel extends \cza\base\models\ActiveRecord
         }
     }
 
-    public function loadItems() {
+    public function loadItems()
+    {
         $this->items = $this->getActiveNoteItems()->all();
     }
 
-    public function afterSave($insert, $changedAttributes) {
+    public function afterSave($insert, $changedAttributes)
+    {
         parent::afterSave($insert, $changedAttributes);
 
         if (!empty($this->items)) {
@@ -221,11 +249,13 @@ class InventoryReceiptNoteModel extends \cza\base\models\ActiveRecord
         }
     }
 
-    public function getStateLabel() {
+    public function getStateLabel()
+    {
         return InventoryExeState::getLabel($this->state);
     }
 
-    public function beforeDelete() {
+    public function beforeDelete()
+    {
         foreach ($this->allNoteItems as $item) {
             $item->delete();
         }

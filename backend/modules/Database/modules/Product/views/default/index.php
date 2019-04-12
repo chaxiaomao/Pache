@@ -28,7 +28,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'toolbar' => [
             [
                 'content' =>
-                    Html::a('<i class="glyphicon glyphicon-plus"></i>', ['edit'], [
+                    Html::a('<i class="glyphicon glyphicon-plus">产品</i>', ['edit'], [
+                        'class' => 'btn btn-success',
+                        'title' => Yii::t('app.c2', 'Add'),
+                        'data-pjax' => '0',
+                    ]) . ' ' .
+                    Html::a('<i class="glyphicon glyphicon-plus">材料</i>', ['material-edit'], [
                         'class' => 'btn btn-success',
                         'title' => Yii::t('app.c2', 'Add'),
                         'data-pjax' => '0',
@@ -61,6 +66,13 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'id',
             // 'type',
+            [
+                'attribute' => 'type',
+                'filter' => \common\models\c2\statics\ProductType::getHashMap('id', 'label'),
+                'value' => function ($model) {
+                    return \common\models\c2\statics\ProductType::getLabel($model->type);
+                }
+            ],
             'sku',
             // 'serial_number',
             // 'breadcrumb',
@@ -97,7 +109,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'class' => '\common\widgets\grid\ActionColumn',
                 'buttons' => [
                     'update' => function ($url, $model, $key) {
-                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['edit', 'id' => $model->id], [
+                        $url = \common\models\c2\statics\ProductType::getEditUrl($model->type);
+                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>', [$url, 'id' => $model->id], [
                             'title' => Yii::t('app', 'Info'),
                             'data-pjax' => '0',
                         ]);
