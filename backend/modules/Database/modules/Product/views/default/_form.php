@@ -179,7 +179,7 @@ $form = ActiveForm::begin([
                 ],
             ]
         ]);
-        
+
         echo Html::beginTag('div', ['class' => 'box-footer']);
         echo Html::submitButton('<i class="fa fa-save"></i> ' . Yii::t('app.c2', 'Save'), ['type' => 'button', 'class' => 'btn btn-primary pull-right']);
         echo Html::a('<i class="fa fa-arrow-left"></i> ' . Yii::t('app.c2', 'Go Back'), ['index'], ['data-pjax' => '0', 'class' => 'btn btn-default pull-right', 'title' => Yii::t('app.c2', 'Go Back'),]);
