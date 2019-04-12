@@ -1,10 +1,11 @@
 <?php
 
-use yii\helpers\Html;
-use kartik\widgets\ActiveForm;
-use kartik\builder\Form;
-use cza\base\widgets\ui\adminlte2\InfoBox;
 use cza\base\models\statics\EntityModelStatus;
+use cza\base\widgets\ui\adminlte2\InfoBox;
+use kartik\builder\Form;
+use kartik\widgets\ActiveForm;
+use yii\helpers\Html;
+use yii\helpers\Url;
 
 $regularLangName = \Yii::$app->czaHelper->getRegularLangName();
 $messageName = $model->getMessageName();
@@ -43,26 +44,26 @@ $form = ActiveForm::begin([
             'form' => $form,
             'columns' => 2,
             'attributes' => [
-                // 'type' => ['type' => Form::INPUT_DROPDOWN_LIST, 'items' => []],
+                'type' => ['type' => Form::INPUT_DROPDOWN_LIST, 'items' => \common\models\c2\statics\ProductType::getHashMap('id', 'label')],
                 'sku' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('sku')]],
                 // 'serial_number' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('serial_number')]],
                 // 'breadcrumb' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('breadcrumb')]],
                 'name' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('name')]],
                 'label' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('label')]],
                 'sales_price' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('sales_price')]],
-                'attributeset_ids' => ['type' => Form::INPUT_WIDGET,
-                    'widgetClass' => '\kartik\widgets\Select2',
-                    'labelOptions' => [
-                        'class' => 'control-label col-md-2',
-                    ],
-                    'options' => [
-                        'language' => Yii::$app->language,
-                        'data' => \common\models\c2\entity\AttributesetModel::getHashMap('id', 'label'),
-                        'pluginOptions' => [
-                            'multiple' => true
-                        ],
-                    ],
-                ],
+                // 'attributeset_ids' => ['type' => Form::INPUT_WIDGET,
+                //     'widgetClass' => '\kartik\widgets\Select2',
+                //     'labelOptions' => [
+                //         'class' => 'control-label col-md-2',
+                //     ],
+                //     'options' => [
+                //         'language' => Yii::$app->language,
+                //         'data' => \common\models\c2\entity\AttributesetModel::getHashMap('id', 'label'),
+                //         'pluginOptions' => [
+                //             'multiple' => true
+                //         ],
+                //     ],
+                // ],
                 // 'summary' => ['type' => Form::INPUT_WIDGET, 'widgetClass' => '\vova07\imperavi\Widget', 'options' => [
                 //     'settings' => [
                 //         'minHeight' => 150,
@@ -93,7 +94,7 @@ $form = ActiveForm::begin([
                 //         ],
                 //     ]
                 // ],],
-                // 'currency_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('currency_id')]],
+                'supplier_id' => ['type' => Form::INPUT_DROPDOWN_LIST, 'items' => \common\models\c2\entity\SupplierModel::getHashMap('id', 'label'), 'options' => ['placeholder' => $model->getAttributeLabel('currency_id')]],
                 // 'measure_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('measure_id')]],
                 // 'is_released' => ['type' => Form::INPUT_WIDGET, 'widgetClass' => '\kartik\checkbox\CheckboxX', 'options' => [
                 //     'pluginOptions' => ['threeState' => false],
@@ -111,6 +112,7 @@ $form = ActiveForm::begin([
             ]
         ]);
 
+        $multipleItemsId = $model->getPrefixName('items');
         echo Form::widget([
             'model' => $model,
             'form' => $form,
@@ -120,11 +122,12 @@ $form = ActiveForm::begin([
                     'type' => Form::INPUT_WIDGET,
                     'widgetClass' => unclead\multipleinput\MultipleInput::className(),
                     'options' => [
+                        'id' => $multipleItemsId,
                         'data' => $model->items,
                         //                        'max' => 4,
                         'allowEmptyList' => true,
-                        'rowOptions' => function($model, $index, $context) {
-                            return ['data-id' => $model['id']];
+                        'rowOptions' => function ($model, $index, $context) use ($multipleItemsId) {
+                            return ['id' => "row{multiple_index_{$multipleItemsId}}", 'data-id' => $model['id']];
                         },
                         'columns' => [
                             [
@@ -132,35 +135,55 @@ $form = ActiveForm::begin([
                                 'type' => 'hiddenInput',
                             ],
                             [
-                                'name' => 'code',
+                                'name' => 'attribute_id',
                                 'title' => Yii::t('app.c2', 'Code'),
+                                'type' => \kartik\select2\Select2::className(),
                                 'enableError' => true,
                                 'options' => [
-                                    'class' => 'input-priority'
+                                    'data' => ['' => Yii::t("app.c2", "Select options ..")] + \common\models\c2\entity\ProductModel::getHashMap('id', 'name', [
+                                            'type' => \common\models\c2\statics\ProductType::TYPE_MATERIAL,
+                                            'status' => EntityModelStatus::STATUS_ACTIVE,
+                                        ]),
+                                    // 'pluginOptions' => [
+                                    //     'placeholder' => $model->getAttributeLabel('Select options ..')
+                                    // ],
+                                    'pluginEvents' => [
+                                        'change' => "function() {
+                                                $.post('" . Url::toRoute(['materials']) . "', {'depdrop_all_params[material_id]':$(this).val(),'depdrop_parents[]':$(this).val()}, function(data) {
+                                                    if(data.output !== undefined) {
+                                                        $('select#subcat-{multiple_index_{$multipleItemsId}}').empty();
+                                                        $.each(data.output, function(key, item){
+                                                                $('select#subcat-{multiple_index_{$multipleItemsId}}').append('<option value=' + item.id + '>' + item.name + '</option>');
+                                                            });
+                                                    }
+                                                })
+                                            }",
+                                    ],
                                 ]
                             ],
                             [
-                                'name' => 'label',
-                                'title' => Yii::t('app.c2', 'Label'),
-                                'enableError' => true,
-                                'options' => [
-                                    'class' => 'input-priority'
-                                ]
-                            ],
-                            [
-                                'name' => 'value',
-                                'title' => Yii::t('app.c2', 'Value'),
-                                'enableError' => true,
-                                'options' => [
-                                    'class' => 'input-priority'
-                                ]
-                            ],
-                            [
-                                'name' => 'is_selected',
+                                'name' => 'product_material_id',
                                 'type' => 'dropDownList',
-                                'title' => Yii::t('app.c2', 'Is Selected'),
-                                'defaultValue' => 2,
-                                'items' => \common\models\c2\statics\SeletedType::getHashMap('id', 'label'),
+                                'title' => Yii::t('app.c2', 'Material Num'),
+                                'enableError' => true,
+                                'items' => $model->isNewRecord ? [] : function ($data) {
+                                    if (is_object($data)) {
+                                        // return $data->owner->getProductSkuOptionsList();
+                                    }
+                                    return [];
+                                },
+                                'options' => [
+                                    'id' => "subcat-{multiple_index_{$multipleItemsId}}",
+                                ],
+                            ],
+                            [
+                                'name' => 'num',
+                                'type' => kartik\widgets\TouchSpin::className(),
+                                'title' => Yii::t('app.c2', 'Quantity'),
+                                'defaultValue' => 1,
+                                'options' => [
+
+                                ]
                             ],
                             [
                                 'name' => 'position',
@@ -179,7 +202,7 @@ $form = ActiveForm::begin([
                 ],
             ]
         ]);
-        
+
         echo Html::beginTag('div', ['class' => 'box-footer']);
         echo Html::submitButton('<i class="fa fa-save"></i> ' . Yii::t('app.c2', 'Save'), ['type' => 'button', 'class' => 'btn btn-primary pull-right']);
         echo Html::a('<i class="fa fa-arrow-left"></i> ' . Yii::t('app.c2', 'Go Back'), ['index'], ['data-pjax' => '0', 'class' => 'btn btn-default pull-right', 'title' => Yii::t('app.c2', 'Go Back'),]);

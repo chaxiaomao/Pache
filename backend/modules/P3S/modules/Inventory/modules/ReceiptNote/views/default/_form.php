@@ -98,7 +98,7 @@ $form = ActiveForm::begin([
                                 'title' => Yii::t('app.c2', 'Product Num'),
                                 'type' => \kartik\select2\Select2::className(),
                                 'options' => [
-                                    'data' => \common\models\c2\entity\ProductModel::getHashMap('id', 'sku', ['status' => EntityModelStatus::STATUS_ACTIVE]),
+                                    'data' => \common\models\c2\entity\ProductModel::getHashMap('id', 'sku', ['status' => EntityModelStatus::STATUS_ACTIVE, 'type' => \common\models\c2\statics\ProductType::TYPE_MATERIAL]),
                                     'pluginOptions' => [
                                         'placeholder' => $model->getAttributeLabel('Select options ..')
                                     ],
@@ -107,7 +107,6 @@ $form = ActiveForm::begin([
                                             $.post('" . Url::toRoute(['skus']) . "', {'depdrop_all_params[product_id]':$(this).val(),'depdrop_parents[]':$(this).val()}, function(data) {
                                                 if(data.output !== undefined) {
                                                     $('select#subcat-{multiple_index_{$multipleItemsId}}').empty();
-                                                    console.log('{multiple_index_{$multipleItemsId}}');
                                                     $.each(data.output, function(key, item){
                                                             $('select#subcat-{multiple_index_{$multipleItemsId}}').append('<option value=' + item.id + '>' + item.name + '</option>');
                                                         });
@@ -268,12 +267,13 @@ $form = ActiveForm::begin([
 $js = "";
 $js .= "jQuery('.btn.multiple-input-list__btn.js-input-remove').off('click').on('click', function(){
     var itemId = $(this).closest('tr').data('id');
+    console.log(itemId);
     if(itemId){
        $.ajax({url:'" . Url::toRoute('delete-subitem') . "',data:{id:itemId}}).done(function(result){;}).fail(function(result){alert(result);});
     }
 });\n";
 
-$js = "function strip(num, precision = 12) {
+$js .= "function strip(num, precision = 12) {
   return +parseFloat(num.toPrecision(precision));
 }";
 

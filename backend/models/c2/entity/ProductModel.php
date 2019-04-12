@@ -50,6 +50,7 @@ use yii\helpers\ArrayHelper;
  */
 class ProductModel extends BaseModel
 {
+
     public function behaviors()
     {
         return \yii\helpers\ArrayHelper::merge(parent::behaviors(), [

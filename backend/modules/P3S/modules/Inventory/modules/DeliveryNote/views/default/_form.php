@@ -130,13 +130,14 @@ $form = ActiveForm::begin([
                                 ],
                                 [
                                     'name' => 'product_id',
-                                    'type' => 'dropDownList',
+                                    // 'type' => 'dropDownList',
                                     'title' => Yii::t('app.c2', 'Product Sku2'),
                                     'enableError' => true,
                                     // 'items' => ['' => Yii::t("app.c2", "Select options ..")] + \common\models\c2\entity\ProductModel::getHashMap('id', 'sku', ['status' => EntityModelStatus::STATUS_ACTIVE]),
                                     'type' => \kartik\select2\Select2::className(),
                                     'options' => [
-                                        'data' => ['' => Yii::t("app.c2", "Select options ..")] + \common\models\c2\entity\ProductModel::getHashMap('id', 'sku', ['status' => EntityModelStatus::STATUS_ACTIVE]),
+                                        'data' => ['' => Yii::t("app.c2", "Select options ..")] + \common\models\c2\entity\ProductModel::getHashMap('id', 'sku', [
+                                                'status' => EntityModelStatus::STATUS_ACTIVE, 'type' => \common\models\c2\statics\ProductType::TYPE_PRODUCT]),
                                         'pluginEvents' => [
                                             'change' => "function() {
                                                 $.post('" . Url::toRoute(['skus']) . "', {'depdrop_all_params[product_id]':$(this).val(),'depdrop_parents[]':$(this).val()}, function(data) {
@@ -299,7 +300,7 @@ $js .= "jQuery('.btn.multiple-input-list__btn.js-input-remove').off('click').on(
     }
 });\n";
 
-$js = "function strip(num, precision = 12) {
+$js .= "function strip(num, precision = 12) {
   return +parseFloat(num.toPrecision(precision));
 }";
 $this->registerJs($js);

@@ -3,6 +3,7 @@
 namespace backend\modules\Database\modules\Product\widgets;
 
 use backend\models\c2\form\EavSkuForm;
+use common\models\c2\statics\ProductType;
 use Yii;
 use cza\base\widgets\ui\common\part\EntityDetail as DetailWidget;
 
@@ -31,7 +32,7 @@ class EntityDetail extends DetailWidget
         if ($this->withBaseInfoTab) {
             $items[] = [
                 'label' => Yii::t('app.c2', 'Base Information'),
-                'content' => $this->controller->renderPartial('_form', ['model' => $this->model,]),
+                'content' => $this->controller->renderPartial(ProductType::getEditForm($this->model->type), ['model' => $this->model,]),
                 'active' => true,
             ];
         }

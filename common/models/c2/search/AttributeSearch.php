@@ -18,7 +18,7 @@ class AttributeSearch extends AttributeModel
     public function rules()
     {
         return [
-            [['id', 'eshop_id', 'depend_id', 'position', 'stock'], 'integer'],
+            [['id', 'eshop_id', 'depend_id', 'position'], 'integer'],
             [['type', 'code', 'name', 'label', 'hint', 'input_type', 'default_value', 'memo', 'is_sku', 'is_visible', 'is_required', 'is_unique', 'is_depend', 'status', 'created_at', 'updated_at'], 'safe'],
         ];
     }
@@ -66,7 +66,6 @@ class AttributeSearch extends AttributeModel
             'id' => $this->id,
             'eshop_id' => $this->eshop_id,
             'depend_id' => $this->depend_id,
-            'stock' => $this->stock,
             'position' => $this->position,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

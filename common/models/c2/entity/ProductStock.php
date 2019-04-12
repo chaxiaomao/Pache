@@ -155,7 +155,7 @@ class ProductStock extends \cza\base\models\ActiveRecord {
      */
     public function rules() {
         return [
-            [['warehouse_id', 'product_id', 'product_sku_id'], 'required'],
+            [['warehouse_id', 'product_id'], 'required'],
             [['eshop_id', 'warehouse_id', 'product_id', 'product_sku_id', 'num', 'state', 'status', 'position'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['sku'], 'string', 'max' => 255],

@@ -16,8 +16,8 @@ use yii\filters\VerbFilter;
  */
 class DefaultController extends Controller
 {
-    // public $modelClass = 'common\models\c2\entity\ProductStock';
-    public $modelClass = 'common\models\c2\entity\ProductSkuModel';
+    public $modelClass = 'common\models\c2\entity\ProductStock';
+    // public $modelClass = 'common\models\c2\entity\ProductSkuModel';
 
     /**
      * Lists all ProductStock models.
@@ -25,8 +25,8 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
-        // $searchModel = new ProductStockSearch();
-        $searchModel = new ProductSkuSearch();
+        $searchModel = new ProductStockSearch();
+        // $searchModel = new ProductSkuSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
