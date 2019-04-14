@@ -2,6 +2,7 @@
 
 namespace common\components\actions;
 
+use backend\models\c2\entity\ProductMaterialModel;
 use common\models\c2\entity\ProductModel;
 use Yii;
 use yii\data\ActiveDataProvider;
@@ -64,7 +65,7 @@ class MaterialOptionsAction extends \yii\base\Action {
             throw new \Exception('Require parameter "depdrop_parents"!');
         }
 
-        $model = ProductModel::findOne(['id' => $params['depdrop_all_params']['material_id']]);
+        $model = ProductMaterialModel::findOne(['id' => $params['depdrop_all_params']['material_id']]);
 
         $result = [
             'output' => $model,
@@ -72,7 +73,7 @@ class MaterialOptionsAction extends \yii\base\Action {
         ];
 
         $options = [];
-        foreach ($model->material as $model) {
+        foreach ($model->materialItems as $model) {
             $options[] = [
                 'id' => $model->id,
                 'name' => $model->value,

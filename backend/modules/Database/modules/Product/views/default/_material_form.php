@@ -133,3 +133,16 @@ $form = ActiveForm::begin([
     </div>
 </div>
 <?php ActiveForm::end(); ?>
+
+<?php
+$js = "";
+$js .= "jQuery('.btn.multiple-input-list__btn.js-input-remove').off('click').on('click', function(){
+    var itemId = $(this).closest('tr').data('id');
+    if(itemId){
+       $.ajax({url:'" . Url::toRoute('delete-subitem') . "',data:{id:itemId}}).done(function(result){;}).fail(function(result){alert(result);});
+    }
+});\n";
+$this->registerJs($js);
+
+
+?>

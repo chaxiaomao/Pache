@@ -43,8 +43,9 @@ $directoryAsset = \Yii::$app->czaHelper->getEnvData('AdminlteAssets');
                             'label' => Yii::t('app.c2', 'Database'), 'visible' => \Yii::$app->user->can('P_Logistics'), 'icon' => 'fa fa-circle-o', 'url' => ['#'], 'options' => ['class' => 'treeview'],
                             'items' => [
                                 ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Product')]), 'icon' => 'fa fa-circle-o', 'url' => ['/database/product']],
-                                ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Attribute')]), 'icon' => 'fa fa-circle-o', 'url' => ['/database/attribute']],
-                                ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Attributeset')]), 'icon' => 'fa fa-circle-o', 'url' => ['/database/attributeset']],
+                                ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'User')]), 'icon' => 'fa fa-circle-o', 'url' => ['/database/users']],
+                                // ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Attribute')]), 'icon' => 'fa fa-circle-o', 'url' => ['/database/attribute']],
+                                // ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Attributeset')]), 'icon' => 'fa fa-circle-o', 'url' => ['/database/attributeset']],
                             ]
                         ],
                         [

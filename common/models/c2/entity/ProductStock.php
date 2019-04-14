@@ -14,6 +14,7 @@ use Yii;
  * @property string $product_id
  * @property string $sku
  * @property string $product_sku_id
+ * @property string $product_material_id
  * @property integer $num
  * @property integer $state
  * @property integer $status
@@ -156,7 +157,7 @@ class ProductStock extends \cza\base\models\ActiveRecord {
     public function rules() {
         return [
             [['warehouse_id', 'product_id'], 'required'],
-            [['eshop_id', 'warehouse_id', 'product_id', 'product_sku_id', 'num', 'state', 'status', 'position'], 'integer'],
+            [['eshop_id', 'warehouse_id', 'product_id', 'product_sku_id', 'num', 'state', 'status', 'position', 'product_material_id'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['sku'], 'string', 'max' => 255],
         ];
@@ -171,6 +172,7 @@ class ProductStock extends \cza\base\models\ActiveRecord {
             'eshop_id' => Yii::t('app.c2', 'Eshop ID'),
             'warehouse_id' => Yii::t('app.c2', 'Warehouse'),
             'product_id' => Yii::t('app.c2', 'Product ID'),
+            'product_material_id' => Yii::t('app.c2', 'Material'),
             'sku' => Yii::t('app.c2', 'Sku'),
             'product_sku_id' => Yii::t('app.c2', 'Product Sku ID'),
             'num' => Yii::t('app.c2', 'Quantity'),

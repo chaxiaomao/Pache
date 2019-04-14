@@ -2,8 +2,10 @@
 
 namespace backend\modules\Database\modules\Product\controllers;
 
+use backend\models\c2\entity\ProductMaterialModel;
 use backend\models\c2\form\EavSkuForm;
 use common\models\c2\entity\AttributeModel;
+use common\models\c2\entity\ProductMaterialItemModel;
 use common\models\c2\entity\ProductSkuModel;
 use common\models\c2\statics\ProductType;
 use cza\base\models\statics\ResponseDatum;
@@ -22,6 +24,7 @@ use yii\filters\VerbFilter;
 class DefaultController extends Controller
 {
     public $modelClass = 'backend\models\c2\entity\ProductModel';
+    public $materialModelClass = 'backend\models\c2\entity\ProductMaterialModel';
 
     public function actions() {
         return \yii\helpers\ArrayHelper::merge(parent::actions(), [
@@ -83,23 +86,6 @@ class DefaultController extends Controller
     public function actionEdit($id = null)
     {
         $model = $this->retrieveModel($id);
-        $model->type = ProductType::TYPE_PRODUCT;
-
-        if ($model->load(Yii::$app->request->post())) {
-            if ($model->save()) {
-                Yii::$app->session->setFlash($model->getMessageName(), [Yii::t('app.c2', 'Saved successful.')]);
-            } else {
-                Yii::$app->session->setFlash($model->getMessageName(), $model->errors);
-            }
-        }
-
-        return (Yii::$app->request->isAjax) ? $this->renderAjax('edit', ['model' => $model,]) : $this->render('edit', ['model' => $model,]);
-    }
-
-    public function actionMaterialEdit($id = null)
-    {
-        $model = $this->retrieveModel($id);
-        $model->type = ProductType::TYPE_MATERIAL;
 
         if ($model->load(Yii::$app->request->post())) {
             if ($model->save()) {
@@ -112,6 +98,38 @@ class DefaultController extends Controller
         return (Yii::$app->request->isAjax) ? $this->renderAjax('edit', ['model' => $model,]) : $this->render('edit', ['model' => $model,]);
     }
 
+    public function actionMaterialEdit($id = null)
+    {
+        $model = $this->retrieveMaterialModel($id);
+
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->save()) {
+                Yii::$app->session->setFlash($model->getMessageName(), [Yii::t('app.c2', 'Saved successful.')]);
+            } else {
+                Yii::$app->session->setFlash($model->getMessageName(), $model->errors);
+            }
+        }
+        $model->loadItems();
+        return (Yii::$app->request->isAjax) ? $this->renderAjax('edit', ['model' => $model,]) : $this->render('edit', ['model' => $model,]);
+    }
+
+    public function retrieveMaterialModel($id = null, $allowReturnNew = true) {
+        if (!is_null($id)) {
+            if (($model = ProductMaterialModel::findOne($id)) !== null) {
+                return $model;
+            } else {
+                throw new NotFoundHttpException('The requested page does not exist.');
+            }
+        } elseif (!$allowReturnNew) {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        } else {
+            $model = new $this->materialModelClass;
+            $model->loadDefaultValues();
+        }
+
+        return $model;
+    }
+
     /**
      * Finds the ProductModel model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
@@ -121,7 +139,7 @@ class DefaultController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = ProductModel::findOne($id)) !== null) {
+        if (($model = \backend\models\c2\entity\ProductModel::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
@@ -190,7 +208,7 @@ class DefaultController extends Controller
     }
 
     public function actionDeleteSubitem($id) {
-        if (($model = AttributeModel::findOne($id)) !== null) {
+        if (($model = ProductMaterialItemModel::findOne($id)) !== null) {
             if ($model->delete()) {
                 $responseData = ResponseDatum::getSuccessDatum(['message' => Yii::t('cza', 'Operation completed successfully!')], $id);
             } else {

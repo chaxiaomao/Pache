@@ -135,7 +135,7 @@ $form = ActiveForm::begin([
                                 'type' => 'hiddenInput',
                             ],
                             [
-                                'name' => 'attribute_id',
+                                'name' => 'material_id',
                                 'title' => Yii::t('app.c2', 'Code'),
                                 'type' => \kartik\select2\Select2::className(),
                                 'enableError' => true,
@@ -162,13 +162,14 @@ $form = ActiveForm::begin([
                                 ]
                             ],
                             [
-                                'name' => 'product_material_id',
+                                'name' => 'material_item_id',
                                 'type' => 'dropDownList',
                                 'title' => Yii::t('app.c2', 'Material Num'),
                                 'enableError' => true,
                                 'items' => $model->isNewRecord ? [] : function ($data) {
                                     if (is_object($data)) {
-                                        // return $data->owner->getProductSkuOptionsList();
+                                        return \common\models\c2\entity\ProductMaterialItemModel::getHashMap('id', 'value');
+                                        // return $data->owner->getMaterialOptionsList();
                                     }
                                     return [];
                                 },

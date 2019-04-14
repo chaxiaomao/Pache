@@ -28,6 +28,9 @@ class Module extends \yii\base\Module
             'product' => [
                 'class' => 'backend\modules\Database\modules\Product\Module',
             ],
+            'users' => [
+                'class' => 'backend\modules\Database\modules\User\Module',
+            ],
         ];
         // custom initialization code goes here
     }

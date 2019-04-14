@@ -55,7 +55,6 @@ use yii\validators\RequiredValidator;
  */
 class ProductModel extends \cza\base\models\ActiveRecord
 {
-
     /**
      * @inheritdoc
      */
@@ -106,7 +105,7 @@ class ProductModel extends \cza\base\models\ActiveRecord
             [['sku'], 'match', 'pattern' => '/^[A-Za-z0-9_-]+$/u'],
             // [['sku'], 'match', 'pattern' => '/[A-Za-z0-9]+\-\w+/'],
             [['sku'], 'match', 'pattern' => '/[\x{4e00}-\x{9fa5}]+/u', 'not' => true],
-            [['items',], 'validateItems'],
+            // [['items',], 'validateItems'],
         ];
     }
 

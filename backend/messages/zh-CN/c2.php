@@ -1236,6 +1236,8 @@ return [
     'Refresh' => '刷新',
     'Calculate' => '计算',
     'Material' => '材料',
+    'User business' => '客户',
+    'User employee' => '员工',
     '' => '',
 ];
 
