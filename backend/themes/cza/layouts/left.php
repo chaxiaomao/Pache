@@ -54,6 +54,7 @@ $directoryAsset = \Yii::$app->czaHelper->getEnvData('AdminlteAssets');
                             'items' => [
                                 ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Inventory')]), 'icon' => 'fa fa-circle-o', 'url' => ['#'], 'options' => ['class' => 'treeview'],
                                     'items' => [
+                                        ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Order')]), 'icon' => 'fa fa-circle-o', 'url' => ['/p3s/inventory/order']],
                                         ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Inventory Receipt Notes')]), 'icon' => 'fa fa-circle-o', 'url' => ['/p3s/inventory/receipt-note']],
                                         ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Inventory Delivery Notes')]), 'icon' => 'fa fa-circle-o', 'url' => ['/p3s/inventory/delivery-note']],
                                         ['label' => Yii::t('app.c2', 'Product Stock'), 'icon' => 'fa fa-circle-o', 'url' => ['/p3s/inventory/stock']],

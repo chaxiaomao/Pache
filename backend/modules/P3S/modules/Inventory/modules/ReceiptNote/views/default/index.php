@@ -237,4 +237,5 @@ $this->params['breadcrumbs'][] = $this->title;
     $js .= "$.fn.modal.Constructor.prototype.enforceFocus = function(){};";   // fix select2 widget input-bug in popup    
 
     $this->registerJs($js);
-    ?></div>
+    ?>
+</div>

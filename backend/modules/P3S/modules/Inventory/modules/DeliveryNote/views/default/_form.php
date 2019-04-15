@@ -14,7 +14,7 @@ use yii\web\JsExpression;
 $regularLangName = \Yii::$app->czaHelper->getRegularLangName();
 $messageName = $model->getMessageName();
 
-$css = ".form-control-static{padding-top:0;}";
+$css = ".form-control-static{padding:0;min-height:0;}";
 $this->registerCss($css);
 ?>
 

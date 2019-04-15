@@ -19,7 +19,7 @@ use yii\helpers\Url;
  * @copyright 2014-2016 CCIZA Software LLC
  * @license
  */
-class MaterialOptionsAction extends \yii\base\Action {
+class ProductMaterialOptionsAction extends \yii\base\Action {
 
     public $keyAttribute = 'id';
     public $valueAttribute = 'label';
@@ -65,7 +65,7 @@ class MaterialOptionsAction extends \yii\base\Action {
             throw new \Exception('Require parameter "depdrop_parents"!');
         }
 
-        $model = ProductMaterialModel::findOne(['id' => $params['depdrop_all_params']['product_id']]);
+        $model = ProductModel::findOne(['id' => $params['depdrop_all_params']['product_id']]);
 
         $result = [
             'output' => $model,
@@ -73,7 +73,7 @@ class MaterialOptionsAction extends \yii\base\Action {
         ];
 
         $options = [];
-        foreach ($model->materialItems as $model) {
+        foreach ($model->productMaterialItems as $model) {
             $options[] = [
                 'id' => $model->id,
                 'name' => $model->value,

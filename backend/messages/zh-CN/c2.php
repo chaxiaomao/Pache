@@ -1238,6 +1238,14 @@ return [
     'Material' => '材料',
     'User business' => '客户',
     'User employee' => '员工',
+    'Order' => '订单',
+    'Size' => '尺寸',
+    'Gross weight' => '毛重',
+    'Net weight' => '净重',
+    'Packing' => '包装',
+    'Order No' => '订单编号',
+    'Delivery Date' => '出货日期',
+    'Production Date' => '排产日期',
     '' => '',
 ];
 

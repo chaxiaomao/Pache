@@ -63,7 +63,8 @@ class ProductModel extends \cza\base\models\ActiveRecord
         return '{{%product}}';
     }
 
-    public function behaviors() {
+    public function behaviors()
+    {
         return \yii\helpers\ArrayHelper::merge(parent::behaviors(), [
             \yii\behaviors\BlameableBehavior::className(), // record created_by and updated_by
             'attributesetBehavior' => [
@@ -71,10 +72,10 @@ class ProductModel extends \cza\base\models\ActiveRecord
                 'relation' => 'attributesets', // relation, which will be handled
                 'relationReferenceAttribute' => 'attributeset_ids', // virtual attribute, which is used for related records specification
                 'extraColumns' => [
-                    'created_at' => function() {
+                    'created_at' => function () {
                         return date('Y-m-d H:i:s');
                     },
-                    'updated_at' => function() {
+                    'updated_at' => function () {
                         return date('Y-m-d H:i:s');
                     },
                 ],
@@ -167,15 +168,17 @@ class ProductModel extends \cza\base\models\ActiveRecord
     {
         return new \common\models\c2\query\ProductQuery(get_called_class());
     }
-    
+
     /**
-    * setup default values
-    **/
-    public function loadDefaultValues($skipIfSet = true) {
+     * setup default values
+     **/
+    public function loadDefaultValues($skipIfSet = true)
+    {
         parent::loadDefaultValues($skipIfSet);
     }
 
-    public function getAttributesets() {
+    public function getAttributesets()
+    {
         return $this->hasMany(AttributesetModel::className(), ['id' => 'attributeset_id'])
             ->where(['status' => EntityModelStatus::STATUS_ACTIVE])
             ->viaTable('{{%product_attributeset_rs}}', ['product_id' => 'id']);
@@ -185,7 +188,8 @@ class ProductModel extends \cza\base\models\ActiveRecord
      * retrieve meta attributes according to attributesets
      * @return array attributes
      */
-    public function getAttributesetAttributes() {
+    public function getAttributesetAttributes()
+    {
         if (!isset($this->_data['META_ATTRIBUTES'])) {
             $data = [];
             foreach ($this->attributesets as $attributeset) {
@@ -200,7 +204,8 @@ class ProductModel extends \cza\base\models\ActiveRecord
         return $this->_data['META_ATTRIBUTES'];
     }
 
-    public function getParams() {
+    public function getParams()
+    {
         $eav = $this->getMetaEavAttributes()->all();
         $attrIds = ArrayHelper::getColumn(AttributeModel::find()->andWhere(['is_sku' => 0])->orderBy(['position' => SORT_DESC])->all(), 'id');
         $params = ProductEavModel::find()->andWhere(['AND', ['entity_id' => $this->id], ['attribute_id' => $attrIds]])->all();
@@ -217,7 +222,8 @@ class ProductModel extends \cza\base\models\ActiveRecord
      * eav behavior required method
      * @return type
      */
-    public function getMetaEavAttributes($condition = []) {
+    public function getMetaEavAttributes($condition = [])
+    {
         return $this->hasMany(AttributeModel::className(), ['id' => 'attribute_id'])
             ->where(['status' => EntityModelStatus::STATUS_ACTIVE])
             ->andWhere($condition)
@@ -229,26 +235,30 @@ class ProductModel extends \cza\base\models\ActiveRecord
     //     return $this->getImageUrl($attribute, ImageSize::ICON);
     // }
 
-    public function getProductSkus() {
+    public function getProductSkus()
+    {
         return $this->hasMany(ProductSkuModel::className(), ['product_id' => 'id']);
     }
 
     /**
      * @return array dropdown list options
      */
-    public function getProductSkuOptionsList($key = 'id', $val = 'label', $params = []) {
+    public function getProductSkuOptionsList($key = 'id', $val = 'label', $params = [])
+    {
         $options = ArrayHelper::map($this->getProductSkus()->all(), $key, $val);
         return $options;
     }
 
-    public function getPrice($checkoutPoint = 0) {
+    public function getPrice($checkoutPoint = 0)
+    {
         if (!isset($this->_data['price'])) {
             $this->_data['price'] = Yii::$app->activityHelper->getSingleProductPrice($this, [], $checkoutPoint, true);
         }
         return $this->_data['price'];
     }
 
-    public function beforeDelete() {
+    public function beforeDelete()
+    {
         foreach ($this->productSkus as $item) {
             $item->delete();
         }
@@ -262,6 +272,15 @@ class ProductModel extends \cza\base\models\ActiveRecord
     //         ->viaTable('{{%product_attribute_rs}}', ['product_id' => 'id']);
     // }
 
+    public function getProductMaterialItems()
+    {
+        return $this->hasMany(ProductMaterialItemModel::className(), ['id' => 'material_item_id'])
+            ->viaTable('{{%product_material_rs}}', ['product_id' => 'id']);
+    }
 
+    public function getProductMaterialOptions($key = 'id', $val = 'value', $params = []) {
+        $options = ArrayHelper::map($this->getProductMaterialItems()->all(), $key, $val);
+        return $options;
+    }
 
 }
