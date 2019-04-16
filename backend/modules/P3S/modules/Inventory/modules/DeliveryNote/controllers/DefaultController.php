@@ -25,7 +25,16 @@ class DefaultController extends Controller {
         return ArrayHelper::merge(parent::actions(), [
             'skus' => [
                 'class' => 'common\components\actions\ProductSkuOptionsAction',
-            ]
+            ],
+            'search-order' => [
+                'class' => '\cza\base\components\actions\common\OptionsListAction',
+                'modelClass' => \common\models\c2\entity\OrderModel::className(),
+                'listMethod' => 'getOptionsListCallable',
+                'keyAttribute' => 'id',
+                'valueAttribute' => 'order_no',
+                'queryAttribute' => 'order_no',
+                'checkAccess' => [$this, 'checkAccess'],
+            ],
         ]);
     }
 

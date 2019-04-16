@@ -58,38 +58,50 @@ $form = ActiveForm::begin([
                     'label' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('label')]],
                     'type' => ['type' => Form::INPUT_DROPDOWN_LIST, 'items' => \common\models\c2\statics\InventoryDeliveryType::getHashMap('id', 'label')],
                     'warehouse_id' => ['type' => Form::INPUT_DROPDOWN_LIST, 'items' => \common\models\c2\entity\WarehouseModel::getHashMap('id', 'label')],
-                    //                 'sales_order_id' => [
-                    //                     'type' => Form::INPUT_WIDGET,
-                    //                     'widgetClass' => '\kartik\widgets\Select2',
-                    //                     'label' => Yii::t('app.c2', 'Sales order Code'),
-                    //                     'options' => [
-                    //                         'language' => Yii::$app->language,
-                    //                         'initValueText' => $model->isNewRecord ? "" : $model->salesOrder->code,
-                    //                         'options' => [
-                    //                             'multiple' => false,
-                    //                             'placeholder' => Yii::t('app.c2', 'Search {s1}...', ['s1' => Yii::t('app.c2', 'Sales order Code')]),
-                    //                         ],
-                    //                         'pluginOptions' => [
-                    // //                            'dropdownParent' => '$("#inventory-delivery-note-modal")',
-                    //                             'allowClear' => true,
-                    //                             'minimumInputLength' => 1,
-                    //                             'ajax' => [
-                    //                                 'url' => Url::toRoute('search-order'),
-                    //                                 'dataType' => 'json',
-                    //                                 'data' => new JsExpression('function(params) { return {q:params.term}; }')
-                    //                             ],
-                    //                             'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                    //                             'templateResult' => new JsExpression('function(data) { return data.text; }'),
-                    //                             'templateSelection' => new JsExpression('function (data) { return data.text; }'),
-                    //                         ],
-                    //                     ],
-                    //                 ],
+                    'sales_order_id' => [
+                        'type' => Form::INPUT_WIDGET,
+                        'widgetClass' => '\kartik\widgets\Select2',
+                        'label' => Yii::t('app.c2', 'Sales order Code'),
+                        'options' => [
+                            'language' => Yii::$app->language,
+                            'initValueText' => $model->isNewRecord ? "" : $model->order->order_no,
+                            'options' => [
+                                'multiple' => false,
+                                'placeholder' => Yii::t('app.c2', 'Search {s1}...', ['s1' => Yii::t('app.c2', 'Sales order Code')]),
+                            ],
+                            'pluginOptions' => [
+                                //                            'dropdownParent' => '$("#inventory-delivery-note-modal")',
+                                'allowClear' => true,
+                                'minimumInputLength' => 1,
+                                'ajax' => [
+                                    'url' => Url::toRoute('search-order'),
+                                    'dataType' => 'json',
+                                    'data' => new JsExpression('function(params) { return {q:params.term}; }')
+                                ],
+                                'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                                'templateResult' => new JsExpression('function(data) { return data.text; }'),
+                                'templateSelection' => new JsExpression('function (data) { return data.text; }'),
+                            ],
+                        ],
+                    ],
                     'occurrence_date' => ['type' => Form::INPUT_WIDGET, 'widgetClass' => '\kartik\widgets\DateTimePicker', 'options' => [
                         'options' => ['placeholder' => Yii::t('app.c2', 'Date Time...')], 'pluginOptions' => ['format' => 'yyyy-mm-dd hh:ii:ss', 'autoclose' => true],
                     ],],
                     'grand_total' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('grand_total')]],
-                    'contact_man' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('contact_man')]],
-                    'sender_name' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('sender_name')]],
+                    'contact_man' => [
+                        'widgetClass' => \kartik\select2\Select2::className(),
+                        'type' => Form::INPUT_WIDGET,
+                        'options' => [
+                            'data' => \common\models\c2\entity\FeUserModel::getHashMap('id', 'username', ['type' => \common\models\c2\statics\UserType::TYPE_EMPLOYEE]),
+                        ]
+                    ],
+                    'sender_name' => [
+                        'widgetClass' => \kartik\select2\Select2::className(),
+                        'type' => Form::INPUT_WIDGET,
+                        'options' => [
+                            'data' => \common\models\c2\entity\FeUserModel::getHashMap('id', 'username', ['type' => \common\models\c2\statics\UserType::TYPE_EMPLOYEE]),
+                        ]
+                    ],
                 ]
             ]);
 
@@ -98,8 +110,20 @@ $form = ActiveForm::begin([
                 'form' => $form,
                 'columns' => 4,
                 'attributes' => [
-                    'cs_name' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('cs_name')]],
-                    'financial_name' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('financial_name')]],
+                    'cs_name' => [
+                        'widgetClass' => \kartik\select2\Select2::className(),
+                        'type' => Form::INPUT_WIDGET,
+                        'options' => [
+                            'data' => \common\models\c2\entity\FeUserModel::getHashMap('id', 'username', ['type' => \common\models\c2\statics\UserType::TYPE_EMPLOYEE]),
+                        ]
+                    ],
+                    'financial_name' => [
+                        'widgetClass' => \kartik\select2\Select2::className(),
+                        'type' => Form::INPUT_WIDGET,
+                        'options' => [
+                            'data' => \common\models\c2\entity\FeUserModel::getHashMap('id', 'username', ['type' => \common\models\c2\statics\UserType::TYPE_EMPLOYEE]),
+                        ]
+                    ],
                     'payment_method' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('payment_method')]],
                     'delivery_method' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('delivery_method')]],
                 ]
@@ -128,46 +152,88 @@ $form = ActiveForm::begin([
                                     'name' => 'id',
                                     'type' => 'hiddenInput',
                                 ],
+                                // [
+                                //     'name' => 'product_id',
+                                //     // 'type' => 'dropDownList',
+                                //     'title' => Yii::t('app.c2', 'Product Sku2'),
+                                //     'enableError' => true,
+                                //     // 'items' => ['' => Yii::t("app.c2", "Select options ..")] + \common\models\c2\entity\ProductModel::getHashMap('id', 'sku', ['status' => EntityModelStatus::STATUS_ACTIVE]),
+                                //     'type' => \kartik\select2\Select2::className(),
+                                //     'options' => [
+                                //         'data' => ['' => Yii::t("app.c2", "Select options ..")] + \common\models\c2\entity\ProductModel::getHashMap('id', 'sku', [
+                                //                 'status' => EntityModelStatus::STATUS_ACTIVE, 'type' => \common\models\c2\statics\ProductType::TYPE_PRODUCT]),
+                                //         'pluginEvents' => [
+                                //             'change' => "function() {
+                                //                 $.post('" . Url::toRoute(['skus']) . "', {'depdrop_all_params[product_id]':$(this).val(),'depdrop_parents[]':$(this).val()}, function(data) {
+                                //                     if(data.output !== undefined) {
+                                //                         $('select#subcat-{multiple_index_{$multipleItemsId}}').empty();
+                                //                         $.each(data.output, function(key, item){
+                                //                                 $('select#subcat-{multiple_index_{$multipleItemsId}}').append('<option value=' + item.id + '>' + item.name + '</option>');
+                                //                             });
+                                //                     }
+                                //                 })
+                                //             }",
+                                //         ],
+                                //     ],
+                                // ],
                                 [
-                                    'name' => 'product_id',
-                                    // 'type' => 'dropDownList',
-                                    'title' => Yii::t('app.c2', 'Product Sku2'),
-                                    'enableError' => true,
-                                    // 'items' => ['' => Yii::t("app.c2", "Select options ..")] + \common\models\c2\entity\ProductModel::getHashMap('id', 'sku', ['status' => EntityModelStatus::STATUS_ACTIVE]),
-                                    'type' => \kartik\select2\Select2::className(),
-                                    'options' => [
-                                        'data' => ['' => Yii::t("app.c2", "Select options ..")] + \common\models\c2\entity\ProductModel::getHashMap('id', 'sku', [
-                                                'status' => EntityModelStatus::STATUS_ACTIVE, 'type' => \common\models\c2\statics\ProductType::TYPE_PRODUCT]),
-                                        'pluginEvents' => [
-                                            'change' => "function() {
-                                                $.post('" . Url::toRoute(['skus']) . "', {'depdrop_all_params[product_id]':$(this).val(),'depdrop_parents[]':$(this).val()}, function(data) {
-                                                    if(data.output !== undefined) {
-                                                        $('select#subcat-{multiple_index_{$multipleItemsId}}').empty();
-                                                        $.each(data.output, function(key, item){
-                                                                $('select#subcat-{multiple_index_{$multipleItemsId}}').append('<option value=' + item.id + '>' + item.name + '</option>');
-                                                            });
-                                                    }
-                                                })
-                                            }",
-                                        ],
+                                    'name' => 'comment',
+                                    'type' => 'static',
+                                    'headerOptions' => [
+                                        // 'style' => 'width: 70px;',
                                     ],
-                                ],
-                                [
-                                    'name' => 'product_sku_id',
-                                    'type' => 'dropDownList',
-                                    'title' => Yii::t('app.c2', 'Product/Sku'),
-                                    'enableError' => true,
-                                    'items' => $model->isNewRecord ? [] : function ($data) {
+                                    'value' => function ($data) {
                                         if (is_object($data)) {
-                                            return $data->product->getProductSkuOptionsList();
+                                            return Html::textInput('', $data->product->sku, [
+                                                'class' => 'form-control',
+                                                'disabled' => true
+                                            ]);
                                         }
-                                        return [];
-                                        // return \common\models\c2\entity\ProductModel::getHashMap('id', 'name');
+
                                     },
                                     'options' => [
-                                        'id' => "subcat-{multiple_index_{$multipleItemsId}}",
-                                    ],
+
+                                    ]
                                 ],
+                                [
+                                    'name' => 'comment',
+                                    'type' => 'static',
+                                    'headerOptions' => [
+                                        // 'style' => 'width: 70px;',
+                                    ],
+                                    'value' => function ($data) {
+                                        if (is_object($data)) {
+                                            return Html::textInput('', $data->product->name, [
+                                                'class' => 'form-control',
+                                                'data-toggle' => 'tooltip',
+                                                'data-placement' => 'top',
+                                                'data-html' => 'true',
+                                                // 'disabled' => true,
+                                                'title' => $data->product->getProductMaterialVer(),
+                                            ]);
+                                        }
+
+                                    },
+                                    'options' => [
+
+                                    ]
+                                ],
+                                // [
+                                //     'name' => 'product_sku_id',
+                                //     'type' => 'dropDownList',
+                                //     'title' => Yii::t('app.c2', 'Product/Sku'),
+                                //     'enableError' => true,
+                                //     'items' => $model->isNewRecord ? [] : function ($data) {
+                                //         if (is_object($data)) {
+                                //             return $data->product->getProductSkuOptionsList();
+                                //         }
+                                //         return [];
+                                //         // return \common\models\c2\entity\ProductModel::getHashMap('id', 'name');
+                                //     },
+                                //     'options' => [
+                                //         'id' => "subcat-{multiple_index_{$multipleItemsId}}",
+                                //     ],
+                                // ],
                                 [
                                     'name' => 'measure_id',
                                     'title' => Yii::t('app.c2', 'Measure'),
@@ -186,15 +252,16 @@ $form = ActiveForm::begin([
                                 ],
                                 [
                                     'name' => 'quantity',
-                                    'type' => kartik\widgets\TouchSpin::className(),
+                                    // 'type' => kartik\widgets\TouchSpin::className(),
                                     'title' => Yii::t('app.c2', 'Quantity'),
                                     'defaultValue' => 1,
                                     'options' => [
+                                        'type' => 'number',
                                         'id' => "quantity-{multiple_index_{$multipleItemsId}}",
-                                        'pluginOptions' => [
-                                            'buttondown_txt' => '<i class="glyphicon glyphicon-minus-sign"></i>',
-                                            'buttonup_txt' => '<i class="glyphicon glyphicon-plus-sign"></i>',
-                                        ],
+                                        // 'pluginOptions' => [
+                                        //     'buttondown_txt' => '<i class="glyphicon glyphicon-minus-sign"></i>',
+                                        //     'buttonup_txt' => '<i class="glyphicon glyphicon-plus-sign"></i>',
+                                        // ],
                                     ]
                                 ],
                                 [
@@ -205,7 +272,8 @@ $form = ActiveForm::begin([
                                             'class' => 'btn btn-success',
                                             'onclick' => "(function(e) { 
                                             var price = $('#price-{multiple_index_{$multipleItemsId}}').val();
-                                             $('#subtotal-{multiple_index_{$multipleItemsId}}').val(strip($('#quantity-{multiple_index_{$multipleItemsId}}').val() * price));
+                                            var num = $('#quantity-{multiple_index_{$multipleItemsId}}').val();
+                                             $('#subtotal-{multiple_index_{$multipleItemsId}}').val(strip(num * price).toFixed(2));
                                         })();",
                                             // 'id' => "calculate-{multiple_index_{$multipleItemsId}}",
                                         ]);
@@ -302,6 +370,9 @@ $js .= "jQuery('.btn.multiple-input-list__btn.js-input-remove').off('click').on(
 
 $js .= "function strip(num, precision = 12) {
   return +parseFloat(num.toPrecision(precision));
-}";
+}$(function () {
+  $('[data-toggle=\"tooltip\"]').tooltip()
+})";
+
 $this->registerJs($js);
 ?>

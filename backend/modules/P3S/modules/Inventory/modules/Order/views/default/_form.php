@@ -1,5 +1,6 @@
 <?php
 
+use cza\base\models\statics\OperationEvent;
 use yii\helpers\Html;
 use kartik\widgets\ActiveForm;
 use kartik\builder\Form;
@@ -30,6 +31,9 @@ $form = ActiveForm::begin([
                 'withWrapper' => false,
                 'messages' => Yii::$app->session->getFlash($messageName),
             ]);
+            $this->registerJs(
+                "jQuery('{$model->getPrefixName('grid', true)}').trigger('" . OperationEvent::REFRESH . "');"
+            );
         } else {
             echo InfoBox::widget([
                 'defaultMessageType' => InfoBox::TYPE_WARNING,
@@ -113,7 +117,7 @@ $form = ActiveForm::begin([
                                 'type' => 'static',
                                 'title' => Yii::t('app.c2', 'Material'),
                                 'enableError' => true,
-                                'value' =>
+                                'value' => $model->isNewRecord ? function() use($multipleItemsId) {return '<ul id="'."subcat-{multiple_index_{$multipleItemsId}}".'"class="list-group">';} :
                                     function ($data) use ($multipleItemsId, $model) {
                                         if (is_object($data)) {
                                             return $this->render('_item', [
@@ -122,11 +126,6 @@ $form = ActiveForm::begin([
                                                 'multipleItemsId' => "subcat-{multiple_index_{$multipleItemsId}}",
                                             ]);
                                         }
-                                        return $this->render('_item', [
-                                            'data' => $data,
-                                            'model' => $model,
-                                            'multipleItemsId' => "subcat-{multiple_index_{$multipleItemsId}}",
-                                        ]);
                                     },
                                 // 'items' => $model->isNewRecord ? [] : function ($data) {
                                 //     if (is_object($data)) {
@@ -202,9 +201,20 @@ $form = ActiveForm::begin([
         ]);
         echo Html::beginTag('div', ['class' => 'box-footer']);
         echo Html::submitButton('<i class="fa fa-save"></i> ' . Yii::t('app.c2', 'Save'), ['type' => 'button', 'class' => 'btn btn-primary pull-right']);
-        echo Html::a('<i class="fa fa-arrow-left"></i> ' . Yii::t('app.c2', 'Go Back'), ['index'], ['data-pjax' => '0', 'class' => 'btn btn-default pull-right', 'title' => Yii::t('app.c2', 'Go Back'),]);
+        echo Html::a('<i class="fa fa-close"></i> ' . Yii::t('app.c2', 'Close'), ['index'], ['data-dismiss' => 'modal', 'class' => 'btn btn-default pull-right', 'title' => Yii::t('app.c2', 'Close'),]);
         echo Html::endTag('div');
         ?>
     </div>
 </div>
 <?php ActiveForm::end(); ?>
+<?php
+$js = "";
+$js .= "jQuery('.btn.multiple-input-list__btn.js-input-remove').off('click').on('click', function(){
+    var itemId = $(this).closest('tr').data('id');
+    if(itemId){
+       $.ajax({url:'" . Url::toRoute('delete-subitem') . "',data:{id:itemId}}).done(function(result){;}).fail(function(result){alert(result);});
+    }
+});\n";
+
+$this->registerJs($js);
+?>

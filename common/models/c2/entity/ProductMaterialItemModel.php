@@ -83,4 +83,9 @@ class ProductMaterialItemModel extends \cza\base\models\ActiveRecord
         return $this->hasOne(ProductMaterialModel::className(), ['id' => 'product_id']);
     }
 
+    public function getStock()
+    {
+        return $this->hasOne(ProductStock::className(), ['product_material_id' => 'id']);
+    }
+
 }

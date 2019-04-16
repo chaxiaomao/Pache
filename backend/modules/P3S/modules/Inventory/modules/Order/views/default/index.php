@@ -15,11 +15,12 @@ use cza\base\models\statics\OperationEvent;
 $this->title = Yii::t('app.c2', 'Order Models');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-    <div class="well order-model-index">
+    <div class="<?= $model->getPrefixName('index') ?>">
 
         <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
         <?php echo GridView::widget([
+            'id' => $model->getPrefixName('grid'),
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
 
@@ -65,17 +66,39 @@ $this->params['breadcrumbs'][] = $this->title;
                 'id',
                 'user_id',
                 'order_no',
-                'production_date',
-                'delivery_date',
-                // 'created_by',
-                // 'updated_by',
+                // 'production_date',
+                // 'delivery_date',
+                [
+                    'attribute' => 'production_date',
+                    'value' => function ($model, $key, $index, $column) {
+                        return date('Y-m-d', strtotime($model->production_date));
+                    },
+                ],
+                [
+                    'attribute' => 'delivery_date',
+                    'value' => function ($model, $key, $index, $column) {
+                        return date('Y-m-d', strtotime($model->delivery_date));
+                    },
+                ],
+                [
+                    'attribute' => 'created_by',
+                    'value' => function ($model, $key, $index, $column) {
+                        return $model->creator->profile->fullname;
+                    },
+                ],
+                // [
+                //     'attribute' => 'updated_by',
+                //     'value' => function ($model, $key, $index, $column) {
+                //         return $model->creator->profile->fullname;
+                //     },
+                // ],
                 // 'status',
                 // 'created_at',
                 // 'updated_at',
                 [
                     'attribute' => 'state',
                     'filter' => InventoryExeState::getHashMap('id', 'label'),
-                    'value' => function($model) {
+                    'value' => function ($model) {
                         return InventoryExeState::getLabel($model->state);
                     }
                 ],
@@ -100,7 +123,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'buttons' => [
                         'view' => function ($url, $model, $key) {
                             $title = Yii::t('app.c2', 'View');
-                            return Html::a(Html::tag('span', '', ['class' => "glyphicon glyphicon-print"]), [$url, ], [
+                            return Html::a(Html::tag('span', '', ['class' => "glyphicon glyphicon-print"]), [$url,], [
                                 'title' => $title,
                                 'aria-label' => $title,
                                 'data-pjax' => '0',
@@ -134,7 +157,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 <?php
 Modal::begin([
-    'id' => 'content-modal',
+    'id' => 'order-modal',
     'size' => 'modal-lg',
 ]);
 Modal::end();
@@ -142,17 +165,17 @@ Modal::end();
 $js = "";
 $js .= "jQuery(document).off('" . OperationEvent::CREATE . "', '.order-model-index').on('" . OperationEvent::CREATE . "', '.order-model-index', function(e, data) {
                     e.preventDefault();
-                    jQuery('#content-modal').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(data.url);
+                    jQuery('#order-modal').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(data.url);
                 });";
 
 $js .= "jQuery(document).off('click', '.order-model-index a.update').on('click', '.order-model-index a.update', function(e) {
                 e.preventDefault();
-                jQuery('#content-modal').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(jQuery(e.currentTarget).attr('href'));
+                jQuery('#order-modal').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(jQuery(e.currentTarget).attr('href'));
             });";
 
 $js .= "jQuery(document).off('click', '.order-model-index a.view').on('click', '.order-model-index a.view', function(e) {
                 e.preventDefault();
-                jQuery('#content-modal').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(jQuery(e.currentTarget).attr('href'));
+                jQuery('#order-modal').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(jQuery(e.currentTarget).attr('href'));
             });";
 
 $js .= "jQuery(document).off('click', '.order-model-index a.ensure-do').on('click', '.order-model-index a.ensure-do', function(e) {

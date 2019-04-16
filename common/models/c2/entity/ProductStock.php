@@ -199,4 +199,9 @@ class ProductStock extends \cza\base\models\ActiveRecord {
         parent::loadDefaultValues($skipIfSet);
     }
 
+    public function getProductMaterialItem()
+    {
+        return $this->hasOne(ProductMaterialItemModel::className(), ['id' => 'product_material_id']);
+    }
+
 }

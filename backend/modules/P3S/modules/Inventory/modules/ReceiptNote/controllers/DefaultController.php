@@ -25,6 +25,9 @@ class DefaultController extends Controller
             ],
             'skus' => [
                 'class' => 'common\components\actions\ProductSkuOptionsAction',
+            ],
+            'materials' => [
+                'class' => 'common\components\actions\MaterialOptionsAction',
             ]
         ]);
     }
@@ -121,7 +124,7 @@ class DefaultController extends Controller
                 $responseData = ResponseDatum::getErrorDatum(['message' => Yii::t('cza', 'Error: operation can not finish!')], $id);
             }
         } catch (\Exception $ex) {
-            $responseData = ResponseDatum::getErrorDatum(['message' => $ex->getMessage], $id);
+            $responseData = ResponseDatum::getErrorDatum(['message' => $ex->getMessage()], $id);
         }
 
         return $this->asJson($responseData);

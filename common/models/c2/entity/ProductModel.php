@@ -284,4 +284,13 @@ class ProductModel extends \cza\base\models\ActiveRecord
         return $this->getProductMaterialItems()->asArray()->all();
     }
 
+    public function getProductMaterialVer()
+    {
+        $str = "";
+        foreach ($this->getProductMaterialOptions() as $productMaterialOption) {
+            $str .= "<p>" . $productMaterialOption['label'] . ':' . $productMaterialOption['value'] . "</p>";
+        }
+        return $str;
+    }
+
 }

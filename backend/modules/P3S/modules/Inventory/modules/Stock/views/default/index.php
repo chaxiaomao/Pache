@@ -28,20 +28,20 @@ $this->params['breadcrumbs'][] = $this->title;
         'toolbar' => [
             [
                 'content' =>
-               Html::a('<i class="glyphicon glyphicon-plus"></i>', ['edit'], [
-                   'class' => 'btn btn-success',
-                   'title' => Yii::t('app.c2', 'Add'),
-                   'data-pjax' => '0',
-               ]) . ' ' .
-               Html::button('<i class="glyphicon glyphicon-remove"></i>', [
-                   'class' => 'btn btn-danger',
-                   'title' => Yii::t('app.c2', 'Delete Selected Items'),
-                   'onClick' => "jQuery(this).trigger('" . OperationEvent::DELETE_BY_IDS . "', {url:'" . Url::toRoute('multiple-delete') . "'});",
-               ]) . ' ' .
-                Html::a('<i class="glyphicon glyphicon-repeat"></i>', Url::current(), [
-                    'class' => 'btn btn-default',
-                    'title' => Yii::t('app.c2', 'Reset Grid')
-                ]),
+                    Html::a('<i class="glyphicon glyphicon-plus"></i>', ['edit'], [
+                        'class' => 'btn btn-success',
+                        'title' => Yii::t('app.c2', 'Add'),
+                        'data-pjax' => '0',
+                    ]) . ' ' .
+                    Html::button('<i class="glyphicon glyphicon-remove"></i>', [
+                        'class' => 'btn btn-danger',
+                        'title' => Yii::t('app.c2', 'Delete Selected Items'),
+                        'onClick' => "jQuery(this).trigger('" . OperationEvent::DELETE_BY_IDS . "', {url:'" . Url::toRoute('multiple-delete') . "'});",
+                    ]) . ' ' .
+                    Html::a('<i class="glyphicon glyphicon-repeat"></i>', Url::current(), [
+                        'class' => 'btn btn-default',
+                        'title' => Yii::t('app.c2', 'Reset Grid')
+                    ]),
             ],
             '{export}',
             '{toggleData}',
@@ -59,8 +59,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     return GridView::ROW_COLLAPSED;
                 },
             ],
-//            'id',
-//            'eshop_id',
+            //            'id',
+            //            'eshop_id',
             [
                 'attribute' => 'warehouse_id',
                 'filter' => \common\models\c2\entity\WarehouseModel::getHashMap('id', 'label'),
@@ -68,7 +68,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $model->warehouse->label;
                 },
             ],
-//            'product_id',
+            //            'product_id',
             [
                 'attribute' => 'product_id',
                 'filter' => \common\models\c2\entity\ProductModel::getHashMap('id', 'label'),
@@ -76,9 +76,16 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $model->product->label;
                 },
             ],
-            'sku',
+            // 'sku',
             // 'label',
             // 'product_sku_id',
+            [
+                'attribute' => 'product_material_id',
+                'label' => Yii::t('app.c2', 'Product Sku2'),
+                'value' => function ($model) {
+                    return $model->productMaterialItem->value;
+                }
+            ],
             'num',
             // 'stock',
             // 'state',
@@ -86,31 +93,31 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'position',
             // 'created_at',
             'updated_at',
-//            [
-//                'attribute' => 'status',
-//                'class' => '\kartik\grid\EditableColumn',
-//                'editableOptions' => [
-//                    'inputType' => \kartik\editable\Editable::INPUT_DROPDOWN_LIST,
-//                    'formOptions' => ['action' => Url::toRoute('editColumn')],
-//                    'data' => EntityModelStatus::getHashMap('id', 'label'),
-//                    'displayValueConfig' => EntityModelStatus::getHashMap('id', 'label'),
-//                ],
-//                'filter' => EntityModelStatus::getHashMap('id', 'label'),
-//                'value' => function($model) {
-//                    return $model->getStatusLabel();
-//                }
-//            ],
-//            [
-//                'class' => '\common\widgets\grid\ActionColumn',
-//                'buttons' => [
-//                    'update' => function ($url, $model, $key) {
-//                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['edit', 'id' => $model->id], [
-//                                    'title' => Yii::t('app', 'Info'),
-//                                    'data-pjax' => '0',
-//                        ]);
-//                    }
-//                ]
-//            ],
+            //            [
+            //                'attribute' => 'status',
+            //                'class' => '\kartik\grid\EditableColumn',
+            //                'editableOptions' => [
+            //                    'inputType' => \kartik\editable\Editable::INPUT_DROPDOWN_LIST,
+            //                    'formOptions' => ['action' => Url::toRoute('editColumn')],
+            //                    'data' => EntityModelStatus::getHashMap('id', 'label'),
+            //                    'displayValueConfig' => EntityModelStatus::getHashMap('id', 'label'),
+            //                ],
+            //                'filter' => EntityModelStatus::getHashMap('id', 'label'),
+            //                'value' => function($model) {
+            //                    return $model->getStatusLabel();
+            //                }
+            //            ],
+            //            [
+            //                'class' => '\common\widgets\grid\ActionColumn',
+            //                'buttons' => [
+            //                    'update' => function ($url, $model, $key) {
+            //                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['edit', 'id' => $model->id], [
+            //                                    'title' => Yii::t('app', 'Info'),
+            //                                    'data-pjax' => '0',
+            //                        ]);
+            //                    }
+            //                ]
+            //            ],
         ],
     ]);
     ?>

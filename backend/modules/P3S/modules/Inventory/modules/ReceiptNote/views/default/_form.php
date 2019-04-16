@@ -125,17 +125,17 @@ $form = ActiveForm::begin([
                                 'title' => Yii::t('app.c2', 'Product Num'),
                                 'type' => \kartik\select2\Select2::className(),
                                 'options' => [
-                                    'data' => \common\models\c2\entity\ProductModel::getHashMap('id', 'sku', ['status' => EntityModelStatus::STATUS_ACTIVE, 'type' => \common\models\c2\statics\ProductType::TYPE_MATERIAL]),
+                                    'data' => \common\models\c2\entity\ProductModel::getHashMap('id', 'name', ['status' => EntityModelStatus::STATUS_ACTIVE, 'type' => \common\models\c2\statics\ProductType::TYPE_MATERIAL]),
                                     'pluginOptions' => [
                                         'placeholder' => $model->getAttributeLabel('Select options ..')
                                     ],
                                     'pluginEvents' => [
                                         'change' => "function() {
-                                            $.post('" . Url::toRoute(['skus']) . "', {'depdrop_all_params[product_id]':$(this).val(),'depdrop_parents[]':$(this).val()}, function(data) {
+                                            $.post('" . Url::toRoute(['materials']) . "', {'depdrop_all_params[product_id]':$(this).val(),'depdrop_parents[]':$(this).val()}, function(data) {
                                                 if(data.output !== undefined) {
                                                     $('select#subcat-{multiple_index_{$multipleItemsId}}').empty();
                                                     $.each(data.output, function(key, item){
-                                                            $('select#subcat-{multiple_index_{$multipleItemsId}}').append('<option value=' + item.id + '>' + item.name + '</option>');
+                                                            $('select#subcat-{multiple_index_{$multipleItemsId}}').append('<option value=' + item.id + '>' + item.label + '</option>');
                                                         });
                                                 }
                                             })
@@ -150,8 +150,9 @@ $form = ActiveForm::begin([
                                 'enableError' => true,
                                 'items' => $model->isNewRecord ? [] : function ($data) {
                                     if (is_object($data)) {
+                                        // var_dump(get_class($data->productMaterial));
                                         // return $data->ownerAttribute->getItemsHashMap();
-                                        return $data->product->getProductSkuOptionsList();
+                                        return $data->productMaterial->getMaterialItemOptions();
                                     }
                                     return [];
                                 },
@@ -178,15 +179,16 @@ $form = ActiveForm::begin([
                             ],
                             [
                                 'name' => 'quantity',
-                                'type' => kartik\widgets\TouchSpin::className(),
+                                // 'type' => kartik\widgets\TouchSpin::className(),
                                 'title' => Yii::t('app.c2', 'Quantity'),
                                 'defaultValue' => 1,
                                 'options' => [
                                     'id' => "quantity-{multiple_index_{$multipleItemsId}}",
-                                    'pluginOptions' => [
-                                        'buttondown_txt' => '<i class="glyphicon glyphicon-minus-sign"></i>',
-                                        'buttonup_txt' => '<i class="glyphicon glyphicon-plus-sign"></i>',
-                                    ],
+                                    'type' => 'number',
+                                    // 'pluginOptions' => [
+                                    //     'buttondown_txt' => '<i class="glyphicon glyphicon-minus-sign"></i>',
+                                    //     'buttonup_txt' => '<i class="glyphicon glyphicon-plus-sign"></i>',
+                                    // ],
                                     // 'pluginEvents' => [
                                     //     "touchspin.on.startspin" => "function() {
                                     //          var price = $('#price-{multiple_index_{$multipleItemsId}}').val();
@@ -207,7 +209,8 @@ $form = ActiveForm::begin([
                                         'class' => 'btn btn-success',
                                         'onclick' => "(function(e) { 
                                             var price = $('#price-{multiple_index_{$multipleItemsId}}').val();
-                                             $('#subtotal-{multiple_index_{$multipleItemsId}}').val(strip($('#quantity-{multiple_index_{$multipleItemsId}}').val() * price));
+                                            var num = $('#quantity-{multiple_index_{$multipleItemsId}}').val();
+                                             $('#subtotal-{multiple_index_{$multipleItemsId}}').val(strip(num * price).toFixed(2));
                                         })();",
                                         // 'id' => "calculate-{multiple_index_{$multipleItemsId}}",
                                     ]);

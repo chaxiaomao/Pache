@@ -76,7 +76,8 @@ class MaterialOptionsAction extends \yii\base\Action {
         foreach ($model->materialItems as $model) {
             $options[] = [
                 'id' => $model->id,
-                'name' => $model->value,
+                // 'label' => $model->label . ":" . $model->value ,
+                'label' => $model->value ,
                 // 'price' => $model->getPrice(),
             ];
         }

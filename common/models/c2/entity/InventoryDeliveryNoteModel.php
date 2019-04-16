@@ -112,50 +112,60 @@ class InventoryDeliveryNoteModel extends \cza\base\models\ActiveRecord
     {
         return new \common\models\c2\query\InventoryDeliveryNoteQuery(get_called_class());
     }
-    
+
     /**
-    * setup default values
-    **/
-    public function loadDefaultValues($skipIfSet = true) {
+     * setup default values
+     **/
+    public function loadDefaultValues($skipIfSet = true)
+    {
         parent::loadDefaultValues($skipIfSet);
         if ($this->isNewRecord) {
             $this->code = \common\helpers\CodeGenerator::getCodeByDate($this, 'DN');
         }
     }
 
-    public function getWarehouse() {
+    public function getWarehouse()
+    {
         return $this->hasOne(WarehouseModel::className(), ['id' => 'warehouse_id']);
     }
 
-    public function getSalesOrder() {
-        return $this->hasOne(SalesOrder::className(), ['id' => 'sales_order_id']);
+    public function getOrder()
+    {
+        return $this->hasOne(OrderModel::className(), ['id' => 'sales_order_id']);
     }
 
-    public function getCustomer() {
+    public function getCustomer()
+    {
         return $this->hasOne(Customer::className(), ['id' => 'customer_id']);
     }
 
-    public function getActiveNoteItems() {
+    public function getActiveNoteItems()
+    {
         return $this->hasMany(InventoryDeliveryNoteItemModel::className(), ['note_id' => 'id'])->onCondition(['status' => EntityModelStatus::STATUS_ACTIVE]);
     }
 
-    public function getAllNoteItems() {
+    public function getAllNoteItems()
+    {
         return $this->hasMany(InventoryDeliveryNoteItemModel::className(), ['note_id' => 'id']);
     }
 
-    public function getTypeLabel() {
+    public function getTypeLabel()
+    {
         return InventoryDeliveryType::getLabel($this->type);
     }
 
-    public function getCreator() {
+    public function getCreator()
+    {
         return $this->hasOne(\backend\models\c2\entity\rbac\BeUser::class, ['id' => 'created_by']);
     }
 
-    public function getUpdater() {
+    public function getUpdater()
+    {
         return $this->hasOne(\backend\models\c2\entity\rbac\BeUser::class, ['id' => 'updated_by']);
     }
 
-    public function beforeSave($insert) {
+    public function beforeSave($insert)
+    {
         // if ($this->sales_order_id) {
         //     $salesOrder = SalesOrder::findOne($this->sales_order_id);
         //     $this->customer_id = $salesOrder->customer_id;
@@ -163,68 +173,112 @@ class InventoryDeliveryNoteModel extends \cza\base\models\ActiveRecord
         return parent::beforeSave($insert);
     }
 
-    public function afterSave($insert, $changedAttributes) {
-        parent::afterSave($insert, $changedAttributes);
+    // public function afterSave($insert, $changedAttributes) {
+    //     parent::afterSave($insert, $changedAttributes);
+    //
+    //     if (!empty($this->items)) {
+    //         foreach ($this->items as $item) {
+    //             // $productSku = isset($item['product_sku_id']) ? ProductSku::findOne(['id' => $item['product_sku_id']]) : null;
+    //             $attributes = [
+    //                 'product_id' => isset($item['product_id']) ? $item['product_id'] : 0,
+    //                 'product_sku_id' => isset($item['product_sku_id']) ? $item['product_sku_id'] : 0,
+    //                 'measure_id' => isset($item['measure_id']) ? $item['measure_id'] : 0,
+    //                 'quantity' => isset($item['quantity']) ? $item['quantity'] : 50,
+    //
+    //                 'factory_price' => isset($item['factory_price']) ? $item['factory_price'] : "",
+    //                 'subtotal' => isset($item['subtotal']) ? $item['subtotal'] : "",
+    //                 'memo' => isset($item['memo']) ? $item['memo'] : "",
+    //             ];
+    //             if (isset($item['id']) && $item['id'] == 0) {  // create new items
+    //                 $itemModel = new InventoryDeliveryNoteItemModel();
+    //                 $itemModel->setAttributes($attributes);
+    //                 $itemModel->link('owner', $this);
+    //             } elseif (isset($item['id'])) {  // update itemes
+    //                 $itemModel = InventoryDeliveryNoteItemModel::findOne(['id' => $item['id']]);
+    //                 if (!is_null($itemModel)) {
+    //                     $itemModel->updateAttributes($attributes);
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
 
-        if (!empty($this->items)) {
-            foreach ($this->items as $item) {
-                // $productSku = isset($item['product_sku_id']) ? ProductSku::findOne(['id' => $item['product_sku_id']]) : null;
-                $attributes = [
-                    'product_id' => isset($item['product_id']) ? $item['product_id'] : 0,
-                    // 'customer_id' => $this->salesOrder->customer_id,
-                    'product_sku_id' => isset($item['product_sku_id']) ? $item['product_sku_id'] : 0,
-                    // 'sku_label' => !is_null($productSku) ? $productSku->label : "",
-                    'measure_id' => isset($item['measure_id']) ? $item['measure_id'] : 0,
-                    'quantity' => isset($item['quantity']) ? $item['quantity'] : 50,
-                    // 'weight' => isset($item['weight']) ? $item['weight'] : "",
-                    // 'pieces' => isset($item['pieces']) ? $item['pieces'] : "",
-                    // 'volume' => isset($item['volume']) ? $item['volume'] : "",
-                    'factory_price' => isset($item['factory_price']) ? $item['factory_price'] : "",
-                    'subtotal' => isset($item['subtotal']) ? $item['subtotal'] : "",
-                    // 'product_price' => !is_null($productSku) ? $productSku->getPrice() : "",
-                    'memo' => isset($item['memo']) ? $item['memo'] : "",
-                    // 'subtotal' => 0.0,
-                ];
-
-                // if (!empty($attributes['quantity']) && !empty($attributes['factory_price'])) {
-                //     $attributes['subtotal'] = $attributes['factory_price'] * $attributes['quantity'];
-                // } elseif (!empty($attributes['quantity']) && !empty($attributes['product_price'])) {
-                //     $attributes['subtotal'] = $attributes['product_price'] * $attributes['quantity'];
-                // }
-
-
-                if (isset($item['id']) && $item['id'] == 0) {  // create new items
-                    $itemModel = new InventoryDeliveryNoteItemModel();
-                    $itemModel->setAttributes($attributes);
-                    $itemModel->link('owner', $this);
-                } elseif (isset($item['id'])) {  // update itemes
-                    $itemModel = InventoryDeliveryNoteItemModel::findOne(['id' => $item['id']]);
-                    if (!is_null($itemModel)) {
-                        $itemModel->updateAttributes($attributes);
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes); // TODO: Change the autogenerated stub
+        if ($insert) {
+            if (!empty($this->sales_order_id)) {
+                $this->addOrderItem();
+            }
+        } else {
+            if (isset($changedAttributes['sales_order_id'])) {
+                foreach ($this->allNoteItems as $item) {
+                    $item->delete();
+                }
+                $this->addOrderItem();
+            } else {
+                if (!empty($this->items)) {
+                    foreach ($this->items as $item) {
+                        // $productSku = isset($item['product_sku_id']) ? ProductSku::findOne(['id' => $item['product_sku_id']]) : null;
+                        $attributes = [
+                            'measure_id' => isset($item['measure_id']) ? $item['measure_id'] : 0,
+                            'quantity' => isset($item['quantity']) ? $item['quantity'] : 0,
+                            'factory_price' => isset($item['factory_price']) ? $item['factory_price'] : "",
+                            'subtotal' => isset($item['subtotal']) ? $item['subtotal'] : "",
+                            'memo' => isset($item['memo']) ? $item['memo'] : "",
+                        ];
+                        if (isset($item['id']) && $item['id'] == 0) {  // create new items
+                            $itemModel = new InventoryDeliveryNoteItemModel();
+                            $itemModel->setAttributes($attributes);
+                            $itemModel->link('owner', $this);
+                        } elseif (isset($item['id'])) {  // update itemes
+                            $itemModel = InventoryDeliveryNoteItemModel::findOne(['id' => $item['id']]);
+                            if (!is_null($itemModel)) {
+                                $itemModel->updateAttributes($attributes);
+                            }
+                        }
                     }
                 }
             }
         }
     }
 
-    public function validateItems($attribute) {
-        $requiredValidator = new RequiredValidator();
-        foreach ($this->$attribute as $index => $row) {
-            $error = null;
-            $requiredValidator->validate($row['product_id'], $error);
-            if (!empty($error)) {
-                $key = $attribute . '[' . $index . '][product_id]';
-                $this->addError($key, Yii::t('app.c2', '{attribute} can not be empty!', ['attribute' => Yii::t('app.c2', 'Product')]));
-            }
-            $requiredValidator->validate($row['product_sku_id'], $error);
-            if (!empty($error)) {
-                $key = $attribute . '[' . $index . '][product_sku_id]';
-                $this->addError($key, Yii::t('app.c2', '{attribute} can not be empty!', ['attribute' => Yii::t('app.c2', 'Product Sku')]));
-            }
+    public function addOrderItem()
+    {
+        $order = OrderModel::findOne(['id' => $this->sales_order_id]);
+        foreach ($order->orderItems as $item) {
+            $attributes = [
+                'note_id' => $this->id,
+                'product_id' => $item->product->id,
+                'sku_label' => $item->product->name,
+                'quantity' => $item->num,
+            ];
+            $itemModel = new InventoryDeliveryNoteItemModel();
+            $itemModel->setAttributes($attributes);
+            $itemModel->link('owner', $this);
         }
     }
 
-    public function setStateToFinish() {
+    public function validateItems($attribute)
+    {
+        // $requiredValidator = new RequiredValidator();
+        // foreach ($this->$attribute as $index => $row) {
+        //     $error = null;
+        //     $requiredValidator->validate($row['product_id'], $error);
+        //     if (!empty($error)) {
+        //         $key = $attribute . '[' . $index . '][product_id]';
+        //         $this->addError($key, Yii::t('app.c2', '{attribute} can not be empty!', ['attribute' => Yii::t('app.c2', 'Product')]));
+        //     }
+        //     $requiredValidator->validate($row['product_sku_id'], $error);
+        //     if (!empty($error)) {
+        //         $key = $attribute . '[' . $index . '][product_sku_id]';
+        //         $this->addError($key, Yii::t('app.c2', '{attribute} can not be empty!', ['attribute' => Yii::t('app.c2', 'Product Sku')]));
+        //     }
+        // }
+    }
+
+    public function setStateToFinish()
+    {
         InventoryNoteLogModel::logDeliveryNote([
             'note_id' => $this->id,
             'warehouse_id' => $this->warehouse_id,
@@ -233,36 +287,41 @@ class InventoryDeliveryNoteModel extends \cza\base\models\ActiveRecord
         ]);
         $items = $this->activeNoteItems;
         foreach ($items as $item) {
-            $model = $item->productSku;
-            $model->stock -= $item->quantity;
-            $model->save();
+            $model = $item->productMaterialItem->stock;
+            $model->num -= $item
         }
         return $this->updateAttributes(['state' => InventoryExeState::FINISH]);
     }
 
-    public function isStateInit() {
+    public function isStateInit()
+    {
         return ($this->state == InventoryExeState::INIT);
     }
 
-    public function isStateFinish() {
+    public function isStateFinish()
+    {
         return ($this->state == InventoryExeState::FINISH);
     }
 
-    public function loadItems() {
+    public function loadItems()
+    {
         $this->items = $this->getActiveNoteItems()->all();
     }
 
-    public function behaviors() {
+    public function behaviors()
+    {
         return \yii\helpers\ArrayHelper::merge(parent::behaviors(), [
             \yii\behaviors\BlameableBehavior::className(), // record created_by and updated_by
         ]);
     }
 
-    public function getStateLabel() {
+    public function getStateLabel()
+    {
         return InventoryExeState::getLabel($this->state);
     }
 
-    public function beforeDelete() {
+    public function beforeDelete()
+    {
         foreach ($this->allNoteItems as $item) {
             $item->delete();
         }

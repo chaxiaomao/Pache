@@ -104,4 +104,21 @@ class DefaultController extends Controller
         }
         return $this->asJson($responseData);
     }
+
+    public function actionEnsureDo($id)
+    {
+        try {
+            $model = $this->retrieveModel($id);
+            if ($model) {
+                $model->setStateToFinish();
+                $responseData = ResponseDatum::getSuccessDatum(['message' => Yii::t('cza', 'Operation completed successfully!')], $id);
+            } else {
+                $responseData = ResponseDatum::getErrorDatum(['message' => Yii::t('cza', 'Error: operation can not finish!')], $id);
+            }
+        } catch (\Exception $ex) {
+            $responseData = ResponseDatum::getErrorDatum(['message' => $ex->getMessage()], $id);
+        }
+
+        return $this->asJson($responseData);
+    }
 }

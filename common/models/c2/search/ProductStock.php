@@ -18,7 +18,7 @@ class ProductStock extends ProductStockModel
     public function rules()
     {
         return [
-            [['id', 'eshop_id', 'warehouse_id', 'product_id', 'product_sku_id', 'num', 'position'], 'integer'],
+            [['id', 'eshop_id', 'warehouse_id', 'product_id', 'product_sku_id', 'num', 'position', 'product_material_id'], 'integer'],
             [['sku', 'state', 'status', 'created_at', 'updated_at'], 'safe'],
         ];
     }
@@ -65,6 +65,7 @@ class ProductStock extends ProductStockModel
         $query->andFilterWhere([
             'id' => $this->id,
             'eshop_id' => $this->eshop_id,
+            'product_material_id' => $this->product_material_id,
             'warehouse_id' => $this->warehouse_id,
             'product_id' => $this->product_id,
             'product_sku_id' => $this->product_sku_id,

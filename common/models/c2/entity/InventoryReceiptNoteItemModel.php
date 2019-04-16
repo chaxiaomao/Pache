@@ -2,6 +2,7 @@
 
 namespace common\models\c2\entity;
 
+use backend\models\c2\entity\ProductMaterialModel;
 use cza\base\models\statics\EntityModelStatus;
 use Yii;
 
@@ -132,6 +133,16 @@ class InventoryReceiptNoteItemModel extends \cza\base\models\ActiveRecord
     public function getStock()
     {
         // return $this->hasOne(ProductStock::className(), ['' => ''])
+    }
+
+    public function getProductMaterial()
+    {
+        return $this->hasOne(ProductMaterialModel::className(), ['id' => 'product_id']);
+    }
+
+    public function getProductMaterialItem()
+    {
+        return $this->hasOne(ProductMaterialItemModel::className(), ['id' => 'product_sku_id']);
     }
 
 }

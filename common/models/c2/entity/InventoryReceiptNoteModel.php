@@ -175,12 +175,13 @@ class InventoryReceiptNoteModel extends \cza\base\models\ActiveRecord
         ]);
         $items = $this->activeNoteItems;
         foreach ($items as $item) {
-            $model = $item->productStock;
+            $model = $item->productMaterialItem->stock;
             if (is_null($model)) {
                 $model = new ProductStock();
                 $model->setAttributes([
                     'warehouse_id' => $this->warehouse_id,
-                    'product_id' => $item->product->id,
+                    'product_id' => $item->product_id,
+                    'product_material_id' => $item->product_sku_id,
                     'num' => $item->quantity,
                 ]);
                 $model->save();

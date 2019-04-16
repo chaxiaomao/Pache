@@ -2,6 +2,7 @@
 
 namespace common\models\c2\entity;
 
+use backend\models\c2\entity\ProductMaterialModel;
 use Yii;
 
 /**
@@ -111,6 +112,11 @@ class InventoryDeliveryNoteItemModel extends \cza\base\models\ActiveRecord
 
     public function getMeasure() {
         return $this->hasOne(MeasureModel::className(), ['id' => 'measure_id']);
+    }
+
+    public function getProductMaterial()
+    {
+        return $this->hasOne(ProductMaterialModel::className(), ['id' => 'product_id']);
     }
 
 }
