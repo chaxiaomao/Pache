@@ -98,10 +98,9 @@ $form = ActiveForm::begin([
                                         'change' => "function() {
                                             $.post('" . Url::toRoute(['product-materials']) . "', {'depdrop_all_params[product_id]':$(this).val(),'depdrop_parents[]':$(this).val()}, function(data) {
                                                 if(data.output !== undefined) {
-                                                    console.log(data);
-                                                    $('select#subcat-{multiple_index_{$multipleItemsId}}').empty();
+                                                    // $('select#subcat-{multiple_index_{$multipleItemsId}}').empty();
                                                     $.each(data.output, function(key, item){
-                                                            $('#subcat-{multiple_index_{$multipleItemsId}}').append('<li class=" . 'list-group-item' . ">' + item.name + '</li>');
+                                                            $('#subcat-{multiple_index_{$multipleItemsId}}').append('<li class=" . 'list-group-item' . ">' + item.label + ':' + item.value + '</li>');
                                                         });
                                                 }
                                             })
@@ -117,14 +116,17 @@ $form = ActiveForm::begin([
                                 'value' =>
                                     function ($data) use ($multipleItemsId, $model) {
                                         if (is_object($data)) {
-                                            // var_dump($data->product->getproductMaterialItems());
                                             return $this->render('_item', [
                                                 'data' => $data,
                                                 'model' => $model,
                                                 'multipleItemsId' => "subcat-{multiple_index_{$multipleItemsId}}",
                                             ]);
                                         }
-
+                                        return $this->render('_item', [
+                                            'data' => $data,
+                                            'model' => $model,
+                                            'multipleItemsId' => "subcat-{multiple_index_{$multipleItemsId}}",
+                                        ]);
                                     },
                                 // 'items' => $model->isNewRecord ? [] : function ($data) {
                                 //     if (is_object($data)) {

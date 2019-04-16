@@ -145,17 +145,17 @@ $js .= "jQuery(document).off('" . OperationEvent::CREATE . "', '.order-model-ind
                     jQuery('#content-modal').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(data.url);
                 });";
 
-$js .= "jQuery(document).off('click', '.model-model-index a.update').on('click', '.model-model-index a.update', function(e) {
+$js .= "jQuery(document).off('click', '.order-model-index a.update').on('click', '.order-model-index a.update', function(e) {
                 e.preventDefault();
                 jQuery('#content-modal').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(jQuery(e.currentTarget).attr('href'));
             });";
 
-$js .= "jQuery(document).off('click', '.model-model-index a.view').on('click', '.model-model-index a.view', function(e) {
+$js .= "jQuery(document).off('click', '.order-model-index a.view').on('click', '.order-model-index a.view', function(e) {
                 e.preventDefault();
                 jQuery('#content-modal').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(jQuery(e.currentTarget).attr('href'));
             });";
 
-$js .= "jQuery(document).off('click', '.inventory-receipt-note-model-index a.ensure-do').on('click', '.inventory-receipt-note-model-index a.ensure-do', function(e) {
+$js .= "jQuery(document).off('click', '.order-model-index a.ensure-do').on('click', '.order-model-index a.ensure-do', function(e) {
                 e.preventDefault();
                 var lib = window['krajeeDialog'];
                 var url = jQuery(e.currentTarget).attr('href');

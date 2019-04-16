@@ -279,8 +279,9 @@ class ProductModel extends \cza\base\models\ActiveRecord
     }
 
     public function getProductMaterialOptions($key = 'id', $val = 'value', $params = []) {
-        $options = ArrayHelper::map($this->getProductMaterialItems()->all(), $key, $val);
-        return $options;
+        // $options = ArrayHelper::map($this->getProductMaterialItems()->all(), $key, $val);
+        // return $options;
+        return $this->getProductMaterialItems()->asArray()->all();
     }
 
 }

@@ -140,7 +140,7 @@ $form = ActiveForm::begin([
                                 'type' => \kartik\select2\Select2::className(),
                                 'enableError' => true,
                                 'options' => [
-                                    'data' => ['' => Yii::t("app.c2", "Select options ..")] + \common\models\c2\entity\ProductModel::getHashMap('id', 'name', [
+                                    'data' => ['' => Yii::t("app.c2", "Select options ..")] + \common\models\c2\entity\ProductModel::getHashMap('id', 'sku', [
                                             'type' => \common\models\c2\statics\ProductType::TYPE_MATERIAL,
                                             'status' => EntityModelStatus::STATUS_ACTIVE,
                                         ]),
@@ -149,7 +149,7 @@ $form = ActiveForm::begin([
                                     // ],
                                     'pluginEvents' => [
                                         'change' => "function() {
-                                                $.post('" . Url::toRoute(['materials']) . "', {'depdrop_all_params[material_id]':$(this).val(),'depdrop_parents[]':$(this).val()}, function(data) {
+                                                $.post('" . Url::toRoute(['materials']) . "', {'depdrop_all_params[product_id]':$(this).val(),'depdrop_parents[]':$(this).val()}, function(data) {
                                                     if(data.output !== undefined) {
                                                         $('select#subcat-{multiple_index_{$multipleItemsId}}').empty();
                                                         $.each(data.output, function(key, item){

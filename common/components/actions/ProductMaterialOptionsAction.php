@@ -76,7 +76,8 @@ class ProductMaterialOptionsAction extends \yii\base\Action {
         foreach ($model->productMaterialItems as $model) {
             $options[] = [
                 'id' => $model->id,
-                'name' => $model->value,
+                'label' => $model->label,
+                'value' => $model->value,
                 // 'price' => $model->getPrice(),
             ];
         }

@@ -64,7 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     return GridView::ROW_COLLAPSED;
                 },
             ],
-            'id',
+            // 'id',
             // 'type',
             [
                 'attribute' => 'type',

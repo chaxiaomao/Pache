@@ -2,6 +2,7 @@
 
 namespace backend\modules\P3S\modules\Inventory\modules\Order\controllers;
 
+use cza\base\models\statics\ResponseDatum;
 use Yii;
 use common\models\c2\entity\OrderModel;
 use common\models\c2\search\OrderSearch;
@@ -88,5 +89,19 @@ class DefaultController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionDeleteSubitem($id)
+    {
+        if (($model = OrderModel::findOne($id)) !== null) {
+            if ($model->delete()) {
+                $responseData = ResponseDatum::getSuccessDatum(['message' => Yii::t('cza', 'Operation completed successfully!')], $id);
+            } else {
+                $responseData = ResponseDatum::getErrorDatum(['message' => Yii::t('cza', 'Error: operation can not finish!')], $id);
+            }
+        } else {
+            $responseData = ResponseDatum::getErrorDatum(['message' => Yii::t('app.c2', 'Error: Model not found!')], $id);
+        }
+        return $this->asJson($responseData);
     }
 }
