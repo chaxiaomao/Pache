@@ -11,7 +11,7 @@
     <?php if ($model->isNewRecord): ?>
     <?php else: ?>
     <?php foreach ($data->product->getProductMaterialOptions() as $datum): ?>
-            <li class="list-group-item"><?= $datum['label'] .":".$datum['value'] ?></li>
+            <span class="badge"><?= $datum['label'] .":".$datum['value'] ?></span>
     <?php endforeach; ?>
     <?php endif; ?>
 

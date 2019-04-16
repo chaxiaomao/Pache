@@ -148,8 +148,9 @@ $form = ActiveForm::begin([
                                     //     'placeholder' => $model->getAttributeLabel('Select options ..')
                                     // ],
                                     'pluginEvents' => [
-                                        'change' => "function() {
+                                        'change' => new \yii\web\JsExpression("function() {
                                                 $.post('" . Url::toRoute(['materials']) . "', {'depdrop_all_params[product_id]':$(this).val(),'depdrop_parents[]':$(this).val()}, function(data) {
+                                                    console.log(data);
                                                     if(data.output !== undefined) {
                                                         $('select#subcat-{multiple_index_{$multipleItemsId}}').empty();
                                                         $.each(data.output, function(key, item){
@@ -157,7 +158,7 @@ $form = ActiveForm::begin([
                                                             });
                                                     }
                                                 })
-                                            }",
+                                            }"),
                                     ],
                                 ]
                             ],
@@ -168,8 +169,9 @@ $form = ActiveForm::begin([
                                 'enableError' => true,
                                 'items' => $model->isNewRecord ? [] : function ($data) {
                                     if (is_object($data)) {
-                                        return \common\models\c2\entity\ProductMaterialItemModel::getHashMap('id', 'value');
-                                        // return $data->owner->getMaterialOptionsList();
+                                        // return \common\models\c2\entity\ProductMaterialItemModel::getHashMap('id', 'value');
+                                        // return $data->owner->getProductMaterialOptions();
+                                        return $data->productMaterial->getMaterialItemOptions();
                                     }
                                     return [];
                                 },

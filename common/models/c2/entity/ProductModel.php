@@ -85,6 +85,19 @@ class ProductModel extends \cza\base\models\ActiveRecord
                 'vModelClass' => ProductEavModel::className(),
                 'aModelClass' => AttributeModel::className(),
             ],
+            // 'materialsBehavior' => [
+            //     'class' => \yii2tech\ar\linkmany\LinkManyBehavior::className(),
+            //     'relation' => 'productMaterialItems', // relation, which will be handled
+            //     'relationReferenceAttribute' => 'material_ids', // virtual attribute, which is used for related records specification
+            //     'extraColumns' => [
+            //         'created_at' => function() {
+            //             return date('Y-m-d H:i:s');
+            //         },
+            //         'updated_at' => function() {
+            //             return date('Y-m-d H:i:s');
+            //         },
+            //     ],
+            // ],
         ]);
     }
 

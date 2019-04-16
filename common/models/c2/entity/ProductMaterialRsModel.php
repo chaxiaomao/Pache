@@ -2,6 +2,7 @@
 
 namespace common\models\c2\entity;
 
+use backend\models\c2\entity\ProductMaterialModel;
 use Yii;
 
 /**
@@ -75,6 +76,11 @@ class ProductMaterialRsModel extends \cza\base\models\ActiveRecord
 
     public function getOwner() {
         return $this->hasOne(\backend\models\c2\entity\ProductModel::className(), ['id' => 'product_id']);
+    }
+
+    public function getProductMaterial()
+    {
+        return $this->hasOne(ProductMaterialModel::className(), ['id' => 'material_id']);
     }
 
 }

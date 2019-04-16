@@ -288,7 +288,7 @@ class InventoryDeliveryNoteModel extends \cza\base\models\ActiveRecord
         $items = $this->activeNoteItems;
         foreach ($items as $item) {
             $model = $item->productMaterialItem->stock;
-            $model->num -= $item
+            $model->num -= $item;
         }
         return $this->updateAttributes(['state' => InventoryExeState::FINISH]);
     }

@@ -370,7 +370,9 @@ $js .= "jQuery('.btn.multiple-input-list__btn.js-input-remove').off('click').on(
 
 $js .= "function strip(num, precision = 12) {
   return +parseFloat(num.toPrecision(precision));
-}$(function () {
+}";
+
+$js .= "$(function () {
   $('[data-toggle=\"tooltip\"]').tooltip()
 })";
 
