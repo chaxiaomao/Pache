@@ -3,6 +3,7 @@
 namespace common\models\c2\entity;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "{{%order_item}}".
@@ -27,6 +28,8 @@ use Yii;
  */
 class OrderItemModel extends \cza\base\models\ActiveRecord
 {
+    public $material_ids;
+
     /**
      * @inheritdoc
      */
@@ -35,6 +38,25 @@ class OrderItemModel extends \cza\base\models\ActiveRecord
         return '{{%order_item}}';
     }
 
+    // public function behaviors()
+    // {
+    //     return \yii\helpers\ArrayHelper::merge(parent::behaviors(), [
+    //         'materialsBehavior' => [
+    //             'class' => \yii2tech\ar\linkmany\LinkManyBehavior::className(),
+    //             'relation' => 'productMaterialItems', // relation, which will be handled
+    //             'relationReferenceAttribute' => 'material_ids', // virtual attribute, which is used for related records specification
+    //             'extraColumns' => [
+    //                 'created_at' => function() {
+    //                     return date('Y-m-d H:i:s');
+    //                 },
+    //                 'updated_at' => function() {
+    //                     return date('Y-m-d H:i:s');
+    //                 },
+    //             ],
+    //         ],
+    //     ]);
+    // }
+
     /**
      * @inheritdoc
      */
@@ -42,7 +64,7 @@ class OrderItemModel extends \cza\base\models\ActiveRecord
     {
         return [
             [['product_id', 'num', 'pieces', 'position', 'order_id'], 'integer'],
-            [['created_at', 'updated_at'], 'safe'],
+            [['created_at', 'updated_at', 'material_ids'], 'safe'],
             [['code', 'label', 'packing', 'size', 'gross_weight', 'net_weight', 'memo', 'type'], 'string', 'max' => 255],
             [['status'], 'integer', 'max' => 4],
         ];
@@ -102,6 +124,12 @@ class OrderItemModel extends \cza\base\models\ActiveRecord
     public function getProductStock()
     {
         return $this->hasOne(ProductStock::className(), ['product_id' => 'product_id']);
+    }
+
+    public function getProductMaterialItems()
+    {
+        return $this->hasMany(ProductMaterialItemModel::className(), ['id' => 'material_item_id'])
+            ->viaTable('{{%product_material_rs}}', ['product_id' => 'id']);
     }
 
 }

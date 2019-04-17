@@ -204,6 +204,7 @@ class AttributeModel extends \cza\base\models\ActiveRecord
 
     public function loadItems() {
         $this->items = $this->getAttributeItems()->all();
+        Yii::info($this->attributeset_ids);
     }
 
     public function beforeDelete() {

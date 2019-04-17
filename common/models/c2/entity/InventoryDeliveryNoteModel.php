@@ -285,10 +285,6 @@ class InventoryDeliveryNoteModel extends \cza\base\models\ActiveRecord
             'occurrence_date' => $this->occurrence_date,
             'memo' => $this->memo,
         ]);
-        // $items = $this->activeNoteItems;
-        // foreach ($items as $item) {
-        //     $model = $item->productMaterialItem->stock;
-        // }
         return $this->updateAttributes(['state' => InventoryExeState::FINISH]);
     }
 
