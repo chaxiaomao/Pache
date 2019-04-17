@@ -4,6 +4,7 @@ namespace common\models\c2\entity;
 
 use backend\models\c2\entity\ProductMaterialModel;
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "{{%product_material_item}}".
@@ -86,6 +87,11 @@ class ProductMaterialItemModel extends \cza\base\models\ActiveRecord
     public function getStock()
     {
         return $this->hasOne(ProductStock::className(), ['product_material_id' => 'id']);
+    }
+
+    public function getProduct()
+    {
+        return $this->hasOne(ProductMaterialModel::className(), ['id' => 'product_id']);
     }
 
 }

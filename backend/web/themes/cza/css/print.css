@@ -1053,17 +1053,17 @@ display: -webkit-box;
 }
 /*时间插件*/
 
-/*========== reset ==========*/
-html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, p, blockquote, th, td, iframe,hr{margin:0;padding:0;}
-body{font:12px/1.6 Tahoma,microsoft yahei,"微软雅黑","宋体";*font-family:"微软雅黑","宋体";}
-fieldset, img { border:0; }
-address, caption, cite, dfn, em, th, var{font-style:normal;font-weight:normal;}
-ol, ul { list-style:none; }
-caption, th { text-align:left; }
-h1, h2, h3, h4, h5, h6 { font-size:100%; }
-table {border-collapse:collapse;border-spacing:0;text-align: center}
-select,input,label,button,textarea{margin:0;padding:0;font:normal"微软雅黑",arial,Simsun,Arial Unicode MS,Mingliu,Arial;overflow:visible;}
-input{padding:2px 0 1px;*padding:4px 0 0;_padding:4px 0 0;_height:21px;}
+/*!*========== reset ==========*!*/
+/*html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, p, blockquote, th, td, iframe,hr{margin:0;padding:0;}*/
+/*body{font:12px/1.6 Tahoma,microsoft yahei,"微软雅黑","宋体";*font-family:"微软雅黑","宋体";}*/
+/*fieldset, img { border:0; }*/
+/*address, caption, cite, dfn, em, th, var{font-style:normal;font-weight:normal;}*/
+/*ol, ul { list-style:none; }*/
+/*caption, th { text-align:left; }*/
+/*h1, h2, h3, h4, h5, h6 { font-size:100%; }*/
+/*table {border-collapse:collapse;border-spacing:0;text-align: center}*/
+/*select,input,label,button,textarea{margin:0;padding:0;font:normal"微软雅黑",arial,Simsun,Arial Unicode MS,Mingliu,Arial;overflow:visible;}*/
+/*input{padding:2px 0 1px;*padding:4px 0 0;_padding:4px 0 0;_height:21px;}*/
 
 /**
 * GRI主题

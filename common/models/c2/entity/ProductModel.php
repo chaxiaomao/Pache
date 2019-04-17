@@ -85,19 +85,19 @@ class ProductModel extends \cza\base\models\ActiveRecord
                 'vModelClass' => ProductEavModel::className(),
                 'aModelClass' => AttributeModel::className(),
             ],
-            // 'materialsBehavior' => [
-            //     'class' => \yii2tech\ar\linkmany\LinkManyBehavior::className(),
-            //     'relation' => 'productMaterialItems', // relation, which will be handled
-            //     'relationReferenceAttribute' => 'material_ids', // virtual attribute, which is used for related records specification
-            //     'extraColumns' => [
-            //         'created_at' => function() {
-            //             return date('Y-m-d H:i:s');
-            //         },
-            //         'updated_at' => function() {
-            //             return date('Y-m-d H:i:s');
-            //         },
-            //     ],
-            // ],
+            'materialsBehavior' => [
+                'class' => \yii2tech\ar\linkmany\LinkManyBehavior::className(),
+                'relation' => 'productMaterialItems', // relation, which will be handled
+                'relationReferenceAttribute' => 'material_ids', // virtual attribute, which is used for related records specification
+                'extraColumns' => [
+                    'created_at' => function() {
+                        return date('Y-m-d H:i:s');
+                    },
+                    'updated_at' => function() {
+                        return date('Y-m-d H:i:s');
+                    },
+                ],
+            ],
         ]);
     }
 
@@ -112,7 +112,7 @@ class ProductModel extends \cza\base\models\ActiveRecord
             [['sku', 'name', 'serial_number',], 'unique'],
             [['meta_description', 'summary'], 'string'],
             [['sales_price', 'cost_price', 'market_price', 'score', 'gift_score', 'install_price', 'low_price'], 'number'],
-            [['sales_price', 'score', 'attributeset_ids', 'released_at', 'child_ids', 'created_at', 'updated_at', 'description', 'views_count', 'gift_score', 'is_install', 'brand_id', 'low_price'], 'safe'],
+            [['sales_price', 'score', 'attributeset_ids', 'material_ids', 'released_at', 'child_ids', 'created_at', 'updated_at', 'description', 'views_count', 'gift_score', 'is_install', 'brand_id', 'low_price'], 'safe'],
             [['seo_code', 'sku', 'serial_number', 'breadcrumb', 'meta_title', 'meta_keywords'], 'string', 'max' => 255],
             [['name'], 'string', 'length' => [1, 50]],
             [['label'], 'string', 'length' => [1, 30]],
@@ -291,19 +291,43 @@ class ProductModel extends \cza\base\models\ActiveRecord
             ->viaTable('{{%product_material_rs}}', ['product_id' => 'id']);
     }
 
-    public function getProductMaterialOptions($key = 'id', $val = 'value', $params = []) {
-        // $options = ArrayHelper::map($this->getProductMaterialItems()->all(), $key, $val);
-        // return $options;
+    public function getProductMaterialRs()
+    {
+        return $this->hasMany(ProductMaterialRsModel::className(), ['product_id' => 'id']);
+    }
+
+    public function getProductMaterialOptions() {
         return $this->getProductMaterialItems()->asArray()->all();
+    }
+
+    public function getMaterialItemOptions($key = 'id', $val = 'value', $params = [])
+    {
+        $options = ArrayHelper::map($this->getProductMaterialItems()->all(), $key, $val);
+        return $options;
     }
 
     public function getProductMaterialVer()
     {
         $str = "";
-        foreach ($this->getProductMaterialOptions() as $productMaterialOption) {
-            $str .= "<p>" . $productMaterialOption['label'] . ':' . $productMaterialOption['value'] . "</p>";
+        foreach ($this->productMaterialRs as $model) {
+            $item = $model->productMaterialItem;
+            $str .= "<p>" . $item->label . ':' . $item->value . Yii::t('app.c2', 'Num {s1}', ['s1' => $model->num]) . "</p> ";
         }
         return $str;
+    }
+
+    public function getMaterialOptions($key = 'id', $val = 'label', $params = [])
+    {
+        $options = [];
+        if (isset($params['withValue']) && $params['withValue']) {
+            foreach ($this->productMaterialRs as $model) {
+                $item = $model->productMaterialItem;
+                $options[$item->id] = $item->label . ":" . $item->value . Yii::t('app.c2', 'Num {s1}', ['s1' => $model->num]);
+            }
+        } else {
+            $options = self::getHashMap($key, $val);
+        }
+        return $options;
     }
 
 }

@@ -100,42 +100,71 @@ $form = ActiveForm::begin([
                                             'placeholder' => $model->getAttributeLabel('Select options ..')
                                         ],
                                         'pluginEvents' => [
+                                            // 'change' => "function() {
+                                            // $.post('" . Url::toRoute(['product']) . "', {'depdrop_all_params[product_id]':$(this).val(),'depdrop_parents[]':$(this).val()}, function(data) {
+                                            //         if(data !== undefined) {
+                                            //             $('#subcat-{multiple_index_{$multipleItemsId}}').val(data);
+                                            //         }
+                                            //     })
+                                            // }",
                                             'change' => "function() {
-                                            $.post('" . Url::toRoute(['product-materials']) . "', {'depdrop_all_params[product_id]':$(this).val(),'depdrop_parents[]':$(this).val()}, function(data) {
-                                                if(data.output !== undefined) {
-                                                    $('select#subcat-{multiple_index_{$multipleItemsId}}').empty();
-                                                    $.each(data.output, function(key, item){
-                                                            $('#subcat-{multiple_index_{$multipleItemsId}}').append('<span class=" . 'badge' . ">' + item.label + ':' + item.value + '</li>');
-                                                        });
-                                                }
-                                            })
-                                        }",
+                                                $.post('" . Url::toRoute(['product-materials']) . "', {'depdrop_all_params[product_id]':$(this).val(),'depdrop_parents[]':$(this).val()}, function(data) {
+                                                        if(data.output !== undefined) {
+                                                            $('select#subcat-{multiple_index_{$multipleItemsId}}').empty();
+                                                            $.each(data.output, function(key, item){
+                                                                    // $('#subcat-{multiple_index_{$multipleItemsId}}').append('<span class=" . 'badge' . ">' + item.label + ':' + item.value + '</li>');
+                                                                   $('select#subcat-{multiple_index_{$multipleItemsId}}').append('<option value=' + item.id + '>' + item.label + '</option>');
+                                                                });
+                                                        }
+                                                    })
+                                                }",
                                         ]
                                     ],
                                 ],
                                 [
-                                    'name' => 'common',
-                                    'type' => 'static',
+                                    'name' => 'material_ids',
                                     'title' => Yii::t('app.c2', 'Material'),
-                                    'enableError' => true,
-                                    'value' => $model->isNewRecord ? function ($data) use ($multipleItemsId, $model) {
-                                        return $this->render('_item', [
-                                            'model' => $model,
-                                            'multipleItemsId' => "subcat-{multiple_index_{$multipleItemsId}}",
-                                        ]);
-                                    } : function ($data) use ($multipleItemsId, $model) {
-                                        if (is_object($data)) {
-                                            return $this->render('_item', [
-                                                'data' => $data,
-                                                'model' => $model,
-                                                'multipleItemsId' => "subcat-{multiple_index_{$multipleItemsId}}",
-                                            ]);
-                                        }
-                                    },
+                                    'type' => \kartik\select2\Select2::className(),
                                     'options' => [
-                                        'id' => "subcat-{multiple_index_{$multipleItemsId}}"
+                                        'id' => "subcat-{multiple_index_{$multipleItemsId}}",
+                                        'data' => $model->isNewRecord ? [] : \common\models\c2\entity\ProductMaterialRsModel::getProductMaterialHashMap('material_item_id', 'num'),
+                                        'pluginOptions' => [
+                                            'multiple' => true,
+                                            'placeholder' => $model->getAttributeLabel('Select options ..'),
+                                        ],
                                     ],
                                 ],
+                                // [
+                                //     'name' => 'common',
+                                //     'type' => 'static',
+                                //     'value' => function ($data){var_dump(get_class($data));},
+                                //     'options' => [
+                                //         'id' => "subcat-{multiple_index_{$multipleItemsId}}"
+                                //     ],
+                                // ],
+                                // [
+                                //     'name' => 'common',
+                                //     'type' => 'static',
+                                //     'title' => Yii::t('app.c2', 'Material'),
+                                //     'enableError' => true,
+                                //     'value' => $model->isNewRecord ? function ($data) use ($multipleItemsId, $model) {
+                                //         return $this->render('_item', [
+                                //             'model' => $model,
+                                //             'multipleItemsId' => "subcat-{multiple_index_{$multipleItemsId}}",
+                                //         ]);
+                                //     } : function ($data) use ($multipleItemsId, $model) {
+                                //         if (is_object($data)) {
+                                //             return $this->render('_item', [
+                                //                 'data' => $data,
+                                //                 'model' => $model,
+                                //                 'multipleItemsId' => "subcat-{multiple_index_{$multipleItemsId}}",
+                                //             ]);
+                                //         }
+                                //     },
+                                //     'options' => [
+                                //         'id' => "subcat-{multiple_index_{$multipleItemsId}}"
+                                //     ],
+                                // ],
                                 [
                                     'name' => 'num',
                                     'type' => kartik\widgets\TouchSpin::className(),

@@ -164,14 +164,11 @@ class InventoryDeliveryNoteModel extends \cza\base\models\ActiveRecord
         return $this->hasOne(\backend\models\c2\entity\rbac\BeUser::class, ['id' => 'updated_by']);
     }
 
-    public function beforeSave($insert)
-    {
-        // if ($this->sales_order_id) {
-        //     $salesOrder = SalesOrder::findOne($this->sales_order_id);
-        //     $this->customer_id = $salesOrder->customer_id;
-        // }
-        return parent::beforeSave($insert);
-    }
+    // public function beforeSave($insert)
+    // {
+    //
+    //     return parent::beforeSave($insert);
+    // }
 
     // public function afterSave($insert, $changedAttributes) {
     //     parent::afterSave($insert, $changedAttributes);
@@ -285,6 +282,17 @@ class InventoryDeliveryNoteModel extends \cza\base\models\ActiveRecord
             'occurrence_date' => $this->occurrence_date,
             'memo' => $this->memo,
         ]);
+        $items = $this->activeNoteItems;
+        foreach ($items as $item) {
+            $rs = $item->productMaterialRs;
+            foreach ($rs as $r) {
+                $stock = $r->productMaterialItem->stock;
+                if ($stock) {
+                    $stock->num -= $r->num * $item->quantity;
+                    $stock->save();
+                }
+            }
+        }
         return $this->updateAttributes(['state' => InventoryExeState::FINISH]);
     }
 

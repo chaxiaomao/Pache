@@ -51,6 +51,19 @@ $form = ActiveForm::begin([
                 'name' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('name')]],
                 'label' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('label')]],
                 'sales_price' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('sales_price')]],
+                // 'material_ids' => ['type' => Form::INPUT_WIDGET,
+                //     'widgetClass' => '\kartik\widgets\Select2',
+                //     'labelOptions' => [
+                //         'class' => 'control-label col-md-2',
+                //     ],
+                //     'options' => [
+                //         'language' => Yii::$app->language,
+                //         'data' => $model->getMaterialOptions('id', 'label', ['withValue' => true]),
+                //         'pluginOptions' => [
+                //             'multiple' => true
+                //         ],
+                //     ],
+                // ],
                 // 'attributeset_ids' => ['type' => Form::INPUT_WIDGET,
                 //     'widgetClass' => '\kartik\widgets\Select2',
                 //     'labelOptions' => [
@@ -170,8 +183,9 @@ $form = ActiveForm::begin([
                                 'items' => $model->isNewRecord ? [] : function ($data) {
                                     if (is_object($data)) {
                                         // return \common\models\c2\entity\ProductMaterialItemModel::getHashMap('id', 'value');
-                                        // return $data->owner->getProductMaterialOptions();
-                                        return $data->productMaterial->getMaterialItemOptions();
+                                        // return $data->owner->getMaterialItemOptions();
+                                        // return $data->productMaterialItem->getMaterialItemOptions();
+                                        return \common\models\c2\entity\ProductMaterialItemModel::getHashMap('id', 'value');
                                     }
                                     return [];
                                 },

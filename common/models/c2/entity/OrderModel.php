@@ -23,8 +23,9 @@ use yii\validators\RequiredValidator;
  */
 class OrderModel extends \cza\base\models\ActiveRecord
 {
-    
+
     public $items;
+
     /**
      * @inheritdoc
      */
@@ -81,11 +82,12 @@ class OrderModel extends \cza\base\models\ActiveRecord
     {
         return new \common\models\c2\query\OrderQuery(get_called_class());
     }
-    
+
     /**
-    * setup default values
-    **/
-    public function loadDefaultValues($skipIfSet = true) {
+     * setup default values
+     **/
+    public function loadDefaultValues($skipIfSet = true)
+    {
         parent::loadDefaultValues($skipIfSet);
         $this->state = InventoryExeState::INIT;
     }
@@ -179,6 +181,17 @@ class OrderModel extends \cza\base\models\ActiveRecord
     public function setStateToFinish()
     {
         return $this->updateAttributes(['state' => InventoryExeState::FINISH]);
+    }
+
+    public function getOrderItem($id)
+    {
+        $model = OrderItemModel::findOne($id);
+        return $model->getMaterialOptions('id', 'label', ['withValue' => true]);
+    }
+
+    public function getUser()
+    {
+        return $this->hasOne(FeUserModel::className(), ['id' => 'user_id']);
     }
 
 }

@@ -28,7 +28,6 @@ use yii\helpers\ArrayHelper;
  */
 class OrderItemModel extends \cza\base\models\ActiveRecord
 {
-    public $material_ids;
 
     /**
      * @inheritdoc
@@ -38,24 +37,24 @@ class OrderItemModel extends \cza\base\models\ActiveRecord
         return '{{%order_item}}';
     }
 
-    // public function behaviors()
-    // {
-    //     return \yii\helpers\ArrayHelper::merge(parent::behaviors(), [
-    //         'materialsBehavior' => [
-    //             'class' => \yii2tech\ar\linkmany\LinkManyBehavior::className(),
-    //             'relation' => 'productMaterialItems', // relation, which will be handled
-    //             'relationReferenceAttribute' => 'material_ids', // virtual attribute, which is used for related records specification
-    //             'extraColumns' => [
-    //                 'created_at' => function() {
-    //                     return date('Y-m-d H:i:s');
-    //                 },
-    //                 'updated_at' => function() {
-    //                     return date('Y-m-d H:i:s');
-    //                 },
-    //             ],
-    //         ],
-    //     ]);
-    // }
+    public function behaviors()
+    {
+        return \yii\helpers\ArrayHelper::merge(parent::behaviors(), [
+            'materialsBehavior' => [
+                'class' => \yii2tech\ar\linkmany\LinkManyBehavior::className(),
+                'relation' => 'productMaterialItems', // relation, which will be handled
+                'relationReferenceAttribute' => 'material_ids', // virtual attribute, which is used for related records specification
+                'extraColumns' => [
+                    'created_at' => function() {
+                        return date('Y-m-d H:i:s');
+                    },
+                    'updated_at' => function() {
+                        return date('Y-m-d H:i:s');
+                    },
+                ],
+            ],
+        ]);
+    }
 
     /**
      * @inheritdoc
@@ -79,6 +78,7 @@ class OrderItemModel extends \cza\base\models\ActiveRecord
             'id' => Yii::t('app.c2', 'ID'),
             'order_id' => Yii::t('app.c2', 'Order no'),
             'product_id' => Yii::t('app.c2', 'Product ID'),
+            'product_name' => Yii::t('app.c2', 'Product name'),
             'code' => Yii::t('app.c2', 'Code'),
             'label' => Yii::t('app.c2', 'Label'),
             'num' => Yii::t('app.c2', 'Num'),
@@ -129,7 +129,26 @@ class OrderItemModel extends \cza\base\models\ActiveRecord
     public function getProductMaterialItems()
     {
         return $this->hasMany(ProductMaterialItemModel::className(), ['id' => 'material_item_id'])
-            ->viaTable('{{%product_material_rs}}', ['product_id' => 'id']);
+            ->viaTable('{{%product_material_rs}}', ['product_id' => 'product_id']);
+    }
+
+    public function getProductMaterialRs()
+    {
+        return $this->hasMany(ProductMaterialRsModel::className(), ['product_id' => 'product_id']);
+    }
+
+    public function getMaterialOptions($key = 'id', $val = 'label', $params = [])
+    {
+        $options = [];
+        if (isset($params['withValue']) && $params['withValue']) {
+            foreach ($this->productMaterialRs as $model) {
+                $item = $model->productMaterialItem;
+                $options[$item->id] = $item->label . ":" . $item->value . Yii::t('app.c2', 'Num {s1}', ['s1' => $model->num]);
+            }
+        } else {
+            $options = self::getHashMap($key, $val);
+        }
+        return $options;
     }
 
 }

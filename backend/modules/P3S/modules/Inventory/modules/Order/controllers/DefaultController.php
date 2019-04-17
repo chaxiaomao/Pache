@@ -2,6 +2,7 @@
 
 namespace backend\modules\P3S\modules\Inventory\modules\Order\controllers;
 
+use common\models\c2\entity\ProductModel;
 use cza\base\models\statics\ResponseDatum;
 use Yii;
 use common\models\c2\entity\OrderModel;
@@ -21,6 +22,9 @@ class DefaultController extends Controller
     public function actions()
     {
         return \yii\helpers\ArrayHelper::merge(parent::actions(), [
+            'skus' => [
+                'class' => 'common\components\actions\ProductSkuOptionsAction',
+            ],
             'product-materials' => [
                 'class' => 'common\components\actions\ProductMaterialOptionsAction',
             ]
@@ -48,8 +52,8 @@ class DefaultController extends Controller
      * @param string $id
      * @return mixed
      */
-    public function actionView($id)
-    {
+    public function actionView($id) {
+        $this->layout = "/print_modal";
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -89,6 +93,18 @@ class DefaultController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionProduct()
+    {
+        $params = Yii::$app->request->post();
+        if (!isset($params['depdrop_all_params'])) {
+            throw new \Exception('Require parameter "depdrop_all_params"!');
+        }
+        if (!isset($params['depdrop_parents'])) {
+            throw new \Exception('Require parameter "depdrop_parents"!');
+        }
+        return ProductModel::findOne(['id' => $params['depdrop_all_params']['product_id']])->name;
     }
 
     public function actionDeleteSubitem($id)

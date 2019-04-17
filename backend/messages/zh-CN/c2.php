@@ -629,6 +629,7 @@ return [
     'Service Order' => '服务订单',
     'Sales Order ID' => '订单ID',
     'Product Name' => '商品名称',
+    'Product name' => '商品名称',
     'Service Name' => '装维服务',
     'Quantity' => '数量',
     'Refund Order Item ID' => '售后单ID',
@@ -1246,6 +1247,7 @@ return [
     'Order No' => '订单编号',
     'Delivery Date' => '出货日期',
     'Production Date' => '排产日期',
+    'Num {s1}' => '(数量:{s1})',
     '' => '',
 ];
 

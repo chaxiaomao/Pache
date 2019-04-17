@@ -75,7 +75,7 @@ class ProductSkuOptionsAction extends \yii\base\Action {
         foreach ($model->productSkus as $model) {
             $options[] = [
                 'id' => $model->id,
-                'name' => $model->label,
+                'name' => $model->name,
                 // 'price' => $model->getPrice(),
             ];
         }

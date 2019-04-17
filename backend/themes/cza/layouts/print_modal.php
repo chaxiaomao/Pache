@@ -5,10 +5,9 @@ use yii\helpers\Html;
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-yii\bootstrap\BootstrapAsset::register($this);
+// yii\bootstrap\BootstrapAsset::register($this);
 
 $theme = $this->theme;
-Yii::info($theme->getUrl('css/print.css'));
 $this->registerCssFile($theme->getUrl('css/print.css'));
 ?>
 
@@ -35,6 +34,21 @@ function printElement(elem) {
 _JS;
 $this->registerJs($js);
 ?>
+
+<style>
+    .p20 {
+        padding: 20px;
+    }
+    .tc {
+        text-align: center;
+    }
+    .pt10 {
+        padding-top: 10px;
+    }
+    .mt10 {
+        margin-top: 10px;
+    }
+</style>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
@@ -43,6 +57,7 @@ $this->registerJs($js);
         <meta name="screen-orientation" content="portrait">
         <?= Html::csrfMetaTags() ?>
         <title><?= Html::encode($this->title) ?></title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <?php $this->head() ?>
     </head>
     <body class="bg-f5">

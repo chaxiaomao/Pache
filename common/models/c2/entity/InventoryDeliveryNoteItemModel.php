@@ -119,4 +119,9 @@ class InventoryDeliveryNoteItemModel extends \cza\base\models\ActiveRecord
         return $this->hasOne(ProductMaterialModel::className(), ['id' => 'product_id']);
     }
 
+    public function getProductMaterialRs()
+    {
+        return $this->hasMany(ProductMaterialRsModel::className(), ['product_id' => 'product_id']);
+    }
+
 }
