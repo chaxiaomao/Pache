@@ -55,9 +55,20 @@ $form = ActiveForm::begin([
                 'columns' => 3,
                 'attributes' => [
                     'code' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('code')]],
-                    'label' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('label')]],
+                    'label' => [
+                        'label' => Yii::t('app.c2', 'Receive company'),
+                        'type' => Form::INPUT_TEXT,
+                        'options' => ['placeholder' => Yii::t('app.c2', 'Receive company')]
+                    ],
                     'type' => ['type' => Form::INPUT_DROPDOWN_LIST, 'items' => \common\models\c2\statics\InventoryDeliveryType::getHashMap('id', 'label')],
                     'warehouse_id' => ['type' => Form::INPUT_DROPDOWN_LIST, 'items' => \common\models\c2\entity\WarehouseModel::getHashMap('id', 'label')],
+                    'customer_id' => [
+                        'widgetClass' => \kartik\select2\Select2::className(),
+                        'type' => Form::INPUT_WIDGET,
+                        'options' => [
+                            'data' => ['0' => ''] + \common\models\c2\entity\FeUserModel::getHashMap('id', 'username', ['type' => \common\models\c2\statics\UserType::TYPE_BUSINESS]),
+                        ]
+                    ],
                     'sales_order_id' => [
                         'type' => Form::INPUT_WIDGET,
                         'widgetClass' => '\kartik\widgets\Select2',
@@ -88,46 +99,46 @@ $form = ActiveForm::begin([
                         'options' => ['placeholder' => Yii::t('app.c2', 'Date Time...')], 'pluginOptions' => ['format' => 'yyyy-mm-dd hh:ii:ss', 'autoclose' => true],
                     ],],
                     'grand_total' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('grand_total')]],
-                    'contact_man' => [
-                        'widgetClass' => \kartik\select2\Select2::className(),
-                        'type' => Form::INPUT_WIDGET,
-                        'options' => [
-                            'data' => \common\models\c2\entity\FeUserModel::getHashMap('id', 'username', ['type' => \common\models\c2\statics\UserType::TYPE_EMPLOYEE]),
-                        ]
-                    ],
-                    'sender_name' => [
-                        'widgetClass' => \kartik\select2\Select2::className(),
-                        'type' => Form::INPUT_WIDGET,
-                        'options' => [
-                            'data' => \common\models\c2\entity\FeUserModel::getHashMap('id', 'username', ['type' => \common\models\c2\statics\UserType::TYPE_EMPLOYEE]),
-                        ]
-                    ],
+                    'payment_method' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('payment_method')]],
+                    'delivery_method' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('delivery_method')]],
+                    // 'contact_man' => [
+                    //     'widgetClass' => \kartik\select2\Select2::className(),
+                    //     'type' => Form::INPUT_WIDGET,
+                    //     'options' => [
+                    //         'data' => ['0' => ''] + \common\models\c2\entity\FeUserModel::getHashMap('id', 'username', ['type' => \common\models\c2\statics\UserType::TYPE_EMPLOYEE]),
+                    //     ]
+                    // ],
+                    // 'sender_name' => [
+                    //     'widgetClass' => \kartik\select2\Select2::className(),
+                    //     'type' => Form::INPUT_WIDGET,
+                    //     'options' => [
+                    //         'data' => ['0' => ''] + \common\models\c2\entity\FeUserModel::getHashMap('id', 'username', ['type' => \common\models\c2\statics\UserType::TYPE_EMPLOYEE]),
+                    //     ]
+                    // ],
                 ]
             ]);
 
-            echo Form::widget([
-                'model' => $model,
-                'form' => $form,
-                'columns' => 4,
-                'attributes' => [
-                    'cs_name' => [
-                        'widgetClass' => \kartik\select2\Select2::className(),
-                        'type' => Form::INPUT_WIDGET,
-                        'options' => [
-                            'data' => \common\models\c2\entity\FeUserModel::getHashMap('id', 'username', ['type' => \common\models\c2\statics\UserType::TYPE_EMPLOYEE]),
-                        ]
-                    ],
-                    'financial_name' => [
-                        'widgetClass' => \kartik\select2\Select2::className(),
-                        'type' => Form::INPUT_WIDGET,
-                        'options' => [
-                            'data' => \common\models\c2\entity\FeUserModel::getHashMap('id', 'username', ['type' => \common\models\c2\statics\UserType::TYPE_EMPLOYEE]),
-                        ]
-                    ],
-                    'payment_method' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('payment_method')]],
-                    'delivery_method' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('delivery_method')]],
-                ]
-            ]);
+            // echo Form::widget([
+            //     'model' => $model,
+            //     'form' => $form,
+            //     'columns' => 4,
+            //     'attributes' => [
+            //         'cs_name' => [
+            //             'widgetClass' => \kartik\select2\Select2::className(),
+            //             'type' => Form::INPUT_WIDGET,
+            //             'options' => [
+            //                 'data' => ['0' => ''] + \common\models\c2\entity\FeUserModel::getHashMap('id', 'username', ['type' => \common\models\c2\statics\UserType::TYPE_EMPLOYEE]),
+            //             ]
+            //         ],
+            //         'financial_name' => [
+            //             'widgetClass' => \kartik\select2\Select2::className(),
+            //             'type' => Form::INPUT_WIDGET,
+            //             'options' => [
+            //                 'data' => ['0' => ''] + \common\models\c2\entity\FeUserModel::getHashMap('id', 'username', ['type' => \common\models\c2\statics\UserType::TYPE_EMPLOYEE]),
+            //             ]
+            //         ],
+            //     ]
+            // ]);
 
             echo Html::beginTag('div', ['class' => 'well', 'style' => 'background-color:#fff;']);
             $multipleItemsId = $model->getPrefixName('items');

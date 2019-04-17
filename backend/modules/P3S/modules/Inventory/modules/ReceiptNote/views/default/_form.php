@@ -63,19 +63,19 @@ $form = ActiveForm::begin([
                 'occurrence_date' => ['type' => Form::INPUT_WIDGET, 'widgetClass' => '\kartik\widgets\DateTimePicker', 'options' => [
                     'options' => ['placeholder' => Yii::t('app.c2', 'Date Time...')], 'pluginOptions' => ['format' => 'yyyy-mm-dd hh:ii:ss', 'autoclose' => true],
                 ],],
-                'buyer_name' => [
-                    'widgetClass' => \kartik\select2\Select2::className(),
-                    'type' => Form::INPUT_WIDGET,
-                    'options' => [
-                        'data' => \common\models\c2\entity\FeUserModel::getHashMap('id', 'username', ['type' => \common\models\c2\statics\UserType::TYPE_EMPLOYEE]),
-                    ]
-                ],
+                'arrival_date' => ['type' => Form::INPUT_WIDGET, 'widgetClass' => '\kartik\widgets\DateTimePicker', 'options' => [
+                    'options' => ['placeholder' => Yii::t('app.c2', 'Date Time...')], 'pluginOptions' => ['format' => 'yyyy-mm-dd hh:ii:ss', 'autoclose' => true],
+                ],],
+                // 'buyer_name' => [
+                //     'widgetClass' => \kartik\select2\Select2::className(),
+                //     'type' => Form::INPUT_WIDGET,
+                //     'options' => [
+                //         'data' => \common\models\c2\entity\FeUserModel::getHashMap('id', 'username', ['type' => \common\models\c2\statics\UserType::TYPE_EMPLOYEE]),
+                //     ]
+                // ],
                 'dept_manager_name' => [
-                    'widgetClass' => \kartik\select2\Select2::className(),
-                    'type' => Form::INPUT_WIDGET,
-                    'options' => [
-                        'data' => \common\models\c2\entity\FeUserModel::getHashMap('id', 'username'),
-                    ]
+                    'label' => Yii::t('app.c2', 'Department'),
+                    'type' => Form::INPUT_TEXT,
                 ],
                 'financial_name' => [
                     'widgetClass' => \kartik\select2\Select2::className(),
@@ -84,16 +84,16 @@ $form = ActiveForm::begin([
                         'data' => \common\models\c2\entity\FeUserModel::getHashMap('id', 'username'),
                     ]
                 ],
-                'receiver_name' => [
-                    'widgetClass' => \kartik\select2\Select2::className(),
-                    'type' => Form::INPUT_WIDGET,
-                    'pluginOptions' => [
-                        'placeholder' => $model->getAttributeLabel('receiver_name')
-                    ],
-                    'options' => [
-                        'data' => \common\models\c2\entity\FeUserModel::getHashMap('id', 'username'),
-                    ]
-                ],
+                // 'receiver_name' => [
+                //     'widgetClass' => \kartik\select2\Select2::className(),
+                //     'type' => Form::INPUT_WIDGET,
+                //     'pluginOptions' => [
+                //         'placeholder' => $model->getAttributeLabel('receiver_name')
+                //     ],
+                //     'options' => [
+                //         'data' => \common\models\c2\entity\FeUserModel::getHashMap('id', 'username'),
+                //     ]
+                // ],
             ]
         ]);
 

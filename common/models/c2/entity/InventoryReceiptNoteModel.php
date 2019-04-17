@@ -18,6 +18,7 @@ use yii\validators\RequiredValidator;
  * @property string $label
  * @property string $warehouse_id
  * @property string $supplier_id
+ * @property string $arrival_date
  * @property string $occurrence_date
  * @property string $arrival_number
  * @property string $buyer_name
@@ -55,7 +56,7 @@ class InventoryReceiptNoteModel extends \cza\base\models\ActiveRecord
             [['code',], 'unique'],
             [['code', 'warehouse_id', 'arrival_number', 'supplier_id', 'occurrence_date'], 'required'],
             [['type', 'warehouse_id', 'supplier_id', 'updated_by', 'created_by', 'position'], 'integer'],
-            [['occurrence_date', 'updated_at', 'created_at'], 'safe'],
+            [['occurrence_date', 'arrival_date', 'updated_at', 'created_at'], 'safe'],
             [['memo'], 'string'],
             [['items',], 'validateItems'],
             [['state', 'status'], 'integer', 'max' => 4],
@@ -75,6 +76,7 @@ class InventoryReceiptNoteModel extends \cza\base\models\ActiveRecord
             'label' => Yii::t('app.c2', 'Label'),
             'warehouse_id' => Yii::t('app.c2', 'Warehouse'),
             'supplier_id' => Yii::t('app.c2', 'Supplier'),
+            'received_date' => Yii::t('app.c2', 'Received Date'),
             'occurrence_date' => Yii::t('app.c2', 'Occurrence Date'),
             'arrival_number' => Yii::t('app.c2', 'Arrival Number'),
             'buyer_name' => Yii::t('app.c2', 'Buyer Name'),

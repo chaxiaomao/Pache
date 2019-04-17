@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 ?>
 
 <h2 class="tc" style="font-size: 30px;">中山市祥丰家居用品有限公司</h2>
-<h5 class="tc p20" style="font-size: 18px;">客户订单</h5>
+<h5 class="tc p20" style="font-size: 18px;">销售订单</h5>
 
 <div class="row pt10">
     <div class="col-xs-4">客户：<?= $model->user->username ?></div>

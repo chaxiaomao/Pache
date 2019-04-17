@@ -331,4 +331,14 @@ class InventoryDeliveryNoteModel extends \cza\base\models\ActiveRecord
         return parent::beforeDelete();
     }
 
+    public function getSupplier()
+    {
+        return $this->hasOne(SupplierModel::className(), ['id' => 'supplier_id']);
+    }
+
+    public function getUser()
+    {
+        return $this->hasOne(FeUserModel::className(), ['id' => 'customer_id']);
+    }
+
 }

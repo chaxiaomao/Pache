@@ -76,7 +76,6 @@ class InventoryDeliveryNoteSearch extends InventoryDeliveryNoteModel {
             'warehouse_id' => $this->warehouse_id,
             'sales_order_id' => $this->sales_order_id,
             'customer_id' => $this->customer_id,
-            'occurrence_date' => $this->occurrence_date,
             'grand_total' => $this->grand_total,
             'audited_by' => $this->audited_by,
             'updated_by' => $this->updated_by,
@@ -91,6 +90,7 @@ class InventoryDeliveryNoteSearch extends InventoryDeliveryNoteModel {
                 ->andFilterWhere(['like', 'label', $this->label])
                 ->andFilterWhere(['like', 'contact_man', $this->contact_man])
                 ->andFilterWhere(['like', 'cs_name', $this->cs_name])
+                ->andFilterWhere(['like', 'occurrence_date', $this->occurrence_date])
                 ->andFilterWhere(['like', 'sender_name', $this->sender_name])
                 ->andFilterWhere(['like', 'financial_name', $this->financial_name])
                 ->andFilterWhere(['like', 'payment_method', $this->payment_method])

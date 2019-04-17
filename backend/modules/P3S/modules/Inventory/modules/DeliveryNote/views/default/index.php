@@ -83,6 +83,13 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             // 'sales_order_id',
             // 'customer_id',
+            // [
+            //     'attribute' => 'customer_id',
+            //     'filter' => \common\models\c2\entity\FeUserModel::getHashMap('id', 'username', ['type' => \common\models\c2\statics\UserType::TYPE_BUSINESS]),
+            //     'value' => function($model) {
+            //         return $model->user->username;
+            //     }
+            // ],
             'occurrence_date',
             // 'grand_total',
             // 'arrival_number',

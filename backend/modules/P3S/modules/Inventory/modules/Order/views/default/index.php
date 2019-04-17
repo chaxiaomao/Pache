@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'toolbar' => [
                 [
                     'content' =>
-                        Html::a('<i class="glyphicon glyphicon-plus"></i>', 'javascript:;', [
+                        Html::a('<i class="glyphicon glyphicon-plus"></i>', "javascript:;", [
                             'class' => 'btn btn-success',
                             'title' => Yii::t('app.c2', 'Add'),
                             'data-pjax' => '0',
@@ -63,8 +63,15 @@ $this->params['breadcrumbs'][] = $this->title;
                         return GridView::ROW_COLLAPSED;
                     },
                 ],
-                'id',
-                'user_id',
+                // 'id',
+                // 'user_id',
+                [
+                    'attribute' => 'user_id',
+                    'filter' => \common\models\c2\entity\FeUserModel::getHashMap('id', 'username', ['type' => \common\models\c2\statics\UserType::TYPE_BUSINESS]),
+                    'value' => function ($model) {
+                        return $model->user->username;
+                    }
+                ],
                 'order_no',
                 // 'production_date',
                 // 'delivery_date',
@@ -105,7 +112,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 [
                     'class' => '\common\widgets\grid\ActionColumn',
                     'template' => '{ensure-do} {update} {delete} {view}',
-                    'width' => '100px',
+                    'width' => '200px',
                     'visibleButtons' => [
                         'view' => function ($model) {
                             return $model->isStateFinish();

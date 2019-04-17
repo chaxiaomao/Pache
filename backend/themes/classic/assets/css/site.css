@@ -201,3 +201,16 @@ li {
 .controls {
   margin-bottom: 20px;
 }
+
+.p20 {
+    padding: 20px;
+}
+.tc {
+    text-align: center;
+}
+.pt10 {
+    padding-top: 10px;
+}
+.mt10 {
+    margin-top: 10px;
+}

@@ -64,6 +64,7 @@ class OrderModel extends \cza\base\models\ActiveRecord
             'id' => Yii::t('app.c2', 'ID'),
             'user_id' => Yii::t('app.c2', 'User ID'),
             'order_no' => Yii::t('app.c2', 'Order No'),
+            'state' => Yii::t('app.c2', 'State'),
             'production_date' => Yii::t('app.c2', 'Production Date'),
             'delivery_date' => Yii::t('app.c2', 'Delivery Date'),
             'created_by' => Yii::t('app.c2', 'Created By'),

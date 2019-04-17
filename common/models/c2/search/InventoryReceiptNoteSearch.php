@@ -20,7 +20,7 @@ class InventoryReceiptNoteSearch extends InventoryReceiptNoteModel {
             [['id', 'warehouse_id', 'supplier_id', 'updated_by', 'created_by', 'position'], 'integer'],
             [['type', 'code', 'label', 'occurrence_date', 'arrival_number', 'buyer_name',
                 'dept_manager_name', 'financial_name', 'receiver_name', 'memo', 'remote_ip',
-                'state', 'status', 'updated_at', 'created_at'], 'safe'],
+                'state', 'status', 'updated_at', 'created_at', 'arrival_date'], 'safe'],
         ];
     }
 
@@ -76,6 +76,7 @@ class InventoryReceiptNoteSearch extends InventoryReceiptNoteModel {
             'warehouse_id' => $this->warehouse_id,
             'supplier_id' => $this->supplier_id,
             'occurrence_date' => $this->occurrence_date,
+            'arrival_date' => $this->arrival_date,
             'updated_by' => $this->updated_by,
             'created_by' => $this->created_by,
             'position' => $this->position,
