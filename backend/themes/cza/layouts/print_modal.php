@@ -48,7 +48,7 @@ $this->registerJs($js);
     .mt10 {
         margin-top: 10px;
     }
-</style>
+    </style>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">

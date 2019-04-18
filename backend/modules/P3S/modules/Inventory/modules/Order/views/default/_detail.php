@@ -33,15 +33,15 @@ use yii\widgets\DetailView;
 
     <?php foreach ($model->orderItems as $item): ?>
         <tr class="tc">
-            <td class=""><?= $item->product->sku ?></td>
-            <td class=""><?= $item->product->name ?></td>
-            <td class=""><?= $item->num ?></td>
-            <td class=""><?= $item->pieces ?></td>
-            <td class=""><?= $item->packing ?></td>
-            <td class=""><?= $item->size ?></td>
-            <td class=""><?= $item->gross_weight ?></td>
-            <td class=""><?= $item->net_weight ?></td>
-            <td class=""><?= $item->memo ?></td>
+            <td class="success"><?= $item->product->sku ?></td>
+            <td class="success"><?= $item->product->name ?></td>
+            <td class="success"><?= $item->num ?></td>
+            <td class="success"><?= $item->pieces ?></td>
+            <td class="success"><?= $item->packing ?></td>
+            <td class="success"><?= $item->size ?></td>
+            <td class="success"><?= $item->gross_weight ?></td>
+            <td class="success"><?= $item->net_weight ?></td>
+            <td class="success"><?= $item->memo ?></td>
         </tr>
     <?php foreach ($item->product->getMaterialOptions('id', 'label', ['withValue' => true]) as $item): ?>
         <tr class="tc">

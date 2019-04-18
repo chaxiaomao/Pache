@@ -4,7 +4,7 @@ use yii\helpers\Html;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
-$directoryAsset = \Yii::$app->czaHelper->getEnvData('AdminlteAssets');
+// $directoryAsset = \Yii::$app->czaHelper->getEnvData('AdminlteAssets');
 ?>
 
 <aside class="main-sidebar">

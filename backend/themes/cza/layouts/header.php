@@ -5,12 +5,12 @@ use yii\helpers\Html;
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-$directoryAsset = \Yii::$app->czaHelper->getEnvData('AdminlteAssets');
+// $directoryAsset = \Yii::$app->czaHelper->getEnvData('AdminlteAssets');
 ?>
 
 <header class="main-header">
 
-    <?= Html::a('<span class="logo-mini">APP</span><span class="logo-lg">' . Yii::t('app.c2', 'ApolloPre Console') . '</span>', Yii::$app->homeUrl, ['destination' => 'main-content-pjax', 'class' => 'logo']) ?>
+    <?= Html::a('<span class="logo-mini">APP</span><span class="logo-lg">' . Yii::t('app.c2', 'Pache Console') . '</span>', Yii::$app->homeUrl, ['destination' => 'main-content-pjax', 'class' => 'logo']) ?>
 
     <nav class="navbar navbar-static-top" role="navigation">
 

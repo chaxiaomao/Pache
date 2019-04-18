@@ -15,9 +15,12 @@
 </div>
 
 <table class="table table-bordered mt10">
+    <?php
 
+        $grand_total = 0;
+    ?>
     <tr class="tc">
-        <td class="">型号</td>
+        <td class="" >型号</td>
         <td class="">名称/规格</td>
         <td class="">单位</td>
         <td class="">数量</td>
@@ -35,9 +38,16 @@
             <td class=""><?= $item->factory_price ?></td>
             <td class=""><?= $item->subtotal ?></td>
             <td class=""><?= $item->memo ?></td>
+            <?= $grand_total += $item->subtotal ?>
         </tr>
 
     <?php endforeach; ?>
+
+    <tr class="">
+        <td class="" colspan="5">合计金额大写(人民币)：元整</td>
+        <td class="tc"><?= number_format($grand_total, 2) ?></td>
+        <td class=""></td>
+    </tr>
 
 </table>
 
