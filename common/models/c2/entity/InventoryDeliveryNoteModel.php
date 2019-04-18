@@ -298,7 +298,7 @@ class InventoryDeliveryNoteModel extends \cza\base\models\ActiveRecord
                 }
             }
         }
-        return $this->updateAttributes(['state' => InventoryExeState::FINISH]);
+        return $this->updateAttributes(['state' => InventoryExeState::UNTRACKED]);
     }
 
     public function isStateInit()
@@ -308,7 +308,7 @@ class InventoryDeliveryNoteModel extends \cza\base\models\ActiveRecord
 
     public function isStateFinish()
     {
-        return ($this->state == InventoryExeState::FINISH);
+        return ($this->state == InventoryExeState::FINISH) || ($this->state == InventoryExeState::UNTRACKED);
     }
 
     public function loadItems()

@@ -13,6 +13,7 @@ use cza\base\models\statics\OperationEvent;
 $this->title = Yii::t('app.c2', 'Warehouse Models');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
 <div class="well warehouse-model-index">
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>

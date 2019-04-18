@@ -38,6 +38,7 @@ use yii\validators\RequiredValidator;
 class InventoryReceiptNoteModel extends \cza\base\models\ActiveRecord
 {
     public $items;
+    public $flag = true;
 
     /**
      * @inheritdoc
@@ -154,7 +155,7 @@ class InventoryReceiptNoteModel extends \cza\base\models\ActiveRecord
 
     public function isStateFinish()
     {
-        return ($this->state == InventoryExeState::FINISH);
+        return ($this->state == InventoryExeState::FINISH) || ($this->state == InventoryExeState::UNTRACKED);
     }
 
     public function getCreator()
@@ -195,7 +196,7 @@ class InventoryReceiptNoteModel extends \cza\base\models\ActiveRecord
 
         }
 
-        return $this->updateAttributes(['state' => InventoryExeState::FINISH]);
+        return $this->updateAttributes(['state' => InventoryExeState::UNTRACKED]);
     }
 
     public function validateItems($attribute)
@@ -218,7 +219,11 @@ class InventoryReceiptNoteModel extends \cza\base\models\ActiveRecord
 
     public function loadItems()
     {
-        $this->items = $this->getActiveNoteItems()->all();
+        if ($this->flag || $this->getWarehouseReceiptItems()->count() == 0) {
+            $this->items = $this->getActiveNoteItems()->all();
+        } else {
+            $this->items = $this->getWarehouseReceiptItems()->all();
+        }
     }
 
     public function afterSave($insert, $changedAttributes)
@@ -263,6 +268,12 @@ class InventoryReceiptNoteModel extends \cza\base\models\ActiveRecord
             $item->delete();
         }
         return parent::beforeDelete();
+    }
+
+
+    public function getWarehouseReceiptItems()
+    {
+        return $this->hasMany(WarehouseCommitItemModel::className(), ['note_id' => 'id']);
     }
 
 }

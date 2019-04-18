@@ -18,5 +18,5 @@ use cza\base\widgets\ui\common\part\EntityDetail as DetailWidget;
             public $withTranslationTabs = false;
             
             public $withProfileTab = false;
-    
+
     }

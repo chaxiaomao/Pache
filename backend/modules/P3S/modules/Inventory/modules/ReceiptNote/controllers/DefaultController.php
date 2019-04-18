@@ -2,7 +2,9 @@
 
 namespace backend\modules\P3S\modules\Inventory\modules\ReceiptNote\controllers;
 
+use backend\models\c2\form\WarehouseReceiptCommitForm;
 use common\models\c2\entity\InventoryReceiptNoteModel;
+use common\models\c2\entity\WarehouseModel;
 use Yii;
 use common\models\c2\search\InventoryReceiptNoteSearch;
 use cza\base\components\controllers\backend\ModelController as Controller;
@@ -64,6 +66,37 @@ class DefaultController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+    }
+
+    public function actionUntracked()
+    {
+        $searchModel = new InventoryReceiptNoteSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('untracked', [
+            'model' => $this->retrieveModel(),
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionCommit($id = null)
+    {
+        $model = $this->retrieveModel($id);
+        $form = new WarehouseReceiptCommitForm();
+        $model->flag = false;
+
+        if ($form->load(Yii::$app->request->post())) {
+            $form->entityModel = $model;
+            if ($form->save()) {
+                Yii::$app->session->setFlash($form->getMessageName(), [Yii::t('app.c2', 'Saved successful.')]);
+            } else {
+                Yii::$app->session->setFlash($form->getMessageName(), $form->errors);
+            }
+        }
+
+        $model->loadItems();
+        return (Yii::$app->request->isAjax) ? $this->renderAjax('_commit_form', ['model' => $model,]) : $this->render('_commit_form', ['model' => $model,]);
     }
 
     /**

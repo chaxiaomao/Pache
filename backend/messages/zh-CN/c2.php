@@ -1096,8 +1096,9 @@ return [
     'Purchase Sale Storage System' => '进销存',
     'Inventory' => '库存',
     'Finance' => '财务',
-    'Inventory Receipt Notes' => '入仓单',
+    'Inventory Receipt Notes' => '采购单',
     'Inventory Delivery Notes' => '出仓单',
+    'Inventory Warehouse Notes' => '进仓单',
     'Logs' => '日志',
     'Occurrence Date' => '订购时间',
     'Arrival Number' => '到货单号',
@@ -1254,6 +1255,8 @@ return [
     'Department' => '部门',
     'Arrival Date' => '收货日期',
     'Receive company' => '收货单位',
+    'Untracked' => '待跟进',
+    'Commit' => '实核',
     '' => '',
 ];
 

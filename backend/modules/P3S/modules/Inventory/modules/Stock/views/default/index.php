@@ -13,6 +13,15 @@ use cza\base\models\statics\OperationEvent;
 $this->title = Yii::t('app.c2', 'Product Stock');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
+<div class="row">
+    <a href="<?= Url::toRoute(['/p3s/inventory/receipt-note/default/untracked', 'InventoryReceiptNoteSearch[state]' => \common\models\c2\statics\InventoryExeState::UNTRACKED]) ?>" class="btn btn-app">
+        <span class="badge bg-teal"><?= \common\models\c2\entity\InventoryReceiptNoteModel::find()
+                ->select(['state'])->where(['state' => \common\models\c2\statics\InventoryExeState::UNTRACKED])->count() ?></span>
+        <i class="fa fa-bullhorn"></i> <?= Yii::t('app.c2', 'Event Assigned') ?>
+    </a>
+</div>
+
 <div class="well product-stock-index">
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
