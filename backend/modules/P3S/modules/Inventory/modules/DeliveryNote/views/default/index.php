@@ -91,7 +91,7 @@ $this->params['breadcrumbs'][] = $this->title;
             //     }
             // ],
             'occurrence_date',
-            // 'grand_total',
+            'grand_total',
             // 'arrival_number',
             // 'buyer_name',
             // 'dept_manager_name',

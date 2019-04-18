@@ -21,7 +21,7 @@ use Yii;
  * @property string $pieces
  * @property string $product_price
  * @property string $factory_price
- * @property string $subtotal
+ * @property integer $subtotal
  * @property integer $status
  * @property integer $position
  * @property string $created_at
@@ -46,6 +46,7 @@ class InventoryDeliveryNoteItemModel extends \cza\base\models\ActiveRecord
             [['note_id', 'product_id', 'product_sku_id', 'customer_id', 'quantity', 'measure_id', 'position'], 'integer'],
             [['product_price', 'factory_price', 'subtotal'], 'number'],
             [['created_at', 'updated_at'], 'safe'],
+            [['product_price', 'factory_price'], 'default', 'value' => 0],
             [['sku_label', 'volume', 'weight', 'pieces'], 'string', 'max' => 255],
             [['status'], 'string', 'max' => 4],
         ];
@@ -86,31 +87,37 @@ class InventoryDeliveryNoteItemModel extends \cza\base\models\ActiveRecord
     {
         return new \common\models\c2\query\Query(get_called_class());
     }
-    
+
     /**
-    * setup default values
-    **/
-    public function loadDefaultValues($skipIfSet = true) {
+     * setup default values
+     **/
+    public function loadDefaultValues($skipIfSet = true)
+    {
         parent::loadDefaultValues($skipIfSet);
     }
 
-    public function getOwner() {
+    public function getOwner()
+    {
         return $this->hasOne(InventoryDeliveryNoteModel::className(), ['id' => 'note_id']);
     }
 
-    public function getProduct() {
+    public function getProduct()
+    {
         return $this->hasOne(ProductModel::className(), ['id' => 'product_id']);
     }
 
-    public function getProductSku() {
+    public function getProductSku()
+    {
         return $this->hasOne(ProductSkuModel::className(), ['id' => 'product_sku_id']);
     }
 
-    public function getCustomer() {
+    public function getCustomer()
+    {
         return $this->hasOne(Customer::className(), ['id' => 'customer_id']);
     }
 
-    public function getMeasure() {
+    public function getMeasure()
+    {
         return $this->hasOne(MeasureModel::className(), ['id' => 'measure_id']);
     }
 

@@ -41,6 +41,7 @@ use yii\validators\RequiredValidator;
 class InventoryDeliveryNoteModel extends \cza\base\models\ActiveRecord
 {
     public $items;
+    public $flag = true;
 
     /**
      * @inheritdoc
@@ -61,6 +62,7 @@ class InventoryDeliveryNoteModel extends \cza\base\models\ActiveRecord
             [['is_audited', 'type', 'warehouse_id', 'sales_order_id', 'customer_id', 'audited_by', 'updated_by', 'created_by', 'position'], 'integer'],
             [['occurrence_date', 'updated_at', 'created_at'], 'safe'],
             [['grand_total'], 'number'],
+            [['grand_total'], 'default', 'value' => 0],
             [['memo'], 'string'],
             [['items',], 'validateItems'],
             [['state', 'status'], 'integer', 'max' => 4],
@@ -122,6 +124,7 @@ class InventoryDeliveryNoteModel extends \cza\base\models\ActiveRecord
         if ($this->isNewRecord) {
             $this->code = \common\helpers\CodeGenerator::getCodeByDate($this, 'DN');
         }
+        $this->grand_total = number_format($this->grand_total, 2);
     }
 
     public function getWarehouse()
@@ -215,6 +218,7 @@ class InventoryDeliveryNoteModel extends \cza\base\models\ActiveRecord
                 $this->addOrderItem();
             } else {
                 if (!empty($this->items)) {
+                    $totaly = 0;
                     foreach ($this->items as $item) {
                         // $productSku = isset($item['product_sku_id']) ? ProductSku::findOne(['id' => $item['product_sku_id']]) : null;
                         $attributes = [
@@ -224,16 +228,16 @@ class InventoryDeliveryNoteModel extends \cza\base\models\ActiveRecord
                             'subtotal' => isset($item['subtotal']) ? $item['subtotal'] : "",
                             'memo' => isset($item['memo']) ? $item['memo'] : "",
                         ];
-                        if (isset($item['id']) && $item['id'] == 0) {  // create new items
-                            $itemModel = new InventoryDeliveryNoteItemModel();
-                            $itemModel->setAttributes($attributes);
-                            $itemModel->link('owner', $this);
-                        } elseif (isset($item['id'])) {  // update itemes
-                            $itemModel = InventoryDeliveryNoteItemModel::findOne(['id' => $item['id']]);
-                            if (!is_null($itemModel)) {
-                                $itemModel->updateAttributes($attributes);
-                            }
+                        $itemModel = InventoryDeliveryNoteItemModel::findOne(['id' => $item['id']]);
+                        if (!is_null($itemModel)) {
+                            $itemModel->updateAttributes($attributes);
                         }
+                        $totaly += $itemModel->subtotal;
+                    }
+                    if ($this->flag) {
+                        $this->grand_total = $totaly;
+                        $this->flag = false;
+                        $this->save();
                     }
                 }
             }
@@ -243,6 +247,7 @@ class InventoryDeliveryNoteModel extends \cza\base\models\ActiveRecord
     public function addOrderItem()
     {
         $order = OrderModel::findOne(['id' => $this->sales_order_id]);
+
         foreach ($order->orderItems as $item) {
             $attributes = [
                 'note_id' => $this->id,
