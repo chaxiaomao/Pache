@@ -25,6 +25,8 @@ class Module extends \yii\base\Module
             'stock' => ['class' => 'backend\modules\P3S\modules\Inventory\modules\Stock\Module',],
             'logs' => ['class' => 'backend\modules\P3S\modules\Inventory\modules\Logs\Module',],
             'order' => ['class' => 'backend\modules\P3S\modules\Inventory\modules\Order\Module',],
+            'commit-item' => ['class' => 'backend\modules\P3S\modules\Inventory\modules\CommitItem\Module',],
+            'untracked' => ['class' => 'backend\modules\P3S\modules\Inventory\modules\Untracked\\Module',],
         ];
         // custom initialization code goes here
     }

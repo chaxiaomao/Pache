@@ -71,7 +71,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
             ],
 //            'note_id',
-//            'type',
+            [
+                'attribute' => 'type',
+                'value' => function ($model, $key, $index, $column) {
+                    return \common\models\c2\statics\InventoryLogType::getLabel($model->type);
+                },
+            ],
 //            'label',
             [
                 'attribute' => 'warehouse_id',

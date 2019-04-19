@@ -58,6 +58,7 @@ use yii\helpers\Html;
                                         ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Inventory Receipt Notes')]), 'icon' => 'fa fa-circle-o', 'url' => ['/p3s/inventory/receipt-note']],
                                         ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Inventory Delivery Notes')]), 'icon' => 'fa fa-circle-o', 'url' => ['/p3s/inventory/delivery-note']],
                                         ['label' => Yii::t('app.c2', 'Product Stock'), 'icon' => 'fa fa-circle-o', 'url' => ['/p3s/inventory/stock']],
+                                        ['label' => Yii::t('app.c2', 'Untracked Notes'), 'icon' => 'fa fa-circle-o', 'url' => ['/p3s/inventory/untracked/default/receipt-note']],
                                         ['label' => Yii::t('app.c2', 'Logs'), 'icon' => 'fa fa-circle-o', 'url' => ['/p3s/inventory/logs']],
                                     ]
                                 ],

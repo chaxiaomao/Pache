@@ -9,6 +9,7 @@
 namespace backend\models\c2\form;
 
 
+use common\models\c2\entity\InventoryReceiptNoteItemModel;
 use common\models\c2\entity\WarehouseCommitItemModel;
 use cza\base\models\ModelTrait;
 use Yii;
@@ -71,29 +72,27 @@ class WarehouseReceiptCommitForm extends Model
 
     public function save()
     {
-        Yii::info($this->items);
         if (!empty($this->items)) {
             foreach ($this->items as $item) {
                 $attributes = [
-                    'note_id' => $this->entityModel->id,
-                    'receipt_item_id' => isset($item['id']) ? $item['id'] : 0,
                     'product_id' => isset($item['product_id']) ? $item['product_id'] : 0,
                     'product_sku_id' => isset($item['product_sku_id']) ? $item['product_sku_id'] : 0,
                     'sku_label' => isset($item['sku_label']) ? $item['sku_label'] : "",
                     'measure_id' => isset($item['measure_id']) ? $item['measure_id'] : 0,
                     'quantity' => isset($item['quantity']) ? $item['quantity'] : 0,
+                    'until_price' => $item['until_price'],
+                    'subtotal' => $item['subtotal'],
                     'supplier_id' => $this->entityModel->supplier_id,
                     'memo' => isset($item['memo']) ? $item['memo'] : "",
                 ];
-
-                if (isset($item['id'])) {  // update itemes
-                    $itemModel = WarehouseCommitItemModel::findOne(['receipt_item_id' => $item['id']]);
+                if (isset($item['id']) && $item['id'] == 0) {  // create new items
+                    $itemModel = new WarehouseCommitItemModel();
+                    $itemModel->setAttributes($attributes);
+                    $itemModel->link('owner', $this->entityModel);
+                } elseif (isset($item['id'])) {  // update itemes
+                    $itemModel = WarehouseCommitItemModel::findOne(['id' => $item['id']]);
                     if (!is_null($itemModel)) {
                         $itemModel->updateAttributes($attributes);
-                    } else {
-                        $itemModel = new WarehouseCommitItemModel();
-                        $itemModel->setAttributes($attributes);
-                        $itemModel->save();
                     }
                 }
             }

@@ -156,6 +156,11 @@ class OrderModel extends \cza\base\models\ActiveRecord
         return ($this->state == InventoryExeState::FINISH);
     }
 
+    public function isStateUntracked()
+    {
+        return ($this->state == InventoryExeState::UNTRACKED);
+    }
+
     public function getCreator()
     {
         return $this->hasOne(\backend\models\c2\entity\rbac\BeUser::class, ['id' => 'created_by']);

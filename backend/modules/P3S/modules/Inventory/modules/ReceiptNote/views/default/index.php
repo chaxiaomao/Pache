@@ -130,10 +130,10 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'class' => '\common\widgets\grid\ActionColumn',
                 'template' => '{ensure-do} {update} {delete} {view}',
-                'width' => '100px',
+                // 'width' => '100px',
                 'visibleButtons' => [
                     'view' => function ($model) {
-                        return $model->isStateFinish();
+                        return $model->isStateFinish() || $model->isStateUntracked();
                     },
                     'update' => function ($model) {
                         return $model->isStateInit();

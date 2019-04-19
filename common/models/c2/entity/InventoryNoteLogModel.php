@@ -2,6 +2,7 @@
 
 namespace common\models\c2\entity;
 
+use common\models\c2\statics\InventoryLogType;
 use common\models\c2\statics\InventoryNoteType;
 use Yii;
 use yii\helpers\ArrayHelper;
@@ -100,14 +101,21 @@ class InventoryNoteLogModel extends \cza\base\models\ActiveRecord
 
     public static function logReceiptNote($attributes) {
         $defaults = [
-            'type' => InventoryNoteType::TYPE_RECEIPT,
+            'type' => InventoryLogType::TYPE_RECEIPT,
         ];
         return static::log(ArrayHelper::merge($defaults, $attributes));
     }
 
     public static function logDeliveryNote($attributes) {
         $defaults = [
-            'type' => InventoryNoteType::TYPE_DELIVERY,
+            'type' => InventoryLogType::TYPE_DELIVERY,
+        ];
+        return static::log(ArrayHelper::merge($defaults, $attributes));
+    }
+
+    public static function logWarehouseCommitNote($attributes) {
+        $defaults = [
+            'type' => InventoryLogType::TYPE_WAREHOUSE,
         ];
         return static::log(ArrayHelper::merge($defaults, $attributes));
     }

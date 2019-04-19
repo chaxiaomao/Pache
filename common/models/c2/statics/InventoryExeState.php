@@ -14,8 +14,8 @@ class InventoryExeState {
 
     const INIT = 1;
     const CANCEL = 2;
-    const FINISH = 3;
-    const UNTRACKED = 4;
+    const UNTRACKED = 3;
+    const FINISH = 4;
 
     protected static $_data;
 

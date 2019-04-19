@@ -1257,6 +1257,8 @@ return [
     'Receive company' => '收货单位',
     'Untracked' => '待跟进',
     'Commit' => '实核',
+    'Commit note' => '采购单进仓核算',
+    'Untracked Notes' => '待跟进订单',
     '' => '',
 ];
 

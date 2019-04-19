@@ -115,7 +115,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'width' => '200px',
                     'visibleButtons' => [
                         'view' => function ($model) {
-                            return $model->isStateFinish();
+                            return $model->isStateFinish() || $model->isStateUntracked();
                         },
                         'update' => function ($model) {
                             return $model->isStateInit();

@@ -2,7 +2,9 @@
 
 namespace common\models\c2\entity;
 
+use common\models\c2\statics\InventoryDeliveryType;
 use common\models\c2\statics\InventoryExeState;
+use common\models\c2\statics\InventoryLogType;
 use common\models\c2\statics\InventoryReceiptType;
 use cza\base\models\statics\EntityModelStatus;
 use Yii;
@@ -38,7 +40,6 @@ use yii\validators\RequiredValidator;
 class InventoryReceiptNoteModel extends \cza\base\models\ActiveRecord
 {
     public $items;
-    public $flag = true;
 
     /**
      * @inheritdoc
@@ -155,7 +156,12 @@ class InventoryReceiptNoteModel extends \cza\base\models\ActiveRecord
 
     public function isStateFinish()
     {
-        return ($this->state == InventoryExeState::FINISH) || ($this->state == InventoryExeState::UNTRACKED);
+        return ($this->state == InventoryExeState::FINISH);
+    }
+
+    public function isStateUntracked()
+    {
+        return ($this->state == InventoryExeState::UNTRACKED);
     }
 
     public function getCreator()
@@ -176,27 +182,58 @@ class InventoryReceiptNoteModel extends \cza\base\models\ActiveRecord
             'occurrence_date' => $this->occurrence_date,
             'memo' => $this->memo,
         ]);
-        $items = $this->activeNoteItems;
-        foreach ($items as $item) {
-            $model = $item->productMaterialItem->stock;
-            if (is_null($model)) {
-                $model = new ProductStock();
-                $model->setAttributes([
-                    'warehouse_id' => $this->warehouse_id,
-                    'product_id' => $item->product_id,
-                    'product_material_id' => $item->product_sku_id,
-                    'num' => $item->quantity,
-                ]);
-                $model->save();
-            } else {
-                $model->updateCounters([
-                    'num' => $item->quantity,
-                ]);
+        $this->loadItems();
+        if (!empty($this->items)) {
+            foreach ($this->items as $item) {
+                $attributes = [
+                    'product_id' => isset($item['product_id']) ? $item['product_id'] : 0,
+                    'product_sku_id' => isset($item['product_sku_id']) ? $item['product_sku_id'] : 0,
+                    'sku_label' => isset($item['sku_label']) ? $item['sku_label'] : "",
+                    'measure_id' => isset($item['measure_id']) ? $item['measure_id'] : 0,
+                    'quantity' => isset($item['quantity']) ? $item['quantity'] : 0,
+                    'until_price' => $item['until_price'],
+                    'subtotal' => $item['subtotal'],
+                    'supplier_id' => $this->supplier_id,
+                    'memo' => isset($item['memo']) ? $item['memo'] : "",
+                ];
+                $itemModel = new WarehouseCommitItemModel();
+                $itemModel->setAttributes($attributes);
+                $itemModel->link('owner', $this);
             }
-
         }
-
         return $this->updateAttributes(['state' => InventoryExeState::UNTRACKED]);
+    }
+
+    public function commitWarehouseReceiptItem()
+    {
+        InventoryNoteLogModel::logWarehouseCommitNote([
+            'note_id' => $this->id,
+            'warehouse_id' => $this->warehouse_id,
+            'occurrence_date' => $this->occurrence_date,
+            'memo' => $this->memo,
+        ]);
+        $this->loadCommitItems();
+        Yii::info($this->items);
+        if (!empty($this->items)) {
+            foreach ($this->items as $item) {
+                $model = $item->productMaterialItem->stock;
+                if (is_null($model)) {
+                    $model = new ProductStock();
+                    $model->setAttributes([
+                        'warehouse_id' => $this->warehouse_id,
+                        'product_id' => $item->product_id,
+                        'product_material_id' => $item->product_sku_id,
+                        'num' => $item->quantity,
+                    ]);
+                    $model->save();
+                } else {
+                    $model->updateCounters([
+                        'num' => $item->quantity,
+                    ]);
+                }
+            }
+        }
+        return $this->updateAttributes(['state' => InventoryExeState::FINISH]);
     }
 
     public function validateItems($attribute)
@@ -219,17 +256,17 @@ class InventoryReceiptNoteModel extends \cza\base\models\ActiveRecord
 
     public function loadItems()
     {
-        if ($this->flag || $this->getWarehouseReceiptItems()->count() == 0) {
-            $this->items = $this->getActiveNoteItems()->all();
-        } else {
-            $this->items = $this->getWarehouseReceiptItems()->all();
-        }
+        $this->items = $this->getActiveNoteItems()->all();
+    }
+
+    public function loadCommitItems()
+    {
+        $this->items = $this->getWarehouseReceiptItems()->all();
     }
 
     public function afterSave($insert, $changedAttributes)
     {
         parent::afterSave($insert, $changedAttributes);
-
         if (!empty($this->items)) {
             foreach ($this->items as $item) {
                 $attributes = [

@@ -1,6 +1,7 @@
 <?php
 
 use cza\base\widgets\ui\common\grid\GridView;
+use yii\bootstrap\Modal;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use cza\base\models\statics\EntityModelStatus;
@@ -15,7 +16,8 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="row">
-    <a href="<?= Url::toRoute(['/p3s/inventory/receipt-note/default/untracked', 'InventoryReceiptNoteSearch[state]' => \common\models\c2\statics\InventoryExeState::UNTRACKED]) ?>" class="btn btn-app">
+    <a href="<?= Url::toRoute(['/p3s/inventory/untracked/default/receipt-note']) ?>"
+       class="btn btn-app">
         <span class="badge bg-teal"><?= \common\models\c2\entity\InventoryReceiptNoteModel::find()
                 ->select(['state'])->where(['state' => \common\models\c2\statics\InventoryExeState::UNTRACKED])->count() ?></span>
         <i class="fa fa-bullhorn"></i> <?= Yii::t('app.c2', 'Event Assigned') ?>
@@ -102,33 +104,67 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'position',
             // 'created_at',
             'updated_at',
-            //            [
-            //                'attribute' => 'status',
-            //                'class' => '\kartik\grid\EditableColumn',
-            //                'editableOptions' => [
-            //                    'inputType' => \kartik\editable\Editable::INPUT_DROPDOWN_LIST,
-            //                    'formOptions' => ['action' => Url::toRoute('editColumn')],
-            //                    'data' => EntityModelStatus::getHashMap('id', 'label'),
-            //                    'displayValueConfig' => EntityModelStatus::getHashMap('id', 'label'),
-            //                ],
-            //                'filter' => EntityModelStatus::getHashMap('id', 'label'),
-            //                'value' => function($model) {
-            //                    return $model->getStatusLabel();
-            //                }
-            //            ],
-            //            [
-            //                'class' => '\common\widgets\grid\ActionColumn',
-            //                'buttons' => [
-            //                    'update' => function ($url, $model, $key) {
-            //                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['edit', 'id' => $model->id], [
-            //                                    'title' => Yii::t('app', 'Info'),
-            //                                    'data-pjax' => '0',
-            //                        ]);
-            //                    }
-            //                ]
-            //            ],
+            [
+                'attribute' => 'status',
+                'class' => '\kartik\grid\EditableColumn',
+                'editableOptions' => [
+                    'inputType' => \kartik\editable\Editable::INPUT_DROPDOWN_LIST,
+                    'formOptions' => ['action' => Url::toRoute('editColumn')],
+                    'data' => EntityModelStatus::getHashMap('id', 'label'),
+                    'displayValueConfig' => EntityModelStatus::getHashMap('id', 'label'),
+                ],
+                'filter' => EntityModelStatus::getHashMap('id', 'label'),
+                'value' => function ($model) {
+                    return $model->getStatusLabel();
+                }
+            ],
+            [
+                'class' => '\common\widgets\grid\ActionColumn',
+                'template' => ' {update} {delete} {view}',
+                'buttons' => [
+                    'update' => function ($url, $model, $key) {
+                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['edit', 'id' => $model->id], [
+                            'title' => Yii::t('app', 'Update'),
+                            'data-pjax' => '0',
+                        ]);
+                    },
+                    'view' => function ($url, $model, $key) {
+                        return Html::a('<span class="glyphicon glyphicon-hourglass"></span>', ['/p3s/inventory/commit-item/default/index',
+                            'WarehouseCommitItemSearch[product_id]' => $model->product_id], [
+                            'title' => Yii::t('app', 'History'),
+                            'data-pjax' => '0',
+                            'class' => 'view'
+                        ]);
+                        // return Html::a(Html::tag('span', '', ['class' => "glyphicon glyphicon-hourglass"]), ['/p3s/inventory/commit-item/default/index', 'id' => $model->id], [
+                        //     'title' => Yii::t('app', 'History'),
+                        //     'aria-label' => Yii::t('app', 'History'),
+                        //     'data-pjax' => '0',
+                        //     'class' => 'view',
+                        // ]);
+                    }
+                ]
+            ],
         ],
     ]);
     ?>
 
 </div>
+<?php
+// Modal::begin([
+//     'id' => 'stock-modal',
+//     'size' => 'modal-lg',
+// ]);
+// Modal::end();
+//
+// $js = "";
+//
+// $js .= "jQuery(document).off('click', 'a.view').on('click', 'a.view', function(e) {
+//                 e.preventDefault();
+//                 jQuery('#stock-modal').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(jQuery(e.currentTarget).attr('href'));
+//             });";
+//
+//
+// $js .= "$.fn.modal.Constructor.prototype.enforceFocus = function(){};";   // fix select2 widget input-bug in popup
+//
+// $this->registerJs($js);
+?>

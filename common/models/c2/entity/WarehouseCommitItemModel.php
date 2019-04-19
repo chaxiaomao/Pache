@@ -10,7 +10,6 @@ use Yii;
  *
  * @property string $id
  * @property string $note_id
- * @property string $receipt_item_id
  * @property integer $product_id
  * @property integer $product_sku_id
  * @property string $sku_label
@@ -42,7 +41,7 @@ class WarehouseCommitItemModel extends \cza\base\models\ActiveRecord
     public function rules()
     {
         return [
-            [['note_id', 'product_id', 'product_sku_id', 'supplier_id', 'quantity', 'measure_id', 'position', 'receipt_item_id'], 'integer'],
+            [['note_id', 'product_id', 'product_sku_id', 'supplier_id', 'quantity', 'measure_id', 'position'], 'integer'],
             [['until_price', 'subtotal'], 'number'],
             [['created_at', 'updated_at'], 'safe'],
             [['sku_label', 'purcharse_order_code', 'memo'], 'string', 'max' => 255],
@@ -94,6 +93,20 @@ class WarehouseCommitItemModel extends \cza\base\models\ActiveRecord
     public function getProductMaterial()
     {
         return $this->hasOne(ProductMaterialModel::className(), ['id' => 'product_id']);
+    }
+
+    public function getOwner() {
+        return $this->hasOne(InventoryReceiptNoteModel::className(), ['id' => 'note_id']);
+    }
+
+    public function getProductMaterialItem()
+    {
+        return $this->hasOne(ProductMaterialItemModel::className(), ['id' => 'product_sku_id']);
+    }
+
+    public function getMeasure()
+    {
+        return $this->hasOne(MeasureModel::className(), ['id' => 'measure_id']);
     }
 
 }
