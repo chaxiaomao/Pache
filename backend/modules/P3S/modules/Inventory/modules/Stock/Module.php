@@ -18,7 +18,14 @@ class Module extends \yii\base\Module
     public function init()
     {
         parent::init();
-
+        $this->modules = [
+            'receipt-commit' => [
+                'class' => 'backend\modules\P3S\modules\Inventory\modules\Stock\modules\ReceiptCommit\Module',
+            ],
+            'delivery-commit' => [
+                'class' => 'backend\modules\P3S\modules\Inventory\modules\Stock\modules\DeliveryCommit\Module',
+            ],
+        ];
         // custom initialization code goes here
     }
 }

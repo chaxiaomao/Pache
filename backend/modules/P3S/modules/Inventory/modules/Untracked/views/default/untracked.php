@@ -18,6 +18,16 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="<?= $model->getPrefixName('index') ?>">
 
+    <div class="row">
+        <a href="<?= Url::toRoute(['/p3s/inventory/untracked/default/receipt-note']) ?>" class="btn btn-app">
+            <i class="fa fa-list-alt"></i> <?= Yii::t('app.c2', 'Inventory Receipt Notes') ?>
+        </a>
+
+        <a href="<?= Url::toRoute(['/p3s/inventory/untracked/default/delivery-note']) ?>" class="btn btn-app">
+            <i class="fa fa-list-alt"></i> <?= Yii::t('app.c2', 'Inventory Delivery Notes') ?>
+        </a>
+    </div>
+
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?php

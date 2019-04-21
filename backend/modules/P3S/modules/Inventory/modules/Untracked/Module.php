@@ -18,7 +18,14 @@ class Module extends \yii\base\Module
     public function init()
     {
         parent::init();
-
+        $this->modules = [
+            'receipt-note' => [
+                'class' => 'backend\modules\P3S\modules\Inventory\modules\Untracked\modules\Receipt\Module',
+            ],
+            'delivery-note' => [
+                'class' => 'backend\modules\P3S\modules\Inventory\modules\Untracked\modules\Delivery\Module',
+            ],
+        ];
         // custom initialization code goes here
     }
 }

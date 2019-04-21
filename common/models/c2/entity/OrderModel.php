@@ -186,7 +186,25 @@ class OrderModel extends \cza\base\models\ActiveRecord
 
     public function setStateToFinish()
     {
-        return $this->updateAttributes(['state' => InventoryExeState::FINISH]);
+        $this->loadItems();
+        foreach ($this->items as $item) {
+            $rs = $item->productMaterialRs;
+            foreach ($rs as $r) {
+                $attrs = [
+                    'product_id' => $item->product_id,
+                    'material_id' => $r->material_id,
+                    'material_item_id' => $r->material_item_id,
+                    'quantity' => $item->num,
+                    'consumed_num' => $r->num,
+                    'subtotal' => $r->num * $item->num,
+                    // 'measure_id' => $item->measure_id,
+                ];
+                $model = new OrderItemConsumptionModel();
+                $model->setAttributes($attrs);
+                $model->link('owner', $this);
+            }
+        }
+        return $this->updateAttributes(['state' => InventoryExeState::UNTRACKED]);
     }
 
     public function getOrderItem($id)

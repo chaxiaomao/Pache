@@ -10,7 +10,7 @@ namespace backend\models\c2\form;
 
 
 use common\models\c2\entity\InventoryReceiptNoteItemModel;
-use common\models\c2\entity\WarehouseCommitItemModel;
+use common\models\c2\entity\WarehouseReceiptCommitItemModel;
 use cza\base\models\ModelTrait;
 use Yii;
 use yii\base\Model;
@@ -77,20 +77,20 @@ class WarehouseReceiptCommitForm extends Model
                 $attributes = [
                     'product_id' => isset($item['product_id']) ? $item['product_id'] : 0,
                     'product_sku_id' => isset($item['product_sku_id']) ? $item['product_sku_id'] : 0,
-                    'sku_label' => isset($item['sku_label']) ? $item['sku_label'] : "",
+                    // 'sku_label' => isset($item['sku_label']) ? $item['sku_label'] : "",
                     'measure_id' => isset($item['measure_id']) ? $item['measure_id'] : 0,
                     'quantity' => isset($item['quantity']) ? $item['quantity'] : 0,
-                    'until_price' => $item['until_price'],
-                    'subtotal' => $item['subtotal'],
+                    // 'until_price' => $item['until_price'],
+                    // 'subtotal' => $item['subtotal'],
                     'supplier_id' => $this->entityModel->supplier_id,
                     'memo' => isset($item['memo']) ? $item['memo'] : "",
                 ];
                 if (isset($item['id']) && $item['id'] == 0) {  // create new items
-                    $itemModel = new WarehouseCommitItemModel();
+                    $itemModel = new WarehouseReceiptCommitItemModel();
                     $itemModel->setAttributes($attributes);
                     $itemModel->link('owner', $this->entityModel);
                 } elseif (isset($item['id'])) {  // update itemes
-                    $itemModel = WarehouseCommitItemModel::findOne(['id' => $item['id']]);
+                    $itemModel = WarehouseReceiptCommitItemModel::findOne(['id' => $item['id']]);
                     if (!is_null($itemModel)) {
                         $itemModel->updateAttributes($attributes);
                     }

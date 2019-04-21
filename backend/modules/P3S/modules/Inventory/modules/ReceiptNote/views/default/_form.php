@@ -185,6 +185,7 @@ $form = ActiveForm::begin([
                                 'options' => [
                                     'id' => "quantity-{multiple_index_{$multipleItemsId}}",
                                     'type' => 'number',
+                                    'min' => 0,
                                     // 'pluginOptions' => [
                                     //     'buttondown_txt' => '<i class="glyphicon glyphicon-minus-sign"></i>',
                                     //     'buttonup_txt' => '<i class="glyphicon glyphicon-plus-sign"></i>',

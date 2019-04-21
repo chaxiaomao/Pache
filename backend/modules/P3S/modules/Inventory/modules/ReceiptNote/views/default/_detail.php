@@ -36,8 +36,8 @@
 
     <?php foreach ($model->activeNoteItems as $item): ?>
         <tr class="tc">
-            <td class=""><?= $item->product->sku ?></td>
-            <td class=""><?= $item->product->name ?></td>
+            <td class=""><?= $item->productMaterialItem->value ?></td>
+            <td class=""><?= $item->productMaterialItem->label ?></td>
             <td class=""><?= $item->measure->label ?></td>
             <td class=""><?= $item->quantity ?></td>
             <td class=""><?= $item->until_price ?></td>

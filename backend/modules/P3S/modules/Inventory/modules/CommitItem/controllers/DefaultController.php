@@ -3,8 +3,8 @@
 namespace backend\modules\P3S\modules\Inventory\modules\CommitItem\controllers;
 
 use Yii;
-use common\models\c2\entity\WarehouseCommitItemModel;
-use common\models\c2\search\WarehouseCommitItemSearch;
+use common\models\c2\entity\WarehouseReceiptCommitItemModel;
+use common\models\c2\search\WarehouseReceiptCommitItemSearch;
 
 use cza\base\components\controllers\backend\ModelController as Controller;
 use yii\web\NotFoundHttpException;
@@ -15,7 +15,7 @@ use yii\filters\VerbFilter;
  */
 class DefaultController extends Controller
 {
-    public $modelClass = 'common\models\c2\entity\WarehouseCommitItemModel';
+    public $modelClass = 'common\models\c2\entity\WarehouseReceiptCommitItemModel';
     
     /**
      * Lists all WarehouseCommitItemModel models.
@@ -24,7 +24,7 @@ class DefaultController extends Controller
     public function actionIndex()
     {
         // $this->layout = "/print";
-        $searchModel = new WarehouseCommitItemSearch();
+        $searchModel = new WarehouseReceiptCommitItemSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -70,12 +70,12 @@ class DefaultController extends Controller
      * Finds the WarehouseCommitItemModel model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id
-     * @return WarehouseCommitItemModel the loaded model
+     * @return WarehouseReceiptCommitItemModel the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = WarehouseCommitItemModel::findOne($id)) !== null) {
+        if (($model = WarehouseReceiptCommitItemModel::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

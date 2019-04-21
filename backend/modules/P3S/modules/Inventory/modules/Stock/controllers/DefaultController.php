@@ -19,6 +19,14 @@ class DefaultController extends Controller
     public $modelClass = 'common\models\c2\entity\ProductStock';
     // public $modelClass = 'common\models\c2\entity\ProductSkuModel';
 
+    public function actions() {
+        return \yii\helpers\ArrayHelper::merge(parent::actions(), [
+            'materials' => [
+                'class' => 'common\components\actions\MaterialOptionsAction',
+            ],
+        ]);
+    }
+
     /**
      * Lists all ProductStock models.
      * @return mixed

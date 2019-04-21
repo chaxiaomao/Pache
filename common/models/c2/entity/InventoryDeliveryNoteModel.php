@@ -167,41 +167,48 @@ class InventoryDeliveryNoteModel extends \cza\base\models\ActiveRecord
         return $this->hasOne(\backend\models\c2\entity\rbac\BeUser::class, ['id' => 'updated_by']);
     }
 
-    // public function beforeSave($insert)
-    // {
-    //
-    //     return parent::beforeSave($insert);
-    // }
-
-    // public function afterSave($insert, $changedAttributes) {
-    //     parent::afterSave($insert, $changedAttributes);
-    //
-    //     if (!empty($this->items)) {
-    //         foreach ($this->items as $item) {
-    //             // $productSku = isset($item['product_sku_id']) ? ProductSku::findOne(['id' => $item['product_sku_id']]) : null;
-    //             $attributes = [
-    //                 'product_id' => isset($item['product_id']) ? $item['product_id'] : 0,
-    //                 'product_sku_id' => isset($item['product_sku_id']) ? $item['product_sku_id'] : 0,
-    //                 'measure_id' => isset($item['measure_id']) ? $item['measure_id'] : 0,
-    //                 'quantity' => isset($item['quantity']) ? $item['quantity'] : 50,
-    //
-    //                 'factory_price' => isset($item['factory_price']) ? $item['factory_price'] : "",
-    //                 'subtotal' => isset($item['subtotal']) ? $item['subtotal'] : "",
-    //                 'memo' => isset($item['memo']) ? $item['memo'] : "",
-    //             ];
-    //             if (isset($item['id']) && $item['id'] == 0) {  // create new items
-    //                 $itemModel = new InventoryDeliveryNoteItemModel();
-    //                 $itemModel->setAttributes($attributes);
-    //                 $itemModel->link('owner', $this);
-    //             } elseif (isset($item['id'])) {  // update itemes
-    //                 $itemModel = InventoryDeliveryNoteItemModel::findOne(['id' => $item['id']]);
-    //                 if (!is_null($itemModel)) {
-    //                     $itemModel->updateAttributes($attributes);
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
+    public function commitWarehouseDeliveryItems()
+    {
+        InventoryNoteLogModel::logWarehouseCommitNote([
+            'note_id' => $this->id,
+            'warehouse_id' => $this->warehouse_id,
+            'occurrence_date' => $this->occurrence_date,
+            'memo' => $this->memo,
+        ]);
+        $this->loadCommitItems();
+        if (!empty($this->items)) {
+            foreach ($this->items as $item) {
+                $productStock = $item->product->stock;
+                if ($productStock) {
+                    $productStock->updateCounters([
+                        'num' => -($item->stock_quantity)
+                    ]);
+                }
+                $rs = $item->productMaterialRs;
+                foreach ($rs as $r) {
+                    $materialProductStock = $r->productMaterialItem->stock;
+                    if ($materialProductStock) {
+                        $consumption = $r->num * $item->actual_quantity;
+                        $materialProductStock->updateCounters([
+                            'num' => -$consumption
+                        ]);
+                        // record product material items consumption
+                        $attrs = [
+                            'note_id' => $item->note_id,
+                            'product_id' => $r->material_id,
+                            'product_sku_id' => $r->material_item_id,
+                            'quantity' => -$consumption,
+                            'measure_id' => $item->measure_id,
+                        ];
+                        $model = new WarehouseReceiptCommitItemModel();
+                        $model->setAttributes($attrs);
+                        $model->save();
+                    }
+                }
+            }
+        }
+        return $this->updateAttributes(['state' => InventoryExeState::FINISH]);
+    }
 
     public function afterSave($insert, $changedAttributes)
     {
@@ -218,26 +225,28 @@ class InventoryDeliveryNoteModel extends \cza\base\models\ActiveRecord
                 $this->addOrderItem();
             } else {
                 if (!empty($this->items)) {
-                    $totaly = 0;
                     foreach ($this->items as $item) {
                         // $productSku = isset($item['product_sku_id']) ? ProductSku::findOne(['id' => $item['product_sku_id']]) : null;
                         $attributes = [
+                            'product_id' => isset($item['product_id']) ? $item['product_id'] : 0,
+                            'product_sku_id' => isset($item['product_sku_id']) ? $item['product_sku_id'] : 0,
+                            'sku_label' => isset($item['sku_label']) ? $item['sku_label'] : "",
                             'measure_id' => isset($item['measure_id']) ? $item['measure_id'] : 0,
-                            'quantity' => isset($item['quantity']) ? $item['quantity'] : 0,
+                            'quantity' => isset($item['quantity']) ? $item['quantity'] : 50,
                             'factory_price' => isset($item['factory_price']) ? $item['factory_price'] : "",
                             'subtotal' => isset($item['subtotal']) ? $item['subtotal'] : "",
                             'memo' => isset($item['memo']) ? $item['memo'] : "",
                         ];
-                        $itemModel = InventoryDeliveryNoteItemModel::findOne(['id' => $item['id']]);
-                        if (!is_null($itemModel)) {
-                            $itemModel->updateAttributes($attributes);
+                        if (isset($item['id']) && $item['id'] == 0) {  // create new items
+                            $itemModel = new InventoryDeliveryNoteItemModel();
+                            $itemModel->setAttributes($attributes);
+                            $itemModel->link('owner', $this);
+                        } elseif (isset($item['id'])) {  // update itemes
+                            $itemModel = InventoryDeliveryNoteItemModel::findOne(['id' => $item['id']]);
+                            if (!is_null($itemModel)) {
+                                $itemModel->updateAttributes($attributes);
+                            }
                         }
-                        $totaly += $itemModel->subtotal;
-                    }
-                    if ($this->flag) {
-                        $this->grand_total = $totaly;
-                        $this->flag = false;
-                        $this->save();
                     }
                 }
             }
@@ -263,20 +272,20 @@ class InventoryDeliveryNoteModel extends \cza\base\models\ActiveRecord
 
     public function validateItems($attribute)
     {
-        // $requiredValidator = new RequiredValidator();
-        // foreach ($this->$attribute as $index => $row) {
-        //     $error = null;
-        //     $requiredValidator->validate($row['product_id'], $error);
-        //     if (!empty($error)) {
-        //         $key = $attribute . '[' . $index . '][product_id]';
-        //         $this->addError($key, Yii::t('app.c2', '{attribute} can not be empty!', ['attribute' => Yii::t('app.c2', 'Product')]));
-        //     }
-        //     $requiredValidator->validate($row['product_sku_id'], $error);
-        //     if (!empty($error)) {
-        //         $key = $attribute . '[' . $index . '][product_sku_id]';
-        //         $this->addError($key, Yii::t('app.c2', '{attribute} can not be empty!', ['attribute' => Yii::t('app.c2', 'Product Sku')]));
-        //     }
-        // }
+        $requiredValidator = new RequiredValidator();
+        foreach ($this->$attribute as $index => $row) {
+            $error = null;
+            $requiredValidator->validate($row['product_id'], $error);
+            if (!empty($error)) {
+                $key = $attribute . '[' . $index . '][product_id]';
+                $this->addError($key, Yii::t('app.c2', '{attribute} can not be empty!', ['attribute' => Yii::t('app.c2', 'Product')]));
+            }
+            $requiredValidator->validate($row['sku_label'], $error);
+            if (!empty($error)) {
+                $key = $attribute . '[' . $index . '][sku_label]';
+                $this->addError($key, Yii::t('app.c2', '{attribute} can not be empty!', ['attribute' => Yii::t('app.c2', 'Product Sku')]));
+            }
+        }
     }
 
     public function setStateToFinish()
@@ -287,6 +296,24 @@ class InventoryDeliveryNoteModel extends \cza\base\models\ActiveRecord
             'occurrence_date' => $this->occurrence_date,
             'memo' => $this->memo,
         ]);
+
+        foreach ($this->activeNoteItems as $item) {
+            $attributes = [
+                // 'note_id' => $this->note_id,
+                'product_id' => $item->product_id,
+                'sku_label' => $item->sku_label,
+                'quantity' => $item->quantity,
+                'actual_quantity' => $item->quantity,
+            ];
+            $itemModel = new WarehouseDeliveryCommitItemModel();
+            $itemModel->setAttributes($attributes);
+            $itemModel->link('owner', $this);
+        }
+        return $this->updateAttributes(['state' => InventoryExeState::UNTRACKED]);
+    }
+
+    public function updateStock()
+    {
         $items = $this->activeNoteItems;
         foreach ($items as $item) {
             $rs = $item->productMaterialRs;
@@ -298,7 +325,6 @@ class InventoryDeliveryNoteModel extends \cza\base\models\ActiveRecord
                 }
             }
         }
-        return $this->updateAttributes(['state' => InventoryExeState::UNTRACKED]);
     }
 
     public function isStateInit()
@@ -344,6 +370,26 @@ class InventoryDeliveryNoteModel extends \cza\base\models\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(FeUserModel::className(), ['id' => 'customer_id']);
+    }
+
+    public function isStateUntracked()
+    {
+        return ($this->state == InventoryExeState::UNTRACKED);
+    }
+
+    public function loadCommitItems()
+    {
+        $this->items = $this->getWarehouseDeliveryCommitItems()->all();
+    }
+
+    public function getWarehouseDeliveryCommitItems()
+    {
+        return $this->hasMany(WarehouseDeliveryCommitItemModel::className(), ['note_id' => 'id']);
+    }
+
+    public function getMeasure()
+    {
+        return $this->hasOne(MeasureModel::className(), ['id' => 'measure_id']);
     }
 
 }

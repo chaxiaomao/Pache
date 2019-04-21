@@ -7,7 +7,7 @@ use cza\base\models\statics\EntityModelStatus;
 use cza\base\models\statics\OperationEvent;
 
 /* @var $this yii\web\View */
-/* @var $searchModel common\models\c2\search\WarehouseCommitItemSearch */
+/* @var $searchModel common\models\c2\search\WarehouseReceiptCommitItemSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('app.c2', 'Warehouse Commit Item Models');

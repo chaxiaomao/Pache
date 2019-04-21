@@ -196,7 +196,7 @@ class InventoryReceiptNoteModel extends \cza\base\models\ActiveRecord
                     'supplier_id' => $this->supplier_id,
                     'memo' => isset($item['memo']) ? $item['memo'] : "",
                 ];
-                $itemModel = new WarehouseCommitItemModel();
+                $itemModel = new WarehouseReceiptCommitItemModel();
                 $itemModel->setAttributes($attributes);
                 $itemModel->link('owner', $this);
             }
@@ -204,7 +204,7 @@ class InventoryReceiptNoteModel extends \cza\base\models\ActiveRecord
         return $this->updateAttributes(['state' => InventoryExeState::UNTRACKED]);
     }
 
-    public function commitWarehouseReceiptItem()
+    public function commitWarehouseReceiptItems()
     {
         InventoryNoteLogModel::logWarehouseCommitNote([
             'note_id' => $this->id,
@@ -213,7 +213,6 @@ class InventoryReceiptNoteModel extends \cza\base\models\ActiveRecord
             'memo' => $this->memo,
         ]);
         $this->loadCommitItems();
-        Yii::info($this->items);
         if (!empty($this->items)) {
             foreach ($this->items as $item) {
                 $model = $item->productMaterialItem->stock;
@@ -261,7 +260,7 @@ class InventoryReceiptNoteModel extends \cza\base\models\ActiveRecord
 
     public function loadCommitItems()
     {
-        $this->items = $this->getWarehouseReceiptItems()->all();
+        $this->items = $this->getWarehouseReceiptCommitItems()->all();
     }
 
     public function afterSave($insert, $changedAttributes)
@@ -308,9 +307,9 @@ class InventoryReceiptNoteModel extends \cza\base\models\ActiveRecord
     }
 
 
-    public function getWarehouseReceiptItems()
+    public function getWarehouseReceiptCommitItems()
     {
-        return $this->hasMany(WarehouseCommitItemModel::className(), ['note_id' => 'id']);
+        return $this->hasMany(WarehouseReceiptCommitItemModel::className(), ['note_id' => 'id']);
     }
 
 }

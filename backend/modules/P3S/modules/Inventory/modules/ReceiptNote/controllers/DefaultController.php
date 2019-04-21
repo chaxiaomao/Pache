@@ -4,7 +4,7 @@ namespace backend\modules\P3S\modules\Inventory\modules\ReceiptNote\controllers;
 
 use backend\models\c2\form\WarehouseReceiptCommitForm;
 use common\models\c2\entity\InventoryReceiptNoteModel;
-use common\models\c2\entity\WarehouseCommitItemModel;
+use common\models\c2\entity\WarehouseReceiptCommitItemModel;
 use common\models\c2\entity\WarehouseModel;
 use Yii;
 use common\models\c2\search\InventoryReceiptNoteSearch;

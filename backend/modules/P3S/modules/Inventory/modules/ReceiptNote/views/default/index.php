@@ -166,7 +166,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     },
                     'ensure-do' => function ($url, $model, $key) {
                         $title = Yii::t('app.c2', 'Ensure To Do');
-                        return Html::a(Html::tag('span', '', ['class' => "glyphicon glyphicon-check"]), ['ensure-do', 'id' => $model->id], [
+                        return Html::a(Html::tag('span', '', ['class' => "glyphicon glyphicon-copy"]), ['ensure-do', 'id' => $model->id], [
                             'title' => $title,
                             'aria-label' => $title,
                             'data-pjax' => '0',

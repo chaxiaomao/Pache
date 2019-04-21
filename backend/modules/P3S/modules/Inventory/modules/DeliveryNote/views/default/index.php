@@ -83,13 +83,13 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             // 'sales_order_id',
             // 'customer_id',
-            // [
-            //     'attribute' => 'customer_id',
-            //     'filter' => \common\models\c2\entity\FeUserModel::getHashMap('id', 'username', ['type' => \common\models\c2\statics\UserType::TYPE_BUSINESS]),
-            //     'value' => function($model) {
-            //         return $model->user->username;
-            //     }
-            // ],
+            [
+                'attribute' => 'customer_id',
+                'filter' => \common\models\c2\entity\FeUserModel::getHashMap('id', 'username', ['type' => \common\models\c2\statics\UserType::TYPE_BUSINESS]),
+                'value' => function($model) {
+                    return $model->user->username;
+                }
+            ],
             'occurrence_date',
             'grand_total',
             // 'arrival_number',
@@ -99,7 +99,10 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'receiver_name',
             // 'payment_method',
             // 'delivery_method',
-            // 'memo:ntext',
+            // [
+            //     'attribute' => 'memo',
+            //     'format' => 'html'
+            // ],
             // 'remote_ip',
             // 'is_audited',
             // 'audited_by',
@@ -143,7 +146,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 // 'width' => '100px',
                 'visibleButtons' => [
                     'view' => function ($model) {
-                        return $model->isStateFinish();
+                        return $model->isStateFinish() || $model->isStateUntracked();
                     },
                     'update' => function ($model) {
                         return $model->isStateInit();
@@ -176,7 +179,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     },
                     'ensure-do' => function ($url, $model, $key) {
                         $title = Yii::t('app.c2', 'Ensure To Do');
-                        return Html::a(Html::tag('span', '', ['class' => "glyphicon glyphicon-check"]), ['ensure-do', 'id' => $model->id], [
+                        return Html::a(Html::tag('span', '', ['class' => "glyphicon glyphicon-copy"]), ['ensure-do', 'id' => $model->id], [
                                     'title' => $title,
                                     'aria-label' => $title,
                                     'data-pjax' => '0',

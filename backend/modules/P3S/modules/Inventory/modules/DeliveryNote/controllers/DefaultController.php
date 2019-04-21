@@ -2,6 +2,7 @@
 
 namespace backend\modules\P3S\modules\Inventory\modules\DeliveryNote\controllers;
 
+use backend\models\c2\entity\ProductModel;
 use Yii;
 use common\models\c2\entity\InventoryDeliveryNoteModel;
 use common\models\c2\search\InventoryDeliveryNoteSearch;
@@ -143,6 +144,24 @@ class DefaultController extends Controller {
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionProduct()
+    {
+        $params = Yii::$app->request->post();
+        if (isset($params['depdrop_all_params']['product_id'])) {
+            $model = \common\models\c2\entity\ProductModel::findOne($params['depdrop_all_params']['product_id']);
+            if (!is_null($model)) {
+                $responseData = ResponseDatum::getSuccessDatum(['message' => Yii::t('cza', 'Operation completed successfully!')], $model->name);
+            } else {
+                $responseData = ResponseDatum::getErrorDatum(['message' => Yii::t('cza', 'Error: operation can not finish!')], false);
+            }
+        } else {
+            $responseData = ResponseDatum::getErrorDatum(['message' => Yii::t('cza', 'Error: operation can not finish!')], false);
+        }
+
+
+        return $this->asJson($responseData);
     }
 
 }

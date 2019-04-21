@@ -58,7 +58,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     'class' => 'kartik\grid\ExpandRowColumn',
                     'expandIcon' => '<span class="fa fa-plus-square-o"></span>',
                     'collapseIcon' => '<span class="fa fa-minus-square-o"></span>',
-                    'detailUrl' => Url::toRoute(['detail']),
+                    // 'detailUrl' => Url::toRoute(['detail']),
+                    'detailUrl' => Url::toRoute(['/p3s/inventory/es-consumption/default/index', 'OrderItemConsumptionSearch[order_id]' => $model->id]),
                     'value' => function ($model, $key, $index, $column) {
                         return GridView::ROW_COLLAPSED;
                     },
@@ -148,7 +149,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         },
                         'ensure-do' => function ($url, $model, $key) {
                             $title = Yii::t('app.c2', 'Ensure To Do');
-                            return Html::a(Html::tag('span', '', ['class' => "glyphicon glyphicon-check"]), ['ensure-do', 'id' => $model->id], [
+                            return Html::a(Html::tag('span', '', ['class' => "glyphicon glyphicon-copy"]), ['ensure-do', 'id' => $model->id], [
                                 'title' => $title,
                                 'aria-label' => $title,
                                 'data-pjax' => '0',

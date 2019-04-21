@@ -2,8 +2,12 @@
 
 namespace common\models\c2\entity;
 
+use backend\models\c2\entity\ProductMaterialModel;
 use common\models\c2\query\ProductStockQuery;
+use common\models\c2\statics\ProductType;
+use cza\base\models\statics\EntityModelStatus;
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "{{%product_stock}}".
@@ -157,10 +161,31 @@ class ProductStock extends \cza\base\models\ActiveRecord {
     public function rules() {
         return [
             [['warehouse_id', 'product_id'], 'required'],
+            [['product_material_id'], 'validateMaterialProduct',],
+            [['product_id'], 'validateProduct'],
             [['eshop_id', 'warehouse_id', 'product_id', 'product_sku_id', 'num', 'state', 'status', 'position', 'product_material_id'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['sku'], 'string', 'max' => 255],
         ];
+    }
+
+    public function validateProduct($attribute, $params)
+    {
+        if (!$this->hasErrors()) {
+            $product = $this->product;
+            if ($product->stock && $product->type == ProductType::TYPE_PRODUCT) {
+                $this->addError($attribute, Yii::t('app.c2', 'Multiple stock'));
+            }
+        }
+    }
+
+    public function validateMaterialProduct($attribute, $params)
+    {
+        if (!$this->hasErrors()) {
+            if ($this->productMaterialItem->stock) {
+                $this->addError($attribute, Yii::t('app.c2', 'Multiple stock'));
+            }
+        }
     }
 
     /**
@@ -203,5 +228,20 @@ class ProductStock extends \cza\base\models\ActiveRecord {
     {
         return $this->hasOne(ProductMaterialItemModel::className(), ['id' => 'product_material_id']);
     }
+
+    public function getMaterialProduct()
+    {
+        return $this->hasOne(ProductMaterialModel::className(), ['id' => 'product_id']);
+    }
+
+    public function isProduct()
+    {
+        return ($this->product->type == ProductType::TYPE_PRODUCT);
+    }
+
+    public function getActiveConsumption() {
+        return $this->hasMany(OrderItemConsumptionModel::className(), ['material_id' => 'product_material_id'])->where(['status' => EntityModelStatus::STATUS_ACTIVE]);
+    }
+
 
 }

@@ -5,7 +5,7 @@ namespace common\models\c2\query;
 /**
  * This is the ActiveQuery class for [[\common\models\c2\entity\WarehouseCommitItemModel]].
  *
- * @see \common\models\c2\entity\WarehouseCommitItemModel
+ * @see \common\models\c2\entity\WarehouseReceiptCommitItemModel
  */
 class WarehouseCommitItemQuery extends \yii\db\ActiveQuery
 {
@@ -16,7 +16,7 @@ class WarehouseCommitItemQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return \common\models\c2\entity\WarehouseCommitItemModel[]|array
+     * @return \common\models\c2\entity\WarehouseReceiptCommitItemModel[]|array
      */
     public function all($db = null)
     {
@@ -25,7 +25,7 @@ class WarehouseCommitItemQuery extends \yii\db\ActiveQuery
 
     /**
      * @inheritdoc
-     * @return \common\models\c2\entity\WarehouseCommitItemModel|array|null
+     * @return \common\models\c2\entity\WarehouseReceiptCommitItemModel|array|null
      */
     public function one($db = null)
     {
