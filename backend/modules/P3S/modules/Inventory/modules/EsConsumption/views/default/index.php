@@ -61,6 +61,12 @@ $this->params['breadcrumbs'][] = $this->title;
             // ],
             // 'id',
             // 'order_id',
+            [
+                'attribute' => 'order_id',
+                'value' => function ($model) {
+                    return $model->owner->order_no;
+                }
+            ],
             // 'product_id',
             [
                 'attribute' => 'product_id',
@@ -120,17 +126,18 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $model->getStatusLabel();
                 }
             ],
-            // [
-            //     'class' => '\kartik\grid\ActionColumn',
-            //     'buttons' => [
-            //         'update' => function ($url, $model, $key) {
-            //             return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['edit', 'id' => $model->id], [
-            //                 'title' => Yii::t('app', 'Info'),
-            //                 'data-pjax' => '0',
-            //             ]);
-            //         }
-            //     ]
-            // ],
+            [
+                'class' => '\kartik\grid\ActionColumn',
+                'template' => '{detail}',
+                'buttons' => [
+                    'detail' => function ($url, $model, $key) {
+                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', ['index', 'OrderItemConsumptionSearch[material_id]' => $model->material_id], [
+                            'title' => Yii::t('app.c2', 'View'),
+                            'data-pjax' => '0',
+                        ]);
+                    }
+                ]
+            ],
 
         ],
     ]); ?>

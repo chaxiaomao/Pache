@@ -58,8 +58,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     'class' => 'kartik\grid\ExpandRowColumn',
                     'expandIcon' => '<span class="fa fa-plus-square-o"></span>',
                     'collapseIcon' => '<span class="fa fa-minus-square-o"></span>',
-                    // 'detailUrl' => Url::toRoute(['detail']),
-                    'detailUrl' => Url::toRoute(['/p3s/inventory/es-consumption/default/index', 'OrderItemConsumptionSearch[order_id]' => $model->id]),
+                    'detailUrl' => Url::toRoute(['detail']),
+                    // 'detailUrl' => Url::toRoute(['/p3s/inventory/es-consumption/default/index', 'OrderItemConsumptionSearch[order_id]' => $model->id]),
                     'value' => function ($model, $key, $index, $column) {
                         return GridView::ROW_COLLAPSED;
                     },
@@ -112,7 +112,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 [
                     'class' => '\common\widgets\grid\ActionColumn',
-                    'template' => '{ensure-do} {update} {delete} {view}',
+                    'template' => '{ensure-do} {update} {delete} {view} {exception}',
                     'width' => '200px',
                     'visibleButtons' => [
                         'view' => function ($model) {
@@ -126,6 +126,9 @@ $this->params['breadcrumbs'][] = $this->title;
                         },
                         'ensure-do' => function ($model) {
                             return $model->isStateInit();
+                        },
+                        'exception' => function ($model) {
+                            return $model->isStateFinish() || $model->isStateUntracked();
                         },
                     ],
                     'buttons' => [
@@ -154,6 +157,17 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'aria-label' => $title,
                                 'data-pjax' => '0',
                                 'class' => 'ensure-do'
+                            ]);
+                        },
+                        'exception' => function ($url, $model, $key) {
+                            $title = Yii::t('app.c2', 'Stock exception');
+                            return Html::a(Html::tag('span', '', ['class' => "glyphicon glyphicon-exclamation-sign"]), [
+                                    '/p3s/inventory/es-consumption/default/index', 'OrderItemConsumptionSearch[order_id]' => $model->id], [
+                                'title' => $title,
+                                'aria-label' => $title,
+                                'data-pjax' => '0',
+                                'target' => 'blank',
+                                'class' => 'exception'
                             ]);
                         },
                     ],

@@ -1272,6 +1272,7 @@ return [
     'Stock exception' => '欠料情况',
     'Enough' => '充足',
     'Not enough' => '欠料',
+    'Order Item Consumption Models' => '订单用料情况',
     '' => '',
 ];
 
