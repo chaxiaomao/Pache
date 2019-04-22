@@ -3,6 +3,7 @@
 namespace common\models\c2\entity;
 
 use backend\models\c2\entity\ProductMaterialModel;
+use common\models\c2\statics\ConsumptionType;
 use Yii;
 
 /**
@@ -27,6 +28,7 @@ class OrderItemConsumptionModel extends \cza\base\models\ActiveRecord
 {
 
     public $stock;
+    public $exStock;
     public $exception;
 
     /**
@@ -70,6 +72,9 @@ class OrderItemConsumptionModel extends \cza\base\models\ActiveRecord
             'position' => Yii::t('app.c2', 'Position'),
             'created_at' => Yii::t('app.c2', 'Created At'),
             'updated_at' => Yii::t('app.c2', 'Updated At'),
+            'stock' => Yii::t('app.c2', 'Stock num'),
+            'exception' => Yii::t('app.c2', 'Stock exception'),
+            'exStock' => Yii::t('app.c2', 'Stock exception'),
         ];
     }
 
@@ -109,8 +114,22 @@ class OrderItemConsumptionModel extends \cza\base\models\ActiveRecord
         return $this->hasOne(ProductMaterialModel::className(), ['id' => 'product_id']);
     }
 
+    public function getMaterialProductStock()
+    {
+        return $this->hasOne(ProductStock::className(), ['product_material_id' => 'material_item_id']);
+    }
+
     public function getException()
     {
+        $result = $this->getConsumption();
+        if ($result > 0) {
+            return ConsumptionType::getData(ConsumptionType::TYPE_ENOUGH, 'label');
+        } else {
+            return ConsumptionType::getData(ConsumptionType::TYPE_NOT_ENOUGH, 'label');
+        }
+    }
+
+    public function getConsumption() {
         $materialStock = $this->productMaterialItem->stock;
         $result = $materialStock->num;
         foreach ($materialStock->activeConsumption as $item) {

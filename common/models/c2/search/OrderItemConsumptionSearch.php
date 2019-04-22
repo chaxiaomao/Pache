@@ -18,7 +18,7 @@ class OrderItemConsumptionSearch extends OrderItemConsumptionModel
     public function rules()
     {
         return [
-            [['id', 'order_id', 'product_id', 'material_id', 'material_item_id', 'quantity', 'consumed_num', 'subtotal', 'measure_id', 'position'], 'integer'],
+            [['id', 'order_id', 'product_id', 'material_id', 'material_item_id', 'quantity', 'consumed_num', 'subtotal', 'measure_id', 'position', 'exception'], 'integer'],
             [['memo', 'status', 'created_at', 'updated_at',], 'safe'],
         ];
     }
@@ -75,6 +75,7 @@ class OrderItemConsumptionSearch extends OrderItemConsumptionModel
             'position' => $this->position,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'exception' => $this->exception,
         ]);
 
         $query->andFilterWhere(['like', 'memo', $this->memo])

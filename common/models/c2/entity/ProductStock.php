@@ -243,5 +243,17 @@ class ProductStock extends \cza\base\models\ActiveRecord {
         return $this->hasMany(OrderItemConsumptionModel::className(), ['material_id' => 'product_material_id'])->where(['status' => EntityModelStatus::STATUS_ACTIVE]);
     }
 
+    public function getActiveMaterialConsumption() {
+        return $this->hasMany(OrderItemConsumptionModel::className(), ['material_item_id' => 'product_material_id'])->where(['status' => EntityModelStatus::STATUS_ACTIVE]);
+    }
+
+    public function getException()
+    {
+        $result = 0;
+        foreach ($this->activeMaterialConsumption as $item) {
+            $result += $item->subtotal;
+        }
+        return $result;
+    }
 
 }

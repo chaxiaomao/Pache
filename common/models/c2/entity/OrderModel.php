@@ -218,4 +218,9 @@ class OrderModel extends \cza\base\models\ActiveRecord
         return $this->hasOne(FeUserModel::className(), ['id' => 'user_id']);
     }
 
+    public function getOrderItemConsumption()
+    {
+        return $this->hasMany(OrderItemConsumptionModel::className(), ['order_id' => 'id']);
+    }
+
 }

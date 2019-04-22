@@ -9,6 +9,7 @@ use cza\base\models\statics\OperationEvent;
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\c2\search\OrderItemConsumptionSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $stock \common\models\c2\entity\ProductStock */
 
 $this->title = Yii::t('app.c2', 'Order Item Consumption Models');
 $this->params['breadcrumbs'][] = $this->title;
@@ -23,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         'pjax' => true,
         'hover' => true,
-        // 'showPageSummary' => true,
+        'showPageSummary' => true,
         // 'panel' => ['type' => GridView::TYPE_WARNING, 'heading' => Yii::t('app.c2', 'Items')],
         // 'toolbar' => [
         //     [
@@ -90,19 +91,34 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'quantity',
             'consumed_num',
-            'subtotal',
+            // 'subtotal',
             [
-                'attribute' => 'stock',
-                'value' => function ($model) {
-                    return $model->productMaterialItem->stock->num;
+                'attribute' => 'subtotal',
+                'pageSummary' => true,
+                'value' => function($model) {
+                    return $model->subtotal;
                 }
             ],
-            [
-                'attribute' => 'exception',
-                'value' => function ($model) {
-                    return $model->getException();
-                }
-            ],
+            // [
+            //     'attribute' => 'stock',
+            //     'value' => function ($model) {
+            //         return $model->productMaterialItem->stock->num;
+            //     }
+            // ],
+            // [
+            //     'attribute' => 'exStock',
+            //     'pageSummary' => true,
+            //     'value' => function ($model) {
+            //         return $model->getExStock();
+            //     }
+            // ],
+            // [
+            //     'attribute' => 'exception',
+            //     'label' => Yii::info('app.c2', 'Stock exception'),
+            //     'value' => function ($model) {
+            //         return $model->getException() > 0 ? Yii::t('app.c2', 'Enough') : Yii::t('app.c2', 'Not enough');
+            //     }
+            // ],
             // 'measure_id',
             // 'memo',
             // 'status',
@@ -124,20 +140,46 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $model->getStatusLabel();
                 }
             ],
-            [
-                'class' => '\kartik\grid\ActionColumn',
-                'template' => '{detail}',
-                'buttons' => [
-                    'detail' => function ($url, $model, $key) {
-                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', ['index2', 'OrderItemConsumptionSearch[material_id]' => $model->material_id], [
-                            'title' => Yii::t('app.c2', 'View'),
-                            'data-pjax' => '0',
-                        ]);
-                    }
-                ]
-            ],
+            // [
+            //     'class' => '\kartik\grid\ActionColumn',
+            //     'template' => '{detail}',
+            //     'buttons' => [
+            //         'detail' => function ($url, $model, $key) {
+            //             return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', ['index', 'OrderItemConsumptionSearch[material_id]' => $model->material_id], [
+            //                 'title' => Yii::t('app.c2', 'View'),
+            //                 'data-pjax' => '0',
+            //             ]);
+            //         }
+            //     ]
+            // ],
 
         ],
     ]); ?>
 
+</div>
+
+<?php
+
+$result = $stock->num - $stock->getException();
+$materialProduct = $stock->productMaterialItem;
+?>
+
+
+<div class="container-fluid">
+    <table class="table table-bordered">
+        <tr>
+            <td>材料</td>
+            <td>规格</td>
+            <td>当前库存</td>
+            <td>预计消耗</td>
+            <td>状态</td>
+        </tr>
+        <tr>
+            <td><?= $materialProduct->label ?></td>
+            <td><?= $materialProduct->value ?></td>
+            <td><?= $stock->num ?></td>
+            <td><?= $stock->getException() ?></td>
+            <td><?= $result > 0 ? "充足" : "欠料：" . $result ?></td>
+        </tr>
+    </table>
 </div>

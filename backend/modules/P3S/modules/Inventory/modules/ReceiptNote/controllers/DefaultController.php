@@ -99,6 +99,7 @@ class DefaultController extends Controller
             }
         }
         $model->loadItems();
+        Yii::info($model->items);
         return (Yii::$app->request->isAjax) ? $this->renderAjax('edit', ['model' => $model,]) : $this->render('edit', ['model' => $model,]);
     }
 

@@ -136,7 +136,8 @@ class InventoryReceiptNoteModel extends \cza\base\models\ActiveRecord
 
     public function getActiveNoteItems()
     {
-        return $this->hasMany(InventoryReceiptNoteItemModel::className(), ['note_id' => 'id'])->onCondition(['status' => EntityModelStatus::STATUS_ACTIVE]);
+        return $this->hasMany(InventoryReceiptNoteItemModel::className(), ['note_id' => 'id'])
+            ->onCondition(['status' => EntityModelStatus::STATUS_ACTIVE]);
     }
 
     public function getAllNoteItems()
@@ -260,7 +261,7 @@ class InventoryReceiptNoteModel extends \cza\base\models\ActiveRecord
 
     public function loadCommitItems()
     {
-        $this->items = $this->getWarehouseReceiptCommitItems()->all();
+        $this->items = $this->getWarehouseReceiptCommitItems()->where(['>', 'supplier_id', 0])->all();
     }
 
     public function afterSave($insert, $changedAttributes)

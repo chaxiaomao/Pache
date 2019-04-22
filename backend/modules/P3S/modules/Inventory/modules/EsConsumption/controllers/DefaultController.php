@@ -2,6 +2,8 @@
 
 namespace backend\modules\P3S\modules\Inventory\modules\EsConsumption\controllers;
 
+use common\models\c2\entity\ProductMaterialItemModel;
+use common\models\c2\entity\ProductStock;
 use Yii;
 use common\models\c2\entity\OrderItemConsumptionModel;
 use common\models\c2\search\OrderItemConsumptionSearch;
@@ -31,6 +33,20 @@ class DefaultController extends Controller
             'model' => $this->retrieveModel(),
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionIndex2()
+    {
+        $this->layout = '/print';
+        $searchModel = new OrderItemConsumptionSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $model = OrderItemConsumptionModel::find()->where(['material_id' => Yii::$app->request->queryParams['OrderItemConsumptionSearch']['material_id']])->one();
+        return $this->render('index2', [
+            'model' => $this->retrieveModel(),
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+            'stock' => $model->materialProductStock,
         ]);
     }
 

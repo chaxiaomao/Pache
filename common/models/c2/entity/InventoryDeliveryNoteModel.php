@@ -206,6 +206,13 @@ class InventoryDeliveryNoteModel extends \cza\base\models\ActiveRecord
                     }
                 }
             }
+            $order = $this->order;
+            $items = $order->orderItemConsumption;
+            foreach ($items as $item) {
+                $item->updateAttributes([
+                    'status' => EntityModelStatus::STATUS_INACTIVE
+                ]);
+            }
         }
         return $this->updateAttributes(['state' => InventoryExeState::FINISH]);
     }
@@ -304,6 +311,7 @@ class InventoryDeliveryNoteModel extends \cza\base\models\ActiveRecord
                 'sku_label' => $item->sku_label,
                 'quantity' => $item->quantity,
                 'actual_quantity' => $item->quantity,
+                'measure_id' => $item->measure_id,
             ];
             $itemModel = new WarehouseDeliveryCommitItemModel();
             $itemModel->setAttributes($attributes);

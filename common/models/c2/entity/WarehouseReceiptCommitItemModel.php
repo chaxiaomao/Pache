@@ -56,7 +56,7 @@ class WarehouseReceiptCommitItemModel extends \cza\base\models\ActiveRecord
     {
         return [
             'id' => Yii::t('app.c2', 'ID'),
-            'note_id' => Yii::t('app.c2', 'Receipt note code'),
+            'note_id' => Yii::t('app.c2', 'Note ID'),
             'product_id' => Yii::t('app.c2', 'Product ID'),
             'product_sku_id' => Yii::t('app.c2', 'Product Sku ID'),
             'sku_label' => Yii::t('app.c2', 'Sku Label'),

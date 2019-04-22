@@ -1271,7 +1271,7 @@ return [
     'Consumed Num' => '消耗量',
     'Stock exception' => '欠料情况',
     'Enough' => '充足',
-    'Not enough' => '欠料',
+    'Not enough' => '不足',
     'Order Item Consumption Models' => '订单用料情况',
     '' => '',
 ];
