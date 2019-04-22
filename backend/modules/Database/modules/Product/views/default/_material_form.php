@@ -46,6 +46,7 @@ $form = ActiveForm::begin([
             'attributes' => [
                 'type' => ['type' => Form::INPUT_DROPDOWN_LIST, 'items' => \common\models\c2\statics\ProductType::getHashMap('id', 'label')],
                 'sku' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('sku')]],
+                'warehouse_id' => ['type' => Form::INPUT_DROPDOWN_LIST, 'items' => \common\models\c2\entity\WarehouseModel::getHashMap('id', 'label'), 'options' => ['placeholder' => $model->getAttributeLabel('sku')]],
                 // 'serial_number' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('serial_number')]],
                 // 'breadcrumb' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('breadcrumb')]],
                 'name' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('name')]],
@@ -75,7 +76,7 @@ $form = ActiveForm::begin([
                         'data' => $model->items,
                         //                        'max' => 4,
                         'allowEmptyList' => true,
-                        'rowOptions' => function($model, $index, $context) {
+                        'rowOptions' => function ($model, $index, $context) {
                             return ['data-id' => $model['id']];
                         },
                         'columns' => [

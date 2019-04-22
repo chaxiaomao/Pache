@@ -46,6 +46,7 @@ $form = ActiveForm::begin([
             'attributes' => [
                 'type' => ['type' => Form::INPUT_DROPDOWN_LIST, 'items' => \common\models\c2\statics\ProductType::getHashMap('id', 'label')],
                 'sku' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('sku')]],
+                'warehouse_id' => ['type' => Form::INPUT_DROPDOWN_LIST, 'items' => \common\models\c2\entity\WarehouseModel::getHashMap('id', 'label'), 'options' => ['placeholder' => $model->getAttributeLabel('sku')]],
                 // 'serial_number' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('serial_number')]],
                 // 'breadcrumb' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('breadcrumb')]],
                 'name' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('name')]],
@@ -228,3 +229,17 @@ $form = ActiveForm::begin([
     </div>
 </div>
 <?php ActiveForm::end(); ?>
+
+
+<?php
+$js = "";
+$js .= "jQuery('.btn.multiple-input-list__btn.js-input-remove').off('click').on('click', function(){
+    var itemId = $(this).closest('tr').data('id');
+    if(itemId){
+       $.ajax({url:'" . Url::toRoute('delete-product-subitem') . "',data:{id:itemId}}).done(function(result){;}).fail(function(result){alert(result);});
+    }
+});\n";
+$this->registerJs($js);
+
+
+?>

@@ -178,46 +178,46 @@ $form = ActiveForm::begin([
                                         ],
                                     ]
                                 ],
-                                // [
-                                //     'name' => 'pieces',
-                                //     'type' => kartik\widgets\TouchSpin::className(),
-                                //     'title' => Yii::t('app.c2', 'Pieces'),
-                                //     'defaultValue' => 1,
-                                //     'options' => [
-                                //         'pluginOptions' => [
-                                //             'buttondown_txt' => '<i class="glyphicon glyphicon-minus-sign"></i>',
-                                //             'buttonup_txt' => '<i class="glyphicon glyphicon-plus-sign"></i>',
-                                //         ],
-                                //     ]
-                                // ],
-                                // [
-                                //     'name' => 'packing',
-                                //     'title' => Yii::t('app.c2', 'Packing'),
-                                //     'enableError' => true,
-                                //     'options' => [
-                                //     ],
-                                // ],
-                                // [
-                                //     'name' => 'size',
-                                //     'title' => Yii::t('app.c2', 'Size'),
-                                //     'enableError' => true,
-                                //     'options' => [
-                                //     ],
-                                // ],
-                                // [
-                                //     'name' => 'gross_weight',
-                                //     'title' => Yii::t('app.c2', 'Gross weight'),
-                                //     'enableError' => true,
-                                //     'options' => [
-                                //     ],
-                                // ],
-                                // [
-                                //     'name' => 'net_weight',
-                                //     'title' => Yii::t('app.c2', 'Net weight'),
-                                //     'enableError' => true,
-                                //     'options' => [
-                                //     ],
-                                // ],
+                                [
+                                    'name' => 'pieces',
+                                    'type' => kartik\widgets\TouchSpin::className(),
+                                    'title' => Yii::t('app.c2', 'Pieces'),
+                                    'defaultValue' => 1,
+                                    'options' => [
+                                        'pluginOptions' => [
+                                            'buttondown_txt' => '<i class="glyphicon glyphicon-minus-sign"></i>',
+                                            'buttonup_txt' => '<i class="glyphicon glyphicon-plus-sign"></i>',
+                                        ],
+                                    ]
+                                ],
+                                [
+                                    'name' => 'packing',
+                                    'title' => Yii::t('app.c2', 'Packing'),
+                                    'enableError' => true,
+                                    'options' => [
+                                    ],
+                                ],
+                                [
+                                    'name' => 'size',
+                                    'title' => Yii::t('app.c2', 'Size'),
+                                    'enableError' => true,
+                                    'options' => [
+                                    ],
+                                ],
+                                [
+                                    'name' => 'gross_weight',
+                                    'title' => Yii::t('app.c2', 'Gross weight'),
+                                    'enableError' => true,
+                                    'options' => [
+                                    ],
+                                ],
+                                [
+                                    'name' => 'net_weight',
+                                    'title' => Yii::t('app.c2', 'Net weight'),
+                                    'enableError' => true,
+                                    'options' => [
+                                    ],
+                                ],
                                 [
                                     'name' => 'memo',
                                     'title' => Yii::t('app.c2', 'Memo'),

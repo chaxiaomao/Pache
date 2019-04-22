@@ -32,12 +32,17 @@ $this->params['breadcrumbs'][] = $this->title;
         'toolbar' => [
             [
                 'content' =>
-                    Html::button('<i class="glyphicon glyphicon-plus"></i>', [
-                        'type' => 'button',
-                        'title' => Yii::t('app.c2', 'Add'),
+                    Html::a('<i class="glyphicon glyphicon-plus"></i>', ['edit'], [
                         'class' => 'btn btn-success',
-                        'onClick' => "jQuery(this).trigger('" . OperationEvent::CREATE . "', {url:'" . Url::toRoute('edit') . "'});",
+                        'title' => Yii::t('app.c2', 'Add'),
+                        'data-pjax' => '0',
                     ]) . ' ' .
+                    // Html::button('<i class="glyphicon glyphicon-plus"></i>', [
+                    //     'type' => 'button',
+                    //     'title' => Yii::t('app.c2', 'Add'),
+                    //     'class' => 'btn btn-success',
+                    //     'onClick' => "jQuery(this).trigger('" . OperationEvent::CREATE . "', {url:'" . Url::toRoute('edit') . "'});",
+                    // ]) . ' ' .
                     //                Html::button('<i class="glyphicon glyphicon-remove"></i>', [
                     //                    'class' => 'btn btn-danger',
                     //                    'title' => Yii::t('app.c2', 'Delete Selected Items'),
@@ -187,15 +192,15 @@ Modal::begin([
 Modal::end();
 
 $js = "";
-$js .= "jQuery(document).off('" . OperationEvent::CREATE . "', '.inventory-receipt-note-model-index').on('" . OperationEvent::CREATE . "', '.inventory-receipt-note-model-index', function(e, data) {
-                    e.preventDefault();
-                    jQuery('#inventory-receipt-note-modal').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(data.url);
-                });";
-
-$js .= "jQuery(document).off('click', '.inventory-receipt-note-model-index a.update').on('click', '.inventory-receipt-note-model-index a.update', function(e) {
-                e.preventDefault();
-                jQuery('#inventory-receipt-note-modal').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(jQuery(e.currentTarget).attr('href'));
-            });";
+// $js .= "jQuery(document).off('" . OperationEvent::CREATE . "', '.inventory-receipt-note-model-index').on('" . OperationEvent::CREATE . "', '.inventory-receipt-note-model-index', function(e, data) {
+//                     e.preventDefault();
+//                     jQuery('#inventory-receipt-note-modal').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(data.url);
+//                 });";
+//
+// $js .= "jQuery(document).off('click', '.inventory-receipt-note-model-index a.update').on('click', '.inventory-receipt-note-model-index a.update', function(e) {
+//                 e.preventDefault();
+//                 jQuery('#inventory-receipt-note-modal').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(jQuery(e.currentTarget).attr('href'));
+//             });";
 
 $js .= "jQuery(document).off('click', '.inventory-receipt-note-model-index a.view').on('click', '.inventory-receipt-note-model-index a.view', function(e) {
                 e.preventDefault();

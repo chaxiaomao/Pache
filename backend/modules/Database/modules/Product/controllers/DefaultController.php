@@ -6,6 +6,7 @@ use backend\models\c2\entity\ProductMaterialModel;
 use backend\models\c2\form\EavSkuForm;
 use common\models\c2\entity\AttributeModel;
 use common\models\c2\entity\ProductMaterialItemModel;
+use common\models\c2\entity\ProductMaterialRsModel;
 use common\models\c2\entity\ProductSkuModel;
 use common\models\c2\statics\ProductType;
 use cza\base\models\statics\ResponseDatum;
@@ -209,6 +210,17 @@ class DefaultController extends Controller
 
     public function actionDeleteSubitem($id) {
         if (($model = ProductMaterialItemModel::findOne($id)) !== null) {
+            if ($model->delete()) {
+                $responseData = ResponseDatum::getSuccessDatum(['message' => Yii::t('cza', 'Operation completed successfully!')], $id);
+            } else {
+                $responseData = ResponseDatum::getErrorDatum(['message' => Yii::t('cza', 'Error: operation can not finish!!')], $id);
+            }
+        }
+        return $this->asJson($responseData);
+    }
+
+    public function actionDeleteProductSubitem($id) {
+        if (($model = ProductMaterialRsModel::findOne($id)) !== null) {
             if ($model->delete()) {
                 $responseData = ResponseDatum::getSuccessDatum(['message' => Yii::t('cza', 'Operation completed successfully!')], $id);
             } else {

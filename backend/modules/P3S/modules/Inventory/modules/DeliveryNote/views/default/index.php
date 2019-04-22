@@ -32,21 +32,26 @@ $this->params['breadcrumbs'][] = $this->title;
         'toolbar' => [
             [
                 'content' =>
-                Html::button('<i class="glyphicon glyphicon-plus"></i>', [
-                    'type' => 'button',
-                    'title' => Yii::t('app.c2', 'Add'),
-                    'class' => 'btn btn-success',
-                    'onClick' => "jQuery(this).trigger('" . OperationEvent::CREATE . "', {url:'" . Url::toRoute('edit') . "'});",
-                ]) . ' ' .
-//                Html::button('<i class="glyphicon glyphicon-remove"></i>', [
-//                    'class' => 'btn btn-danger',
-//                    'title' => Yii::t('app.c2', 'Delete Selected Items'),
-//                    'onClick' => "jQuery(this).trigger('" . OperationEvent::DELETE_BY_IDS . "', {url:'" . Url::toRoute('multiple-delete') . "'});",
-//                ]) . ' ' .
-                Html::a('<i class="glyphicon glyphicon-repeat"></i>', Url::current(), [
-                    'class' => 'btn btn-default',
-                    'title' => Yii::t('app.c2', 'Reset Grid')
-                ]),
+                    Html::a('<i class="glyphicon glyphicon-plus"></i>', ['edit'], [
+                        'class' => 'btn btn-success',
+                        'title' => Yii::t('app.c2', 'Add'),
+                        'data-pjax' => '0',
+                    ]) . ' ' .
+                    // Html::button('<i class="glyphicon glyphicon-plus"></i>', [
+                    //     'type' => 'button',
+                    //     'title' => Yii::t('app.c2', 'Add'),
+                    //     'class' => 'btn btn-success',
+                    //     'onClick' => "jQuery(this).trigger('" . OperationEvent::CREATE . "', {url:'" . Url::toRoute('edit') . "'});",
+                    // ]) . ' ' .
+                    //                Html::button('<i class="glyphicon glyphicon-remove"></i>', [
+                    //                    'class' => 'btn btn-danger',
+                    //                    'title' => Yii::t('app.c2', 'Delete Selected Items'),
+                    //                    'onClick' => "jQuery(this).trigger('" . OperationEvent::DELETE_BY_IDS . "', {url:'" . Url::toRoute('multiple-delete') . "'});",
+                    //                ]) . ' ' .
+                    Html::a('<i class="glyphicon glyphicon-repeat"></i>', Url::current(), [
+                        'class' => 'btn btn-default',
+                        'title' => Yii::t('app.c2', 'Reset Grid')
+                    ]),
             ],
             '{export}',
             '{toggleData}',
@@ -64,11 +69,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     return GridView::ROW_COLLAPSED;
                 },
             ],
-//            'id',
-//            'type',
+            //            'id',
+            //            'type',
             'code',
-//            'label',
-//            'warehouse_id',
+            //            'label',
+            //            'warehouse_id',
             [
                 'attribute' => 'type',
                 'value' => function ($model, $key, $index, $column) {
@@ -86,7 +91,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'customer_id',
                 'filter' => \common\models\c2\entity\FeUserModel::getHashMap('id', 'username', ['type' => \common\models\c2\statics\UserType::TYPE_BUSINESS]),
-                'value' => function($model) {
+                'value' => function ($model) {
                     return $model->user->username;
                 }
             ],
@@ -119,24 +124,24 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
             ],
             'created_at',
-//            [
-//                'attribute' => 'status',
-//                'class' => '\kartik\grid\EditableColumn',
-//                'editableOptions' => [
-//                    'inputType' => \kartik\editable\Editable::INPUT_DROPDOWN_LIST,
-//                    'formOptions' => ['action' => Url::toRoute('editColumn')],
-//                    'data' => EntityModelStatus::getHashMap('id', 'label'),
-//                    'displayValueConfig' => EntityModelStatus::getHashMap('id', 'label'),
-//                ],
-//                'filter' => EntityModelStatus::getHashMap('id', 'label'),
-//                'value' => function($model) {
-//                    return $model->getStatusLabel();
-//                }
-//            ],
+            //            [
+            //                'attribute' => 'status',
+            //                'class' => '\kartik\grid\EditableColumn',
+            //                'editableOptions' => [
+            //                    'inputType' => \kartik\editable\Editable::INPUT_DROPDOWN_LIST,
+            //                    'formOptions' => ['action' => Url::toRoute('editColumn')],
+            //                    'data' => EntityModelStatus::getHashMap('id', 'label'),
+            //                    'displayValueConfig' => EntityModelStatus::getHashMap('id', 'label'),
+            //                ],
+            //                'filter' => EntityModelStatus::getHashMap('id', 'label'),
+            //                'value' => function($model) {
+            //                    return $model->getStatusLabel();
+            //                }
+            //            ],
             [
                 'attribute' => 'state',
                 'filter' => InventoryExeState::getHashMap('id', 'label'),
-                'value' => function($model) {
+                'value' => function ($model) {
                     return $model->getStateLabel();
                 }
             ],
@@ -162,28 +167,28 @@ $this->params['breadcrumbs'][] = $this->title;
                     'view' => function ($url, $model, $key) {
                         $title = Yii::t('app.c2', 'View');
                         return Html::a(Html::tag('span', '', ['class' => "glyphicon glyphicon-print"]), [$url,], [
-                                    'title' => $title,
-                                    'aria-label' => $title,
-                                    'data-pjax' => '0',
-                                    'class' => 'view'
+                            'title' => $title,
+                            'aria-label' => $title,
+                            'data-pjax' => '0',
+                            'class' => 'view'
                         ]);
                     },
                     'update' => function ($url, $model, $key) {
                         $title = Yii::t('app.c2', 'Update');
                         return Html::a(Html::tag('span', '', ['class' => "glyphicon glyphicon-pencil"]), ['edit', 'id' => $model->id], [
-                                    'title' => $title,
-                                    'aria-label' => $title,
-                                    'data-pjax' => '0',
-                                    'class' => 'update'
+                            'title' => $title,
+                            'aria-label' => $title,
+                            'data-pjax' => '0',
+                            'class' => 'update'
                         ]);
                     },
                     'ensure-do' => function ($url, $model, $key) {
                         $title = Yii::t('app.c2', 'Ensure To Do');
                         return Html::a(Html::tag('span', '', ['class' => "glyphicon glyphicon-copy"]), ['ensure-do', 'id' => $model->id], [
-                                    'title' => $title,
-                                    'aria-label' => $title,
-                                    'data-pjax' => '0',
-                                    'class' => 'ensure-do'
+                            'title' => $title,
+                            'aria-label' => $title,
+                            'data-pjax' => '0',
+                            'class' => 'ensure-do'
                         ]);
                     },
                 ],
@@ -200,22 +205,22 @@ $this->params['breadcrumbs'][] = $this->title;
     Modal::end();
 
     $js = "";
-    $js .= "jQuery(document).on('" . OperationEvent::CREATE . "', '.inventory-delivery-note-model-index', function(e, data) {
-                    e.preventDefault();
-                    jQuery('#inventory-delivery-note-modal').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(data.url);
-                });";
-
-    $js .= "jQuery(document).on('click', '.inventory-delivery-note-model-index a.update', function(e) {
-                e.preventDefault();
-                jQuery('#inventory-delivery-note-modal').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(jQuery(e.currentTarget).attr('href'));
-            });";
+    // $js .= "jQuery(document).on('" . OperationEvent::CREATE . "', '.inventory-delivery-note-model-index', function(e, data) {
+    //                 e.preventDefault();
+    //                 jQuery('#inventory-delivery-note-modal').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(data.url);
+    //             });";
+    //
+    // $js .= "jQuery(document).on('click', '.inventory-delivery-note-model-index a.update', function(e) {
+    //             e.preventDefault();
+    //             jQuery('#inventory-delivery-note-modal').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(jQuery(e.currentTarget).attr('href'));
+    //         });";
 
 
     $js .= "jQuery(document).off('click', '.inventory-delivery-note-model-index a.view').on('click', '.inventory-delivery-note-model-index a.view', function(e) {
                 e.preventDefault();
                 jQuery('#inventory-delivery-note-modal').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(jQuery(e.currentTarget).attr('href'));
             });";
-    
+
     $js .= "jQuery(document).off('click', '.inventory-delivery-note-model-index a.ensure-do').on('click', '.inventory-delivery-note-model-index a.ensure-do', function(e) {
                 e.preventDefault();
                 var lib = window['krajeeDialog'];

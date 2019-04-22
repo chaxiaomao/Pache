@@ -52,11 +52,11 @@ echo GridView::widget([
                     'title' => Yii::t('app.c2', 'Add'),
                     'data-pjax' => '0',
                 ]) . ' ' .
-                Html::button('<i class="glyphicon glyphicon-remove"></i>', [
-                    'class' => 'btn btn-danger',
-                    'title' => Yii::t('app.c2', 'Delete Selected Items'),
-                    'onClick' => "jQuery(this).trigger('" . OperationEvent::DELETE_BY_IDS . "', {url:'" . Url::toRoute('multiple-delete') . "'});",
-                ]) . ' ' .
+                // Html::button('<i class="glyphicon glyphicon-remove"></i>', [
+                //     'class' => 'btn btn-danger',
+                //     'title' => Yii::t('app.c2', 'Delete Selected Items'),
+                //     'onClick' => "jQuery(this).trigger('" . OperationEvent::DELETE_BY_IDS . "', {url:'" . Url::toRoute('multiple-delete') . "'});",
+                // ]) . ' ' .
                 Html::a('<i class="glyphicon glyphicon-repeat"></i>', Url::current(), [
                     'class' => 'btn btn-default',
                     'title' => Yii::t('app.c2', 'Reset Grid')

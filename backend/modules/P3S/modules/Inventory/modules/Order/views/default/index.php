@@ -31,12 +31,17 @@ $this->params['breadcrumbs'][] = $this->title;
             'toolbar' => [
                 [
                     'content' =>
-                        Html::a('<i class="glyphicon glyphicon-plus"></i>', "javascript:;", [
+                        Html::a('<i class="glyphicon glyphicon-plus"></i>', ['edit'], [
                             'class' => 'btn btn-success',
                             'title' => Yii::t('app.c2', 'Add'),
                             'data-pjax' => '0',
-                            'onClick' => "jQuery(this).trigger('" . OperationEvent::CREATE . "', {url:'" . Url::toRoute('edit') . "'});",
                         ]) . ' ' .
+                        // Html::a('<i class="glyphicon glyphicon-plus"></i>', "javascript:;", [
+                        //     'class' => 'btn btn-success',
+                        //     'title' => Yii::t('app.c2', 'Add'),
+                        //     'data-pjax' => '0',
+                        //     'onClick' => "jQuery(this).trigger('" . OperationEvent::CREATE . "', {url:'" . Url::toRoute('edit') . "'});",
+                        // ]) . ' ' .
                         Html::button('<i class="glyphicon glyphicon-remove"></i>', [
                             'class' => 'btn btn-danger',
                             'title' => Yii::t('app.c2', 'Delete Selected Items'),
@@ -162,7 +167,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'exception' => function ($url, $model, $key) {
                             $title = Yii::t('app.c2', 'Stock exception');
                             return Html::a(Html::tag('span', '', ['class' => "glyphicon glyphicon-exclamation-sign"]), [
-                                    '/p3s/inventory/es-consumption/default/index', 'OrderItemConsumptionSearch[order_id]' => $model->id], [
+                                '/p3s/inventory/es-consumption/default/index', 'OrderItemConsumptionSearch[order_id]' => $model->id], [
                                 'title' => $title,
                                 'aria-label' => $title,
                                 'data-pjax' => '0',
@@ -185,15 +190,15 @@ Modal::begin([
 Modal::end();
 
 $js = "";
-$js .= "jQuery(document).off('" . OperationEvent::CREATE . "', '.order-model-index').on('" . OperationEvent::CREATE . "', '.order-model-index', function(e, data) {
-                    e.preventDefault();
-                    jQuery('#order-modal').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(data.url);
-                });";
-
-$js .= "jQuery(document).off('click', '.order-model-index a.update').on('click', '.order-model-index a.update', function(e) {
-                e.preventDefault();
-                jQuery('#order-modal').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(jQuery(e.currentTarget).attr('href'));
-            });";
+// $js .= "jQuery(document).off('" . OperationEvent::CREATE . "', '.order-model-index').on('" . OperationEvent::CREATE . "', '.order-model-index', function(e, data) {
+//                     e.preventDefault();
+//                     jQuery('#order-modal').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(data.url);
+//                 });";
+//
+// $js .= "jQuery(document).off('click', '.order-model-index a.update').on('click', '.order-model-index a.update', function(e) {
+//                 e.preventDefault();
+//                 jQuery('#order-modal').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(jQuery(e.currentTarget).attr('href'));
+//             });";
 
 $js .= "jQuery(document).off('click', '.order-model-index a.view').on('click', '.order-model-index a.view', function(e) {
                 e.preventDefault();
