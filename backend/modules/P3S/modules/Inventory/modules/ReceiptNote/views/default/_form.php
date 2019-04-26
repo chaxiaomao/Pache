@@ -304,9 +304,10 @@ $js .= "jQuery('.btn.multiple-input-list__btn.js-input-remove').off('click').on(
     }
 });\n";
 
-$js .= "function strip(num, precision = 12) {
-  return +parseFloat(num.toPrecision(precision));
-}";
-
 $this->registerJs($js);
 ?>
+<script>
+    function strip(num, precision = 12) {
+        return +parseFloat(num.toPrecision(precision));
+    }
+</script>

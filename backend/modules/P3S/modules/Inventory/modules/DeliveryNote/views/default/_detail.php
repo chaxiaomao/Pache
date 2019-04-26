@@ -1,4 +1,4 @@
-
+box120
 <h2 class="tc" style="font-size: 30px;">中山市祥丰家居用品有限公司</h2>
 <h5 class="tc p20" style="font-size: 18px;">送货订单</h5>
 
@@ -11,22 +11,21 @@
 </div>
 
 <div class="row pt10">
-    <div class="col-xs-3">收货单位：</div>
+    <div class="col-xs-3">收货单位：<?= $model->label ?></div>
 </div>
 
 <table class="table table-bordered mt10">
     <?php
-
         $grand_total = 0;
     ?>
     <tr class="tc">
-        <td class="" >型号</td>
-        <td class="">名称/规格</td>
-        <td class="">单位</td>
-        <td class="">数量</td>
-        <td class="">单价</td>
-        <td class="">金额/元</td>
-        <td class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;备注&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+        <td class="box120" >型号</td>
+        <td class="box120">名称/规格</td>
+        <td class="box120">单位</td>
+        <td class="box120">数量</td>
+        <td class="box120">单价</td>
+        <td class="box120">金额/元</td>
+        <td class="memo">备注</td>
     </tr>
 
     <?php foreach ($model->activeNoteItems as $item): ?>
@@ -38,7 +37,7 @@
             <td class=""><?= $item->factory_price ?></td>
             <td class=""><?= $item->subtotal ?></td>
             <td class=""><?= $item->memo ?></td>
-            <?= $grand_total += $item->subtotal ?>
+            <?php $grand_total += $item->subtotal ?>
         </tr>
 
     <?php endforeach; ?>

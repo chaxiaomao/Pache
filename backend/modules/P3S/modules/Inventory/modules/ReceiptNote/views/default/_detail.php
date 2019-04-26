@@ -9,9 +9,9 @@
 </div>
 <div class="row pt10">
     <div class="col-xs-3">厂商名称：<?= $model->supplier->name ?></div>
-    <div class="col-xs-3">联系人：<?= $model->receiver_name ?></div>
-    <div class="col-xs-3">传真：<?= $model->supplier->geo_longitude ?></div>
-    <div class="col-xs-3">联系电话：<?= $model->supplier->geo_latitude ?></div>
+    <div class="col-xs-3">联系人：<?= $model->supplier->label ?></div>
+    <div class="col-xs-3">传真：<?= $model->supplier->geo_latitude ?></div>
+    <div class="col-xs-3">联系电话：<?= $model->supplier->geo_longitude ?></div>
 </div>
 
 <div class="row pt10">
@@ -19,19 +19,19 @@
     <div class="col-xs-3">地址：<?= strip_tags($model->supplier->description) ?></div>
     <div class="col-xs-3">运输方式：<?= $model->receiver_name ?></div>
     <div class="col-xs-3">部门：<?= $model->dept_manager_name ?></div>
-    <div class="col-xs-3">经手人：<?= $model->financial_name ?></div>
+    <div class="col-xs-3">经手人：<?= $model->financial_name ?></div>120
 </div>
 
 <table class="table table-bordered mt10">
 
     <tr class="tc">
-        <td class="">料号</td>
-        <td class="">品名</td>
-        <td class="">单位</td>
-        <td class="">数量</td>
-        <td class="">价格</td>
-        <td class="">金额</td>
-        <td class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;备注&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+        <td class="box120">料号</td>
+        <td class="box120">品名</td>
+        <td class="box120">单位</td>
+        <td class="box120">数量</td>
+        <td class="box120">价格</td>
+        <td class="box120">金额</td>
+        <td class="memo">备注</td>
     </tr>
 
     <?php foreach ($model->activeNoteItems as $item): ?>

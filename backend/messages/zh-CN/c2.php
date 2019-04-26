@@ -1273,6 +1273,8 @@ return [
     'Enough' => '充足',
     'Not enough' => '不足',
     'Order Item Consumption Models' => '订单用料情况',
+    'Pack size' => '外箱尺寸',
+    'Inpack size' => '内箱尺寸',
     '' => '',
 ];
 

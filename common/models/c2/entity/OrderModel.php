@@ -113,6 +113,14 @@ class OrderModel extends \cza\base\models\ActiveRecord
                 $key = $attribute . '[' . $index . '][product_id]';
                 $this->addError($key, Yii::t('app.c2', '{attribute} can not be empty!', ['attribute' => Yii::t('app.c2', 'Product')]));
             }
+            // if (!empty($error)) {
+            //     $key = $attribute . '[' . $index . '][pack_id]';
+            //     $this->addError($key, Yii::t('app.c2', '{attribute} can not be empty!', ['attribute' => Yii::t('app.c2', 'Product')]));
+            // }
+            // if (!empty($error)) {
+            //     $key = $attribute . '[' . $index . '][inpack_id]';
+            //     $this->addError($key, Yii::t('app.c2', '{attribute} can not be empty!', ['attribute' => Yii::t('app.c2', 'Product')]));
+            // }
         }
     }
 
@@ -127,6 +135,8 @@ class OrderModel extends \cza\base\models\ActiveRecord
                     'num' => isset($item['num']) ? $item['num'] : 0,
                     'pieces' => isset($item['pieces']) ? $item['pieces'] : 0,
                     'packing' => isset($item['packing']) ? $item['packing'] : "",
+                    'pack_id' => isset($item['pack_id']) ? $item['pack_id'] : null,
+                    'inpack_id' => isset($item['inpack_id']) ? $item['inpack_id'] : null,
                     'size' => isset($item['size']) ? $item['size'] : "",
                     'gross_weight' => isset($item['gross_weight']) ? $item['gross_weight'] : "",
                     'net_weight' => isset($item['net_weight']) ? $item['net_weight'] : "",
@@ -188,15 +198,42 @@ class OrderModel extends \cza\base\models\ActiveRecord
     {
         $this->loadItems();
         foreach ($this->items as $item) {
+            $attrs = [
+                'product_id' => $item->product_id,
+                'material_id' => $item->pack->product_id,
+                'material_item_id' => $item->pack_id,
+                'quantity' => $item->pieces,
+                'consumed_num' => 1,
+                'subtotal' => 1 * $item->pieces,
+                // 'measure_id' => $item->measure_id,
+            ];
+            $model = new OrderItemConsumptionModel();
+            $model->setAttributes($attrs);
+            $model->link('owner', $this);
+
+            $attrs = [
+                'product_id' => $item->product_id,
+                'material_id' => $item->inPack->product_id,
+                'material_item_id' => $item->pack_id,
+                'quantity' => $item->pieces,
+                'consumed_num' => 1,
+                'subtotal' => 1 * $item->pieces,
+                // 'measure_id' => $item->measure_id,
+            ];
+            $model = new OrderItemConsumptionModel();
+            $model->setAttributes($attrs);
+            $model->link('owner', $this);
+
             $rs = $item->productMaterialRs;
             foreach ($rs as $r) {
+                $merNum = $item->num * $item->pieces;
                 $attrs = [
                     'product_id' => $item->product_id,
                     'material_id' => $r->material_id,
                     'material_item_id' => $r->material_item_id,
-                    'quantity' => $item->num,
+                    'quantity' => $merNum,
                     'consumed_num' => $r->num,
-                    'subtotal' => $r->num * $item->num,
+                    'subtotal' => $r->num * $merNum,
                     // 'measure_id' => $item->measure_id,
                 ];
                 $model = new OrderItemConsumptionModel();

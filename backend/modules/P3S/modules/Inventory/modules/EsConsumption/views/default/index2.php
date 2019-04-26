@@ -159,8 +159,8 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 
 <?php
-
-$result = $stock->num - $stock->getException();
+$exception = $stock->getException();
+$result = $stock->num - $exception;
 $materialProduct = $stock->productMaterialItem;
 ?>
 
@@ -178,7 +178,7 @@ $materialProduct = $stock->productMaterialItem;
             <td><?= $materialProduct->label ?></td>
             <td><?= $materialProduct->value ?></td>
             <td><?= $stock->num ?></td>
-            <td><?= $stock->getException() ?></td>
+            <td><?= $exception ?></td>
             <td><?= $result > 0 ? "充足" : "欠料：" . $result ?></td>
         </tr>
     </table>

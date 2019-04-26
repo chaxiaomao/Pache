@@ -4,6 +4,7 @@ namespace backend\modules\P3S\modules\Inventory\modules\EsConsumption\controller
 
 use common\models\c2\entity\ProductMaterialItemModel;
 use common\models\c2\entity\ProductStock;
+use cza\base\models\statics\EntityModelStatus;
 use Yii;
 use common\models\c2\entity\OrderItemConsumptionModel;
 use common\models\c2\search\OrderItemConsumptionSearch;
@@ -40,6 +41,7 @@ class DefaultController extends Controller
     {
         $this->layout = '/print';
         $searchModel = new OrderItemConsumptionSearch();
+        $searchModel->status = EntityModelStatus::STATUS_ACTIVE;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $model = OrderItemConsumptionModel::find()->where(['material_id' => Yii::$app->request->queryParams['OrderItemConsumptionSearch']['material_id']])->one();
         return $this->render('index2', [

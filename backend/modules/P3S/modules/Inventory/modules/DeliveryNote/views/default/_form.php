@@ -292,10 +292,10 @@ $form = ActiveForm::begin([
                                             return Html::button(Yii::t('app.c2', 'Calculate'), [
                                                 'class' => 'btn btn-success',
                                                 'onclick' => "(function(e) { 
-                                            var price = $('#price-{multiple_index_{$multipleItemsId}}').val();
-                                            var num = $('#quantity-{multiple_index_{$multipleItemsId}}').val();
-                                             $('#subtotal-{multiple_index_{$multipleItemsId}}').val(strip(num * price).toFixed(2));
-                                        })();",
+                                                    var price = $('#price-{multiple_index_{$multipleItemsId}}').val();
+                                                    var num = $('#quantity-{multiple_index_{$multipleItemsId}}').val();
+                                                     $('#subtotal-{multiple_index_{$multipleItemsId}}').val(strip(num * price).toFixed(2));
+                                                })();",
                                                 // 'id' => "calculate-{multiple_index_{$multipleItemsId}}",
                                             ]);
                                         },
@@ -393,13 +393,15 @@ $js .= "jQuery('.btn.multiple-input-list__btn.js-input-remove').off('click').on(
     }
 });\n";
 
-$js .= "function strip(num, precision = 12) {
-  return +parseFloat(num.toPrecision(precision));
-}";
-
-$js .= "$(function () {
-  $('[data-toggle=\"tooltip\"]').tooltip()
-})";
+// $js .= "$(function () {
+//   $('[data-toggle=\"tooltip\"]').tooltip()
+// })";
 
 $this->registerJs($js);
 ?>
+
+<script>
+    function strip(num, precision = 12) {
+        return +parseFloat(num.toPrecision(precision));
+    }
+</script>

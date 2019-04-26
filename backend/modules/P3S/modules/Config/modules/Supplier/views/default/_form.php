@@ -48,7 +48,11 @@ $form = ActiveForm::begin([
             'attributes' => [
                 'code' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('code')]],
                 'name' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('name')]],
-                'label' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('label')]],
+                'label' => [
+                        'type' => Form::INPUT_TEXT,
+                    'label' => Yii::t('app.c2', 'Username'),
+                    'options' => ['placeholder' => $model->getAttributeLabel('label')]
+                ],
                 // 'province_id' => [
                 //     'type' => Form::INPUT_DROPDOWN_LIST,
                 //     'items' => ['0' => Yii::t('app.c2', 'Please select province')] + RegionProvince::getHashMap('id', 'label'),

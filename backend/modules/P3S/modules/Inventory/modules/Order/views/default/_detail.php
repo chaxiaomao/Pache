@@ -20,15 +20,15 @@ use yii\widgets\DetailView;
 <table class="table table-bordered mt10">
 
     <tr class="tc">
-        <td class="">产品编号</td>
-        <td class="">产品名称</td>
-        <td class="">数量</td>
-        <td class="">件数</td>
-        <td class="">包装</td>
-        <td class="">尺码</td>
-        <td class="">毛重</td>
-        <td class="">净重</td>
-        <td class="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;备注&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+        <td class="box120">产品编号</td>
+        <td class="box120">产品名称</td>
+        <td class="box120">数量</td>
+        <td class="box120">件数</td>
+        <td class="box120">包装</td>
+        <td class="box120">尺码</td>
+        <td class="box120">毛重</td>
+        <td class="box120">净重</td>
+        <td class="memo">备注</td>
     </tr>
 
     <?php foreach ($model->orderItems as $item): ?>

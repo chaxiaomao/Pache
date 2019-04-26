@@ -96,7 +96,8 @@ $form = ActiveForm::begin([
                                     'title' => Yii::t('app.c2', 'Product Code'),
                                     'type' => \kartik\select2\Select2::className(),
                                     'options' => [
-                                        'data' => \common\models\c2\entity\ProductModel::getHashMap('id', 'sku', ['status' => EntityModelStatus::STATUS_ACTIVE, 'type' => \common\models\c2\statics\ProductType::TYPE_PRODUCT]),
+                                        'data' => \common\models\c2\entity\ProductModel::getHashMap('id', 'name',
+                                            ['status' => EntityModelStatus::STATUS_ACTIVE, 'type' => \common\models\c2\statics\ProductType::TYPE_PRODUCT]),
                                         'pluginOptions' => [
                                             'placeholder' => $model->getAttributeLabel('Select options ..')
                                         ],
@@ -168,27 +169,38 @@ $form = ActiveForm::begin([
                                 // ],
                                 [
                                     'name' => 'num',
-                                    'type' => kartik\widgets\TouchSpin::className(),
                                     'title' => Yii::t('app.c2', 'Quantity'),
-                                    'defaultValue' => 1,
                                     'options' => [
-                                        'pluginOptions' => [
-                                            'buttondown_txt' => '<i class="glyphicon glyphicon-minus-sign"></i>',
-                                            'buttonup_txt' => '<i class="glyphicon glyphicon-plus-sign"></i>',
-                                        ],
+                                        'type' => 'number',
+                                        'min' => 1,
+                                        'id' => "quantity-{multiple_index_{$multipleItemsId}}",
                                     ]
+                                    // 'type' => kartik\widgets\TouchSpin::className(),
+                                    // 'defaultValue' => 1,
+                                    // 'options' => [
+                                    //     'pluginOptions' => [
+                                    //         'max' => 99999,
+                                    //         'buttondown_txt' => '<i class="glyphicon glyphicon-minus-sign"></i>',
+                                    //         'buttonup_txt' => '<i class="glyphicon glyphicon-plus-sign"></i>',
+                                    //     ],
+                                    // ]
                                 ],
                                 [
                                     'name' => 'pieces',
-                                    'type' => kartik\widgets\TouchSpin::className(),
                                     'title' => Yii::t('app.c2', 'Pieces'),
-                                    'defaultValue' => 1,
                                     'options' => [
-                                        'pluginOptions' => [
-                                            'buttondown_txt' => '<i class="glyphicon glyphicon-minus-sign"></i>',
-                                            'buttonup_txt' => '<i class="glyphicon glyphicon-plus-sign"></i>',
-                                        ],
+                                        'type' => 'number',
+                                        'min' => 1,
+                                        'id' => "quantity-{multiple_index_{$multipleItemsId}}",
                                     ]
+                                    // 'type' => kartik\widgets\TouchSpin::className(),
+                                    // 'defaultValue' => 1,
+                                    // 'options' => [
+                                    //     'pluginOptions' => [
+                                    //         'buttondown_txt' => '<i class="glyphicon glyphicon-minus-sign"></i>',
+                                    //         'buttonup_txt' => '<i class="glyphicon glyphicon-plus-sign"></i>',
+                                    //     ],
+                                    // ]
                                 ],
                                 [
                                     'name' => 'packing',
@@ -198,12 +210,42 @@ $form = ActiveForm::begin([
                                     ],
                                 ],
                                 [
-                                    'name' => 'size',
-                                    'title' => Yii::t('app.c2', 'Size'),
-                                    'enableError' => true,
+                                    'name' => 'pack_id',
+                                    'title' => Yii::t('app.c2', 'Pack size'),
+                                    'type' => \kartik\select2\Select2::className(),
                                     'options' => [
+                                        'data' => \common\models\c2\entity\ProductMaterialItemModel::getHashMap('id', 'value', [
+                                            'status' => EntityModelStatus::STATUS_ACTIVE,
+                                        ]),
+                                        'pluginOptions' => [
+                                            'placeholder' => $model->getAttributeLabel('Select options ..')
+                                        ],
+                                        'pluginEvents' => [
+                                        ]
                                     ],
                                 ],
+                                [
+                                    'name' => 'inpack_id',
+                                    'title' => Yii::t('app.c2', 'Inpack size'),
+                                    'type' => \kartik\select2\Select2::className(),
+                                    'options' => [
+                                        'data' => \common\models\c2\entity\ProductMaterialItemModel::getHashMap('id', 'value', [
+                                            'status' => EntityModelStatus::STATUS_ACTIVE,
+                                        ]),
+                                        'pluginOptions' => [
+                                            'placeholder' => $model->getAttributeLabel('Select options ..')
+                                        ],
+                                        'pluginEvents' => [
+                                        ]
+                                    ],
+                                ],
+                                // [
+                                //     'name' => 'size',
+                                //     'title' => Yii::t('app.c2', 'Size'),
+                                //     'enableError' => true,
+                                //     'options' => [
+                                //     ],
+                                // ],
                                 [
                                     'name' => 'gross_weight',
                                     'title' => Yii::t('app.c2', 'Gross weight'),

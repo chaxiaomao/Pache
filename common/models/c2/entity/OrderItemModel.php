@@ -16,6 +16,8 @@ use yii\helpers\ArrayHelper;
  * @property integer $num
  * @property integer $pieces
  * @property string $packing
+ * @property integer $pack_id
+ * @property integer $inpack_id
  * @property string $size
  * @property string $gross_weight
  * @property string $net_weight
@@ -62,7 +64,7 @@ class OrderItemModel extends \cza\base\models\ActiveRecord
     public function rules()
     {
         return [
-            [['product_id', 'num', 'pieces', 'position', 'order_id'], 'integer'],
+            [['product_id', 'num', 'pieces', 'position', 'order_id', 'pack_id', 'inpack_id'], 'integer'],
             [['created_at', 'updated_at', 'material_ids'], 'safe'],
             [['code', 'label', 'packing', 'size', 'gross_weight', 'net_weight', 'memo', 'type'], 'string', 'max' => 255],
             [['status'], 'integer', 'max' => 4],
@@ -84,6 +86,7 @@ class OrderItemModel extends \cza\base\models\ActiveRecord
             'num' => Yii::t('app.c2', 'Num'),
             'pieces' => Yii::t('app.c2', 'Pieces'),
             'packing' => Yii::t('app.c2', 'Packing'),
+            'pack_id' => Yii::t('app.c2', 'Packing'),
             'size' => Yii::t('app.c2', 'Size'),
             'gross_weight' => Yii::t('app.c2', 'Gross Weight'),
             'net_weight' => Yii::t('app.c2', 'Net Weight'),
@@ -130,6 +133,16 @@ class OrderItemModel extends \cza\base\models\ActiveRecord
     {
         return $this->hasMany(ProductMaterialItemModel::className(), ['id' => 'material_item_id'])
             ->viaTable('{{%product_material_rs}}', ['product_id' => 'product_id']);
+    }
+
+    public function getPack()
+    {
+        return $this->hasOne(ProductMaterialItemModel::className(), ['id' => 'pack_id']);
+    }
+
+    public function getInPack()
+    {
+        return $this->hasOne(ProductMaterialItemModel::className(), ['id' => 'inpack_id']);
     }
 
     public function getProductMaterialRs()
