@@ -64,7 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'order_id',
                 'value' => function ($model) {
-                    return $model->owner->order_no;
+                    return $model->owner->code;
                 }
             ],
             // 'product_id',
@@ -129,7 +129,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'template' => '{detail}',
                 'buttons' => [
                     'detail' => function ($url, $model, $key) {
-                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', ['index2', 'OrderItemConsumptionSearch[material_id]' => $model->material_id], [
+                        return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', ['index2', 'OrderItemConsumptionSearch[material_item_id]' => $model->material_item_id], [
                             'title' => Yii::t('app.c2', 'View'),
                             'data-pjax' => '0',
                         ]);

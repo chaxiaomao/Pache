@@ -65,7 +65,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'order_id',
                 'value' => function ($model) {
-                    return $model->owner->order_no;
+                    return $model->owner->code;
                 }
             ],
             // 'product_id',

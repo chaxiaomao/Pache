@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php echo GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+        // 'filterModel' => $searchModel,
 
         'pjax' => true,
         'hover' => true,
@@ -87,12 +87,12 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'until_price',
             // 'subtotal',
             // 'measure_id',
-            [
-                'attribute' => 'measure_id',
-                'value' => function ($model) {
-                    return $model->measure->name;
-                }
-            ],
+            // [
+            //     'attribute' => 'measure_id',
+            //     'value' => function ($model) {
+            //         return $model->measure->name;
+            //     }
+            // ],
             // 'purcharse_order_code',
             'memo',
             // 'status',
@@ -113,17 +113,17 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $model->getStatusLabel();
                 }
             ],
-            [
-                'class' => '\kartik\grid\ActionColumn',
-                'buttons' => [
-                    'update' => function ($url, $model, $key) {
-                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['edit', 'id' => $model->id], [
-                            'title' => Yii::t('app', 'Info'),
-                            'data-pjax' => '0',
-                        ]);
-                    }
-                ]
-            ],
+            // [
+            //     'class' => '\kartik\grid\ActionColumn',
+            //     'buttons' => [
+            //         'update' => function ($url, $model, $key) {
+            //             return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['edit', 'id' => $model->id], [
+            //                 'title' => Yii::t('app', 'Info'),
+            //                 'data-pjax' => '0',
+            //             ]);
+            //         }
+            //     ]
+            // ],
 
         ],
     ]); ?>

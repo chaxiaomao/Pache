@@ -59,7 +59,7 @@ class OrderItemConsumptionModel extends \cza\base\models\ActiveRecord
     {
         return [
             'id' => Yii::t('app.c2', 'ID'),
-            'order_id' => Yii::t('app.c2', 'Order ID'),
+            'order_id' => Yii::t('app.c2', 'Order code'),
             'product_id' => Yii::t('app.c2', 'Product ID'),
             'material_id' => Yii::t('app.c2', 'Material ID'),
             'material_item_id' => Yii::t('app.c2', 'Material Item ID'),

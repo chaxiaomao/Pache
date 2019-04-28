@@ -4,9 +4,11 @@ namespace backend\modules\Database\modules\Product\controllers;
 
 use backend\models\c2\entity\ProductMaterialModel;
 use backend\models\c2\form\EavSkuForm;
+use backend\models\c2\form\ProductPackForm;
 use common\models\c2\entity\AttributeModel;
 use common\models\c2\entity\ProductMaterialItemModel;
 use common\models\c2\entity\ProductMaterialRsModel;
+use common\models\c2\entity\ProductPackModel;
 use common\models\c2\entity\ProductSkuModel;
 use common\models\c2\statics\ProductType;
 use cza\base\models\statics\ResponseDatum;
@@ -27,7 +29,8 @@ class DefaultController extends Controller
     public $modelClass = 'backend\models\c2\entity\ProductModel';
     public $materialModelClass = 'backend\models\c2\entity\ProductMaterialModel';
 
-    public function actions() {
+    public function actions()
+    {
         return \yii\helpers\ArrayHelper::merge(parent::actions(), [
             'editColumn' => [// identifier for your editable action
                 'class' => \backend\components\actions\EditableColumnAction::className(), // action class name
@@ -96,6 +99,7 @@ class DefaultController extends Controller
             }
         }
         $model->loadItems();
+        $model->loadPackItems();
         return (Yii::$app->request->isAjax) ? $this->renderAjax('edit', ['model' => $model,]) : $this->render('edit', ['model' => $model,]);
     }
 
@@ -114,7 +118,8 @@ class DefaultController extends Controller
         return (Yii::$app->request->isAjax) ? $this->renderAjax('edit', ['model' => $model,]) : $this->render('edit', ['model' => $model,]);
     }
 
-    public function retrieveMaterialModel($id = null, $allowReturnNew = true) {
+    public function retrieveMaterialModel($id = null, $allowReturnNew = true)
+    {
         if (!is_null($id)) {
             if (($model = ProductMaterialModel::findOne($id)) !== null) {
                 return $model;
@@ -177,7 +182,8 @@ class DefaultController extends Controller
         return $this->asJson($responseData);
     }
 
-    public function actionDeleteSku($id) {
+    public function actionDeleteSku($id)
+    {
         try {
             $model = ProductSkuModel::findOne($id);
             if ($model->delete()) {
@@ -192,7 +198,8 @@ class DefaultController extends Controller
         return $this->asJson($responseData);
     }
 
-    public function actionDeleteSkus(array $ids) {
+    public function actionDeleteSkus(array $ids)
+    {
         try {
             $model = new ProductSkuModel();
             $model->multipleDeleteByIds($ids);
@@ -208,7 +215,8 @@ class DefaultController extends Controller
         return $this->asJson($responseData);
     }
 
-    public function actionDeleteSubitem($id) {
+    public function actionDeleteSubitem($id)
+    {
         if (($model = ProductMaterialItemModel::findOne($id)) !== null) {
             if ($model->delete()) {
                 $responseData = ResponseDatum::getSuccessDatum(['message' => Yii::t('cza', 'Operation completed successfully!')], $id);
@@ -219,7 +227,20 @@ class DefaultController extends Controller
         return $this->asJson($responseData);
     }
 
-    public function actionDeleteProductSubitem($id) {
+    public function actionDeletePackSubitem($id)
+    {
+        if (($model = ProductPackModel::findOne($id)) !== null) {
+            if ($model->delete()) {
+                $responseData = ResponseDatum::getSuccessDatum(['message' => Yii::t('cza', 'Operation completed successfully!')], $id);
+            } else {
+                $responseData = ResponseDatum::getErrorDatum(['message' => Yii::t('cza', 'Error: operation can not finish!!')], $id);
+            }
+        }
+        return $this->asJson($responseData);
+    }
+
+    public function actionDeleteProductSubitem($id)
+    {
         if (($model = ProductMaterialRsModel::findOne($id)) !== null) {
             if ($model->delete()) {
                 $responseData = ResponseDatum::getSuccessDatum(['message' => Yii::t('cza', 'Operation completed successfully!')], $id);
@@ -228,6 +249,20 @@ class DefaultController extends Controller
             }
         }
         return $this->asJson($responseData);
+    }
+
+    public function actionProductPack($id = null)
+    {
+        $model = new ProductPackForm(['entityModel' => $model = $this->retrieveModel($id)]);
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->save()) {
+                Yii::$app->session->setFlash($model->getMessageName(), [Yii::t('app.c2', 'Saved successful.')]);
+            } else {
+                Yii::$app->session->setFlash($model->getMessageName(), $model->errors);
+            }
+        }
+
+        return (Yii::$app->request->isAjax) ? $this->renderAjax('_pack_form', ['model' => $model,]) : $this->render('_pack_form', ['model' => $model,]);
     }
 
 }

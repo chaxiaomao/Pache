@@ -3,6 +3,7 @@
 namespace common\models\c2\entity;
 
 use common\models\c2\statics\InventoryExeState;
+use cza\base\models\statics\EntityModelStatus;
 use Yii;
 use yii\validators\RequiredValidator;
 
@@ -11,13 +12,16 @@ use yii\validators\RequiredValidator;
  *
  * @property string $id
  * @property string $user_id
- * @property string $order_no
+ * @property string $code
+ * @property string $label
  * @property string $production_date
  * @property string $delivery_date
  * @property string $created_by
  * @property string $updated_by
- * @property integer $state
+ * @property string $memo
  * @property integer $status
+ * @property integer $position
+ * @property integer $state
  * @property string $created_at
  * @property string $updated_at
  */
@@ -47,11 +51,12 @@ class OrderModel extends \cza\base\models\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'order_no', 'created_by', 'updated_by', 'state'], 'integer'],
+            [['user_id', 'created_by', 'updated_by', 'position'], 'integer'],
             [['production_date', 'delivery_date', 'created_at', 'updated_at'], 'safe'],
-            [['status'], 'integer', 'max' => 4],
-            [['items',], 'validateItems'],
-            [['order_no',], 'required'],
+            [['code', 'label', 'memo'], 'string', 'max' => 255],
+            [['code',], 'required'],
+            [['status', 'state'], 'integer', 'max' => 4],
+            [['items'], 'validateItems'],
         ];
     }
 
@@ -63,13 +68,15 @@ class OrderModel extends \cza\base\models\ActiveRecord
         return [
             'id' => Yii::t('app.c2', 'ID'),
             'user_id' => Yii::t('app.c2', 'User ID'),
-            'order_no' => Yii::t('app.c2', 'Order No'),
-            'state' => Yii::t('app.c2', 'State'),
+            'code' => Yii::t('app.c2', 'Code'),
+            'label' => Yii::t('app.c2', 'Label'),
             'production_date' => Yii::t('app.c2', 'Production Date'),
             'delivery_date' => Yii::t('app.c2', 'Delivery Date'),
             'created_by' => Yii::t('app.c2', 'Created By'),
             'updated_by' => Yii::t('app.c2', 'Updated By'),
+            'memo' => Yii::t('app.c2', 'Memo'),
             'status' => Yii::t('app.c2', 'Status'),
+            'position' => Yii::t('app.c2', 'Position'),
             'created_at' => Yii::t('app.c2', 'Created At'),
             'updated_at' => Yii::t('app.c2', 'Updated At'),
         ];
@@ -113,14 +120,11 @@ class OrderModel extends \cza\base\models\ActiveRecord
                 $key = $attribute . '[' . $index . '][product_id]';
                 $this->addError($key, Yii::t('app.c2', '{attribute} can not be empty!', ['attribute' => Yii::t('app.c2', 'Product')]));
             }
-            // if (!empty($error)) {
-            //     $key = $attribute . '[' . $index . '][pack_id]';
-            //     $this->addError($key, Yii::t('app.c2', '{attribute} can not be empty!', ['attribute' => Yii::t('app.c2', 'Product')]));
-            // }
-            // if (!empty($error)) {
-            //     $key = $attribute . '[' . $index . '][inpack_id]';
-            //     $this->addError($key, Yii::t('app.c2', '{attribute} can not be empty!', ['attribute' => Yii::t('app.c2', 'Product')]));
-            // }
+            $requiredValidator->validate($row['product_pack_id'], $error);
+            if (!empty($error)) {
+                $key = $attribute . '[' . $index . '][product_pack_id]';
+                $this->addError($key, Yii::t('app.c2', '{attribute} can not be empty!', ['attribute' => Yii::t('app.c2', 'Product')]));
+            }
         }
     }
 
@@ -130,19 +134,15 @@ class OrderModel extends \cza\base\models\ActiveRecord
         if (!empty($this->items)) {
             foreach ($this->items as $item) {
                 $attributes = [
-                    'order_id' => $this->id,
+                    // 'order_id' => $this->id,
                     'product_id' => isset($item['product_id']) ? $item['product_id'] : null,
-                    'num' => isset($item['num']) ? $item['num'] : 0,
                     'pieces' => isset($item['pieces']) ? $item['pieces'] : 0,
-                    'packing' => isset($item['packing']) ? $item['packing'] : "",
-                    'pack_id' => isset($item['pack_id']) ? $item['pack_id'] : null,
-                    'inpack_id' => isset($item['inpack_id']) ? $item['inpack_id'] : null,
-                    'size' => isset($item['size']) ? $item['size'] : "",
-                    'gross_weight' => isset($item['gross_weight']) ? $item['gross_weight'] : "",
-                    'net_weight' => isset($item['net_weight']) ? $item['net_weight'] : "",
+                    'quantity' => isset($item['quantity']) ? $item['quantity'] : 0,
+                    'label' => isset($item['label']) ? $item['label'] : 0,
+                    'product_pack_id' => isset($item['product_pack_id']) ? $item['product_pack_id'] : null,
                     'memo' => isset($item['memo']) ? $item['memo'] : "",
                 ];
-                if (isset($item['id']) && $item['id'] == 0) {  // create new items
+                if (isset($item['id']) && $item['id'] == '') {  // create new items
                     $itemModel = new OrderItemModel();
                     $itemModel->setAttributes($attributes);
                     $itemModel->link('owner', $this);
@@ -194,54 +194,70 @@ class OrderModel extends \cza\base\models\ActiveRecord
         return $this->getOrderItems()->asArray()->all();
     }
 
-    public function setStateToFinish()
+    public function setStateToUntracked()
     {
         $this->loadItems();
         foreach ($this->items as $item) {
-            $attrs = [
-                'product_id' => $item->product_id,
-                'material_id' => $item->pack->product_id,
-                'material_item_id' => $item->pack_id,
-                'quantity' => $item->pieces,
-                'consumed_num' => 1,
-                'subtotal' => 1 * $item->pieces,
-                // 'measure_id' => $item->measure_id,
-            ];
-            $model = new OrderItemConsumptionModel();
-            $model->setAttributes($attrs);
-            $model->link('owner', $this);
-
-            $attrs = [
-                'product_id' => $item->product_id,
-                'material_id' => $item->inPack->product_id,
-                'material_item_id' => $item->pack_id,
-                'quantity' => $item->pieces,
-                'consumed_num' => 1,
-                'subtotal' => 1 * $item->pieces,
-                // 'measure_id' => $item->measure_id,
-            ];
-            $model = new OrderItemConsumptionModel();
-            $model->setAttributes($attrs);
-            $model->link('owner', $this);
-
-            $rs = $item->productMaterialRs;
-            foreach ($rs as $r) {
-                $merNum = $item->num * $item->pieces;
-                $attrs = [
-                    'product_id' => $item->product_id,
-                    'material_id' => $r->material_id,
-                    'material_item_id' => $r->material_item_id,
-                    'quantity' => $merNum,
-                    'consumed_num' => $r->num,
-                    'subtotal' => $r->num * $merNum,
-                    // 'measure_id' => $item->measure_id,
-                ];
-                $model = new OrderItemConsumptionModel();
-                $model->setAttributes($attrs);
-                $model->link('owner', $this);
+            $productPack = $item->productPack;
+            if (!empty($productPack)) {
+                if (!empty($productPack->inpack_id)) {
+                    $attrs = [
+                        'product_id' => $item->product_id,
+                        'material_id' => $productPack->inpackMaterial->product_id,
+                        'material_item_id' => $productPack->inpack_id,
+                        'quantity' => $item->pieces,
+                        'consumed_num' => $productPack->inpack_num,
+                        'subtotal' => $productPack->inpack_num * $item->pieces,
+                        // 'measure_id' => $item->measure_id,
+                    ];
+                    $model = new OrderItemConsumptionModel();
+                    $model->setAttributes($attrs);
+                    $model->link('owner', $this);
+                }
+                if (!empty($productPack->outpack_id)) {
+                    $attrs = [
+                        'product_id' => $item->product_id,
+                        'material_id' => $productPack->inpackMaterial->product_id,
+                        'material_item_id' => $productPack->outpack_id,
+                        'quantity' => $item->pieces,
+                        'consumed_num' => $productPack->outpack_num,
+                        'subtotal' => $productPack->outpack_num * $item->pieces,
+                        // 'measure_id' => $item->measure_id,
+                    ];
+                    $model = new OrderItemConsumptionModel();
+                    $model->setAttributes($attrs);
+                    $model->link('owner', $this);
+                }
+                $rs = $item->productMaterialRs;
+                foreach ($rs as $r) {
+                    $merNum = $item->pieces * $productPack->pre_num;
+                    $attrs = [
+                        'product_id' => $item->product_id,
+                        'material_id' => $r->material_id,
+                        'material_item_id' => $r->material_item_id,
+                        'quantity' => $merNum,
+                        'consumed_num' => $r->num,
+                        'subtotal' => $r->num * $merNum,
+                        // 'measure_id' => $item->measure_id,
+                    ];
+                    $model = new OrderItemConsumptionModel();
+                    $model->setAttributes($attrs);
+                    $model->link('owner', $this);
+                }
             }
         }
         return $this->updateAttributes(['state' => InventoryExeState::UNTRACKED]);
+    }
+
+    public function setStateToFinish()
+    {
+        $items = $this->getOrderItemConsumption()->all();
+        foreach ($items as $item) {
+            $item->updateAttributes([
+                'status' => EntityModelStatus::STATUS_INACTIVE
+            ]);
+        }
+        return $this->updateAttributes(['state' => InventoryExeState::FINISH]);
     }
 
     public function getOrderItem($id)

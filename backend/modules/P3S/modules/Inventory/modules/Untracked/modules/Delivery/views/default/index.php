@@ -165,11 +165,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 'buttons' => [
                     'view' => function ($url, $model, $key) {
                         $title = Yii::t('app.c2', 'View');
-                        return Html::a(Html::tag('span', '', ['class' => "glyphicon glyphicon-print"]), [$url,], [
+                        return Html::a(Html::tag('span', '', ['class' => "glyphicon glyphicon-print"]), ['/p3s/inventory/delivery-note/default/view', 'id' => $model->id], [
                             'title' => $title,
                             'aria-label' => $title,
                             'data-pjax' => '0',
-                            'class' => 'view'
+                            'class' => 'view',
+                            'target' => 'blank',
                         ]);
                     },
                     'check' => function ($url, $model, $key) {
@@ -209,16 +210,16 @@ $this->params['breadcrumbs'][] = $this->title;
                     jQuery('#inventory-delivery-note-modal').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(data.url);
                 });";
 
-    $js .= "jQuery(document).on('click', '.inventory-delivery-note-model-index a.check', function(e) {
-                e.preventDefault();
-                jQuery('#inventory-delivery-note-modal').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(jQuery(e.currentTarget).attr('href'));
-            });";
+    // $js .= "jQuery(document).on('click', '.inventory-delivery-note-model-index a.check', function(e) {
+    //             e.preventDefault();
+    //             jQuery('#inventory-delivery-note-modal').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(jQuery(e.currentTarget).attr('href'));
+    //         });";
 
 
-    $js .= "jQuery(document).off('click', '.inventory-delivery-note-model-index a.view').on('click', '.inventory-delivery-note-model-index a.view', function(e) {
-                e.preventDefault();
-                jQuery('#inventory-delivery-note-modal').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(jQuery(e.currentTarget).attr('href'));
-            });";
+    // $js .= "jQuery(document).off('click', '.inventory-delivery-note-model-index a.view').on('click', '.inventory-delivery-note-model-index a.view', function(e) {
+    //             e.preventDefault();
+    //             jQuery('#inventory-delivery-note-modal').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(jQuery(e.currentTarget).attr('href'));
+    //         });";
 
     $js .= "jQuery(document).off('click', '.inventory-delivery-note-model-index a.commit').on('click', '.inventory-delivery-note-model-index a.commit', function(e) {
                 e.preventDefault();

@@ -108,64 +108,19 @@ $this->registerCss($css);
                                         ],
                                     ],
                                 ],
-                                // [
-                                //     'name' => 'comment',
-                                //     'type' => 'static',
-                                //     'headerOptions' => [
-                                //         // 'style' => 'width: 70px;',
-                                //     ],
-                                //     'value' => function ($data) {
-                                //         if (is_object($data)) {
-                                //             return Html::textInput('', $data->product->sku, [
-                                //                 'class' => 'form-control',
-                                //                 'disabled' => true
-                                //             ]);
-                                //         }
-                                //
-                                //     },
-                                //     'options' => [
-                                //
-                                //     ]
-                                // ],
-                                // [
-                                //     'name' => 'comment',
-                                //     'type' => 'static',
-                                //     'headerOptions' => [
-                                //         // 'style' => 'width: 70px;',
-                                //     ],
-                                //     'value' => function ($data) {
-                                //         if (is_object($data)) {
-                                //             return Html::textInput('', $data->product->name, [
-                                //                 'class' => 'form-control',
-                                //                 'data-toggle' => 'tooltip',
-                                //                 'data-placement' => 'top',
-                                //                 'data-html' => 'true',
-                                //                 // 'disabled' => true,
-                                //                 'title' => $data->product->getProductMaterialVer(),
-                                //             ]);
-                                //         }
-                                //
-                                //     },
-                                //     'options' => [
-                                //
-                                //     ]
-                                // ],
-                                // [
-                                //     'name' => 'product_sku_id',
-                                //     'type' => 'dropDownList',
-                                //     'title' => Yii::t('app.c2', 'Product/Sku'),
-                                //     'enableError' => true,
-                                //     'items' => $model->isNewRecord ? [] : function ($data) {
-                                //         if (is_object($data)) {
-                                //             return $data->product->getProductSkuOptionsList();
-                                //         }
-                                //         return [];
-                                //         // return \common\models\c2\entity\ProductModel::getHashMap('id', 'name');
-                                //     },
-                                //     'options' => [
-                                //         'id' => "subcat-{multiple_index_{$multipleItemsId}}",
-                                //     ],
-                                // ],
+                                [
+                                    'name' => 'material_ids',
+                                    'title' => Yii::t('app.c2', 'Material'),
+                                    'type' => \kartik\select2\Select2::className(),
+                                    'options' => [
+                                        'id' => "subcat-{multiple_index_{$multipleItemsId}}",
+                                        'data' => $model->isNewRecord ? [] : \common\models\c2\entity\ProductMaterialRsModel::getProductMaterialHashMap('material_item_id', 'num'),
+                                        'pluginOptions' => [
+                                            'multiple' => true,
+                                            'placeholder' => $model->getAttributeLabel('Select options ..'),
+                                        ],
+                                    ],
+                                ],
                                 [
                                     'name' => 'sku_label',
                                     'title' => Yii::t('app.c2', 'Product/Sku'),
@@ -173,13 +128,30 @@ $this->registerCss($css);
                                         'id' => "subcat-{multiple_index_{$multipleItemsId}}",
                                     ],
                                 ],
+                                // [
+                                //     'name' => 'measure_id',
+                                //     'title' => Yii::t('app.c2', 'Measure'),
+                                //     'type' => 'dropDownList',
+                                //     'headerOptions' => ['style' => 'width: 70px',],
+                                //     'enableError' => true,
+                                //     'items' => \common\models\c2\entity\MeasureModel::getHashMap('id', 'label'),
+                                // ],
                                 [
-                                    'name' => 'measure_id',
-                                    'title' => Yii::t('app.c2', 'Measure'),
+                                    'name' => 'product_pack_id',
+                                    'title' => Yii::t('app.c2', 'Packing'),
                                     'type' => 'dropDownList',
-                                    'headerOptions' => ['style' => 'width: 70px',],
                                     'enableError' => true,
-                                    'items' => \common\models\c2\entity\MeasureModel::getHashMap('id', 'label'),
+                                    'items' => \common\models\c2\entity\ProductPackModel::getHashMap('id', 'label'),
+                                ],
+                                [
+                                    'name' => 'pieces',
+                                    // 'type' => kartik\widgets\TouchSpin::className(),
+                                    'title' => Yii::t('app.c2', 'Pieces'),
+                                    'defaultValue' => 1,
+                                    'options' => [
+                                        'type' => 'number',
+                                        'min' => 1,
+                                    ]
                                 ],
                                 [
                                     'name' => 'quantity',

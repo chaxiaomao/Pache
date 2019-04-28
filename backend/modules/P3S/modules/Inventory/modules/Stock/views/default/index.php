@@ -130,7 +130,7 @@ echo GridView::widget([
             'class' => '\common\widgets\grid\ActionColumn',
             'template' => ' {update} {receipt} {delivery}',
             'visibleButtons' => [
-                'delivery' => function($model) {
+                'delivery' => function ($model) {
                     return $model->isProduct();
                 },
             ],
@@ -143,15 +143,20 @@ echo GridView::widget([
                 },
                 'receipt' => function ($url, $model, $key) {
                     return Html::a('<span class="glyphicon glyphicon-hourglass"></span>', ['/p3s/inventory/stock/receipt-commit/default/index',
-                        'WarehouseReceiptCommitItemSearch[product_sku_id]' => $model->product_material_id], [
-                        'title' => Yii::t('app', 'History'),
-                        'data-pjax' => '0',
-                        'class' => 'view'
-                    ]);
+                        'WarehouseReceiptCommitItemSearch[product_sku_id]' => $model->product_material_id,
+                        'WarehouseReceiptCommitItemSearch[status]' => EntityModelStatus::STATUS_ACTIVE,
+                    ], [
+                            'title' => Yii::t('app', 'History'),
+                            'data-pjax' => '0',
+                            'class' => 'view'
+                        ]
+                    );
                 },
                 'delivery' => function ($url, $model, $key) {
                     return Html::a('<span class="glyphicon glyphicon-zoom-in"></span>', ['/p3s/inventory/stock/delivery-commit/default/index',
-                        'WarehouseDeliveryCommitItemSearch[product_id]' => $model->product_id], [
+                        'WarehouseDeliveryCommitItemSearch[product_id]' => $model->product_id,
+                        'WarehouseDeliveryCommitItemSearch[status]' => EntityModelStatus::STATUS_ACTIVE,
+                    ], [
                         'title' => Yii::t('app', 'History'),
                         'data-pjax' => '0',
                         'class' => 'view'

@@ -10,7 +10,31 @@ yii\bootstrap\BootstrapAsset::register($this);
 // $theme = $this->theme;
 // $this->registerCssFile($theme->getUrl('css/print.css'));
 ?>
+<style>
+    .p20 {
+        padding: 20px;
+    }
 
+    .tc {
+        text-align: center;
+    }
+
+    .pt10 {
+        padding-top: 10px;
+    }
+
+    .mt10 {
+        margin-top: 10px;
+    }
+
+    /*.box120 {*/
+        /*min-width: 120px;*/
+    /*}*/
+
+    /*.memo {*/
+        /*min-width: 300px;*/
+    /*}*/
+</style>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">

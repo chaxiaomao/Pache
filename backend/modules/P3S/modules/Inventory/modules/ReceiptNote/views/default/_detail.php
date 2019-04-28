@@ -19,7 +19,7 @@
     <div class="col-xs-3">地址：<?= strip_tags($model->supplier->description) ?></div>
     <div class="col-xs-3">运输方式：<?= $model->receiver_name ?></div>
     <div class="col-xs-3">部门：<?= $model->dept_manager_name ?></div>
-    <div class="col-xs-3">经手人：<?= $model->financial_name ?></div>120
+    <div class="col-xs-3">经手人：<?= $model->financial_name ?></div>
 </div>
 
 <table class="table table-bordered mt10">
@@ -50,5 +50,5 @@
 </table>
 
 <div class="container-fluid">
-    <p>备注：<?= $model->memo ?></p>
+   <?= $model->memo ?>
 </div>

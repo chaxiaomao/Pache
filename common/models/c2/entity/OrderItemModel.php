@@ -13,18 +13,13 @@ use yii\helpers\ArrayHelper;
  * @property string $product_id
  * @property string $code
  * @property string $label
- * @property integer $num
- * @property integer $pieces
- * @property string $packing
- * @property integer $pack_id
- * @property integer $inpack_id
- * @property string $size
- * @property string $gross_weight
- * @property string $net_weight
+ * @property string $quantity
+ * @property string $pieces
+ * @property string $product_pack_id
+ * @property integer $type
  * @property string $memo
- * @property string $type
- * @property integer $position
  * @property integer $status
+ * @property integer $position
  * @property string $created_at
  * @property string $updated_at
  */
@@ -64,10 +59,12 @@ class OrderItemModel extends \cza\base\models\ActiveRecord
     public function rules()
     {
         return [
-            [['product_id', 'num', 'pieces', 'position', 'order_id', 'pack_id', 'inpack_id'], 'integer'],
-            [['created_at', 'updated_at', 'material_ids'], 'safe'],
-            [['code', 'label', 'packing', 'size', 'gross_weight', 'net_weight', 'memo', 'type'], 'string', 'max' => 255],
-            [['status'], 'integer', 'max' => 4],
+            [['product_id', 'position', 'order_id', 'product_pack_id', 'quantity', 'pieces'], 'integer'],
+            [['created_at', 'updated_at',], 'safe'],
+            // [['created_at', 'updated_at', 'material_ids'], 'safe'],
+            [['code', 'label', 'memo',], 'string', 'max' => 255],
+            // [['code', 'label', 'packing', 'size', 'gross_weight', 'net_weight', 'memo', 'type'], 'string', 'max' => 255],
+            [['status', 'type'], 'integer', 'max' => 4],
         ];
     }
 
@@ -78,22 +75,15 @@ class OrderItemModel extends \cza\base\models\ActiveRecord
     {
         return [
             'id' => Yii::t('app.c2', 'ID'),
-            'order_id' => Yii::t('app.c2', 'Order no'),
+            'order_id' => Yii::t('app.c2', 'Order ID'),
             'product_id' => Yii::t('app.c2', 'Product ID'),
-            'product_name' => Yii::t('app.c2', 'Product name'),
             'code' => Yii::t('app.c2', 'Code'),
             'label' => Yii::t('app.c2', 'Label'),
-            'num' => Yii::t('app.c2', 'Num'),
-            'pieces' => Yii::t('app.c2', 'Pieces'),
-            'packing' => Yii::t('app.c2', 'Packing'),
-            'pack_id' => Yii::t('app.c2', 'Packing'),
-            'size' => Yii::t('app.c2', 'Size'),
-            'gross_weight' => Yii::t('app.c2', 'Gross Weight'),
-            'net_weight' => Yii::t('app.c2', 'Net Weight'),
-            'memo' => Yii::t('app.c2', 'Memo'),
+            'product_pack_id' => Yii::t('app.c2', 'Product Pack ID'),
             'type' => Yii::t('app.c2', 'Type'),
-            'position' => Yii::t('app.c2', 'Position'),
+            'memo' => Yii::t('app.c2', 'Memo'),
             'status' => Yii::t('app.c2', 'Status'),
+            'position' => Yii::t('app.c2', 'Position'),
             'created_at' => Yii::t('app.c2', 'Created At'),
             'updated_at' => Yii::t('app.c2', 'Updated At'),
         ];
@@ -124,6 +114,11 @@ class OrderItemModel extends \cza\base\models\ActiveRecord
         return $this->hasOne(ProductModel::className(), ['id' => 'product_id']);
     }
 
+    public function getSaleProduct()
+    {
+        return $this->hasOne(\backend\models\c2\entity\ProductModel::className(), ['id' => 'product_id']);
+    }
+
     public function getProductStock()
     {
         return $this->hasOne(ProductStock::className(), ['product_id' => 'product_id']);
@@ -135,14 +130,8 @@ class OrderItemModel extends \cza\base\models\ActiveRecord
             ->viaTable('{{%product_material_rs}}', ['product_id' => 'product_id']);
     }
 
-    public function getPack()
-    {
-        return $this->hasOne(ProductMaterialItemModel::className(), ['id' => 'pack_id']);
-    }
-
-    public function getInPack()
-    {
-        return $this->hasOne(ProductMaterialItemModel::className(), ['id' => 'inpack_id']);
+    public function getProductPack() {
+        return $this->hasOne(ProductPackModel::className(), ['id' => 'product_pack_id']);
     }
 
     public function getProductMaterialRs()

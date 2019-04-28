@@ -5,21 +5,19 @@ namespace common\models\c2\entity;
 use Yii;
 
 /**
- * This is the model class for table "{{%warehouse_inventory_commit_item}}".
+ * This is the model class for table "{{%warehouse_delivery_commit_item}}".
  *
  * @property string $id
  * @property string $note_id
  * @property string $product_id
  * @property string $product_sku_id
  * @property string $sku_label
- * @property string $customer_id
  * @property integer $quantity
  * @property integer $actual_quantity
  * @property integer $stock_quantity
  * @property string $measure_id
- * @property string $volume
- * @property string $weight
  * @property string $pieces
+ * @property string $product_pack_id
  * @property string $product_price
  * @property string $factory_price
  * @property string $subtotal
@@ -31,6 +29,7 @@ use Yii;
  */
 class WarehouseDeliveryCommitItemModel extends \cza\base\models\ActiveRecord
 {
+    public $sku;
     /**
      * @inheritdoc
      */
@@ -39,16 +38,35 @@ class WarehouseDeliveryCommitItemModel extends \cza\base\models\ActiveRecord
         return '{{%warehouse_delivery_commit_item}}';
     }
 
+    public function behaviors()
+    {
+        return \yii\helpers\ArrayHelper::merge(parent::behaviors(), [
+            'materialsBehavior' => [
+                'class' => \yii2tech\ar\linkmany\LinkManyBehavior::className(),
+                'relation' => 'productMaterialItems', // relation, which will be handled
+                'relationReferenceAttribute' => 'material_ids', // virtual attribute, which is used for related records specification
+                'extraColumns' => [
+                    'created_at' => function() {
+                        return date('Y-m-d H:i:s');
+                    },
+                    'updated_at' => function() {
+                        return date('Y-m-d H:i:s');
+                    },
+                ],
+            ],
+        ]);
+    }
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['note_id', 'product_id', 'product_sku_id', 'customer_id', 'quantity', 'actual_quantity', 'stock_quantity', 'measure_id', 'position'], 'integer'],
+            [['note_id', 'product_id', 'product_sku_id', 'quantity', 'actual_quantity', 'stock_quantity', 'measure_id', 'product_pack_id', 'position'], 'integer'],
             [['product_price', 'factory_price', 'subtotal'], 'number'],
             [['created_at', 'updated_at'], 'safe'],
-            [['sku_label', 'volume', 'weight', 'pieces', 'memo'], 'string', 'max' => 255],
+            [['sku_label', 'pieces', 'memo'], 'string', 'max' => 255],
             [['status'], 'integer', 'max' => 4],
         ];
     }
@@ -117,6 +135,17 @@ class WarehouseDeliveryCommitItemModel extends \cza\base\models\ActiveRecord
     public function getMeasure()
     {
         return $this->hasOne(MeasureModel::className(), ['id' => 'measure_id']);
+    }
+
+    public function getProductMaterialItems()
+    {
+        return $this->hasMany(ProductMaterialItemModel::className(), ['id' => 'material_item_id'])
+            ->viaTable('{{%product_material_rs}}', ['product_id' => 'product_id']);
+    }
+
+    public function getProductPack()
+    {
+        return $this->hasOne(ProductPackModel::className(), ['id' => 'product_pack_id']);
     }
 
 }

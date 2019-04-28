@@ -58,7 +58,8 @@ $form = ActiveForm::begin([
                             'data' => \common\models\c2\entity\FeUserModel::getHashMap('id', 'username', ['type' => \common\models\c2\statics\UserType::TYPE_BUSINESS]),
                         ]
                     ],
-                    'order_no' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('order_no')]],
+                    'code' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('Code')]],
+                    'label' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('Label')]],
                     'production_date' => ['type' => Form::INPUT_WIDGET, 'widgetClass' => '\kartik\widgets\DateTimePicker', 'options' => [
                         'options' => ['placeholder' => Yii::t('app.c2', 'Date Time...')], 'pluginOptions' => ['format' => 'yyyy-mm-dd hh:ii:ss', 'autoclose' => true],
                     ],],
@@ -96,168 +97,90 @@ $form = ActiveForm::begin([
                                     'title' => Yii::t('app.c2', 'Product Code'),
                                     'type' => \kartik\select2\Select2::className(),
                                     'options' => [
-                                        'data' => \common\models\c2\entity\ProductModel::getHashMap('id', 'name',
+                                        'data' => \common\models\c2\entity\ProductModel::getHashMap('id', 'sku',
                                             ['status' => EntityModelStatus::STATUS_ACTIVE, 'type' => \common\models\c2\statics\ProductType::TYPE_PRODUCT]),
                                         'pluginOptions' => [
                                             'placeholder' => $model->getAttributeLabel('Select options ..')
                                         ],
                                         'pluginEvents' => [
-                                            // 'change' => "function() {
-                                            // $.post('" . Url::toRoute(['product']) . "', {'depdrop_all_params[product_id]':$(this).val(),'depdrop_parents[]':$(this).val()}, function(data) {
-                                            //         if(data !== undefined) {
-                                            //             $('#subcat-{multiple_index_{$multipleItemsId}}').val(data);
-                                            //         }
-                                            //     })
-                                            // }",
                                             'change' => "function() {
-                                                $.post('" . Url::toRoute(['product-materials']) . "', {'depdrop_all_params[product_id]':$(this).val(),'depdrop_parents[]':$(this).val()}, function(data) {
-                                                        if(data.output !== undefined) {
+                                                    $.post('" . Url::toRoute(['product']) . "', {'depdrop_all_params[product_id]':$(this).val(),'depdrop_parents[]':$(this).val()}, function(data) {
+                                                                $('#name-{multiple_index_{$multipleItemsId}}').val(data);
+                                                        });
+                                                     $.post('" . Url::toRoute(['product-pack']) . "', {'depdrop_all_params[product_id]':$(this).val(),'depdrop_parents[]':$(this).val()}, function(data){
+                                                        if(data.output !== undefined){
                                                             $('select#subcat-{multiple_index_{$multipleItemsId}}').empty();
                                                             $.each(data.output, function(key, item){
-                                                                    // $('#subcat-{multiple_index_{$multipleItemsId}}').append('<span class=" . 'badge' . ">' + item.label + ':' + item.value + '</li>');
-                                                                   $('select#subcat-{multiple_index_{$multipleItemsId}}').append('<option value=' + item.id + '>' + item.label + '</option>');
-                                                                });
+                                                                $('select#subcat-{multiple_index_{$multipleItemsId}}').append('<option value=' + item.id + '>' + item.label + '</option>');
+                                                            });
                                                         }
-                                                    })
+                                                    });
                                                 }",
+                                            // 'change' => "function() {
+                                            //     $.post('" . Url::toRoute(['product-materials']) . "', {'depdrop_all_params[product_id]':$(this).val(),'depdrop_parents[]':$(this).val()}, function(data) {
+                                            //             if(data.output !== undefined) {
+                                            //                 $('select#subcat-{multiple_index_{$multipleItemsId}}').empty();
+                                            //                 $.each(data.output, function(key, item){
+                                            //                         // $('#subcat-{multiple_index_{$multipleItemsId}}').append('<span class=" . 'badge' . ">' + item.label + ':' + item.value + '</li>');
+                                            //                        $('select#subcat-{multiple_index_{$multipleItemsId}}').append('<option value=' + item.id + '>' + item.label + '</option>');
+                                            //                     });
+                                            //             }
+                                            //         })
+                                            //     }",
                                         ]
                                     ],
                                 ],
+                                // [
+                                //     'name' => 'material_ids',
+                                //     'title' => Yii::t('app.c2', 'Material'),
+                                //     'type' => \kartik\select2\Select2::className(),
+                                //     'options' => [
+                                //         'id' => "subcat-{multiple_index_{$multipleItemsId}}",
+                                //         'data' => $model->isNewRecord ? [] : \common\models\c2\entity\ProductMaterialRsModel::getProductMaterialHashMap('material_item_id', 'num'),
+                                //         'pluginOptions' => [
+                                //             'multiple' => true,
+                                //             'placeholder' => $model->getAttributeLabel('Select options ..'),
+                                //         ],
+                                //     ],
+                                // ],
                                 [
-                                    'name' => 'material_ids',
-                                    'title' => Yii::t('app.c2', 'Material'),
-                                    'type' => \kartik\select2\Select2::className(),
+                                    'name' => 'label',
+                                    'title' => Yii::t('app.c2', 'Name'),
                                     'options' => [
-                                        'id' => "subcat-{multiple_index_{$multipleItemsId}}",
-                                        'data' => $model->isNewRecord ? [] : \common\models\c2\entity\ProductMaterialRsModel::getProductMaterialHashMap('material_item_id', 'num'),
-                                        'pluginOptions' => [
-                                            'multiple' => true,
-                                            'placeholder' => $model->getAttributeLabel('Select options ..'),
-                                        ],
+                                        'id' => "name-{multiple_index_{$multipleItemsId}}",
                                     ],
                                 ],
                                 // [
-                                //     'name' => 'common',
-                                //     'type' => 'static',
-                                //     'value' => function ($data){var_dump(get_class($data));},
+                                //     'name' => 'quantity',
+                                //     'title' => Yii::t('app.c2', 'Quantity'),
+                                //     'defaultValue' => 0,
                                 //     'options' => [
-                                //         'id' => "subcat-{multiple_index_{$multipleItemsId}}"
-                                //     ],
+                                //         'type' => 'number',
+                                //         'min' => 0,
+                                //     ]
                                 // ],
-                                // [
-                                //     'name' => 'common',
-                                //     'type' => 'static',
-                                //     'title' => Yii::t('app.c2', 'Material'),
-                                //     'enableError' => true,
-                                //     'value' => $model->isNewRecord ? function ($data) use ($multipleItemsId, $model) {
-                                //         return $this->render('_item', [
-                                //             'model' => $model,
-                                //             'multipleItemsId' => "subcat-{multiple_index_{$multipleItemsId}}",
-                                //         ]);
-                                //     } : function ($data) use ($multipleItemsId, $model) {
-                                //         if (is_object($data)) {
-                                //             return $this->render('_item', [
-                                //                 'data' => $data,
-                                //                 'model' => $model,
-                                //                 'multipleItemsId' => "subcat-{multiple_index_{$multipleItemsId}}",
-                                //             ]);
-                                //         }
-                                //     },
-                                //     'options' => [
-                                //         'id' => "subcat-{multiple_index_{$multipleItemsId}}"
-                                //     ],
-                                // ],
-                                [
-                                    'name' => 'num',
-                                    'title' => Yii::t('app.c2', 'Quantity'),
-                                    'options' => [
-                                        'type' => 'number',
-                                        'min' => 1,
-                                        'id' => "quantity-{multiple_index_{$multipleItemsId}}",
-                                    ]
-                                    // 'type' => kartik\widgets\TouchSpin::className(),
-                                    // 'defaultValue' => 1,
-                                    // 'options' => [
-                                    //     'pluginOptions' => [
-                                    //         'max' => 99999,
-                                    //         'buttondown_txt' => '<i class="glyphicon glyphicon-minus-sign"></i>',
-                                    //         'buttonup_txt' => '<i class="glyphicon glyphicon-plus-sign"></i>',
-                                    //     ],
-                                    // ]
-                                ],
                                 [
                                     'name' => 'pieces',
                                     'title' => Yii::t('app.c2', 'Pieces'),
+                                    'defaultValue' => 1,
                                     'options' => [
                                         'type' => 'number',
                                         'min' => 1,
-                                        'id' => "quantity-{multiple_index_{$multipleItemsId}}",
                                     ]
-                                    // 'type' => kartik\widgets\TouchSpin::className(),
-                                    // 'defaultValue' => 1,
-                                    // 'options' => [
-                                    //     'pluginOptions' => [
-                                    //         'buttondown_txt' => '<i class="glyphicon glyphicon-minus-sign"></i>',
-                                    //         'buttonup_txt' => '<i class="glyphicon glyphicon-plus-sign"></i>',
-                                    //     ],
-                                    // ]
                                 ],
                                 [
-                                    'name' => 'packing',
+                                    'name' => 'product_pack_id',
                                     'title' => Yii::t('app.c2', 'Packing'),
+                                    'type' => 'dropDownList',
                                     'enableError' => true,
+                                    'items' => $model->isNewRecord ? [] : function ($data) {
+                                        if (is_object($data)) {
+                                            return $data->saleProduct->getPackItemsOptions();
+                                        }
+                                        return [];
+                                    },
                                     'options' => [
-                                    ],
-                                ],
-                                [
-                                    'name' => 'pack_id',
-                                    'title' => Yii::t('app.c2', 'Pack size'),
-                                    'type' => \kartik\select2\Select2::className(),
-                                    'options' => [
-                                        'data' => \common\models\c2\entity\ProductMaterialItemModel::getHashMap('id', 'value', [
-                                            'status' => EntityModelStatus::STATUS_ACTIVE,
-                                        ]),
-                                        'pluginOptions' => [
-                                            'placeholder' => $model->getAttributeLabel('Select options ..')
-                                        ],
-                                        'pluginEvents' => [
-                                        ]
-                                    ],
-                                ],
-                                [
-                                    'name' => 'inpack_id',
-                                    'title' => Yii::t('app.c2', 'Inpack size'),
-                                    'type' => \kartik\select2\Select2::className(),
-                                    'options' => [
-                                        'data' => \common\models\c2\entity\ProductMaterialItemModel::getHashMap('id', 'value', [
-                                            'status' => EntityModelStatus::STATUS_ACTIVE,
-                                        ]),
-                                        'pluginOptions' => [
-                                            'placeholder' => $model->getAttributeLabel('Select options ..')
-                                        ],
-                                        'pluginEvents' => [
-                                        ]
-                                    ],
-                                ],
-                                // [
-                                //     'name' => 'size',
-                                //     'title' => Yii::t('app.c2', 'Size'),
-                                //     'enableError' => true,
-                                //     'options' => [
-                                //     ],
-                                // ],
-                                [
-                                    'name' => 'gross_weight',
-                                    'title' => Yii::t('app.c2', 'Gross weight'),
-                                    'enableError' => true,
-                                    'options' => [
-                                    ],
-                                ],
-                                [
-                                    'name' => 'net_weight',
-                                    'title' => Yii::t('app.c2', 'Net weight'),
-                                    'enableError' => true,
-                                    'options' => [
+                                        'id' => "subcat-{multiple_index_{$multipleItemsId}}",
                                     ],
                                 ],
                                 [
@@ -270,6 +193,30 @@ $form = ActiveForm::begin([
                     ],
                 ]
             ]);
+
+            echo Form::widget([
+                'model' => $model,
+                'form' => $form,
+                'columns' => 1,
+                'attributes' => [
+                    'memo' => ['type' => Form::INPUT_WIDGET, 'widgetClass' => '\vova07\imperavi\Widget', 'options' => [
+                        'settings' => [
+                            'minHeight' => 80,
+                            'buttonSource' => true,
+                            'lang' => $regularLangName,
+                            'plugins' => [
+                                'fontsize',
+                                'fontfamily',
+                                'fontcolor',
+                                'table',
+                                'textdirection',
+                                'fullscreen',
+                            ],
+                        ]
+                    ],],
+                ]
+            ]);
+
             echo Html::beginTag('div', ['class' => 'box-footer']);
             echo Html::submitButton('<i class="fa fa-save"></i> ' . Yii::t('app.c2', 'Save'), ['type' => 'button', 'class' => 'btn btn-primary pull-right']);
             echo Html::a('<i class="fa fa-close"></i> ' . Yii::t('app.c2', 'Close'), ['index'], ['data-dismiss' => 'modal', 'class' => 'btn btn-default pull-right', 'title' => Yii::t('app.c2', 'Close'),]);

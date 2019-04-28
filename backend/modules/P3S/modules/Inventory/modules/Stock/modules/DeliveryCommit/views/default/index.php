@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php echo GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+        // 'filterModel' => $searchModel,
 
         'pjax' => true,
         'hover' => true,
@@ -69,23 +69,23 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             // 'product_id',
             [
-                'attribute' => 'product_id',
-                'value' => function ($model) {
-                    return $model->product->name;
-                }
+                'attribute' => 'product.sku',
             ],
-            'product_sku_id',
+            [
+                'attribute' => 'product.name',
+            ],
+            // 'product_sku_id',
             // 'sku_label',
             // 'customer_id',
             'quantity',
             'actual_quantity',
             'stock_quantity',
-            [
-                'attribute' => 'measure_id',
-                'value' => function ($model) {
-                    return $model->measure->name;
-                }
-            ],
+            // [
+            //     'attribute' => 'measure_id',
+            //     'value' => function ($model) {
+            //         return $model->measure->name;
+            //     }
+            // ],
             // 'volume',
             // 'weight',
             // 'pieces',
@@ -97,31 +97,31 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'position',
             // 'created_at',
             // 'updated_at',
-            [
-                'attribute' => 'status',
-                'class' => '\kartik\grid\EditableColumn',
-                'editableOptions' => [
-                    'inputType' => \kartik\editable\Editable::INPUT_DROPDOWN_LIST,
-                    'formOptions' => ['action' => Url::toRoute('editColumn')],
-                    'data' => EntityModelStatus::getHashMap('id', 'label'),
-                    'displayValueConfig' => EntityModelStatus::getHashMap('id', 'label'),
-                ],
-                'filter' => EntityModelStatus::getHashMap('id', 'label'),
-                'value' => function ($model) {
-                    return $model->getStatusLabel();
-                }
-            ],
-            [
-                'class' => '\kartik\grid\ActionColumn',
-                'buttons' => [
-                    'update' => function ($url, $model, $key) {
-                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['edit', 'id' => $model->id], [
-                            'title' => Yii::t('app', 'Info'),
-                            'data-pjax' => '0',
-                        ]);
-                    }
-                ]
-            ],
+            // [
+            //     'attribute' => 'status',
+            //     'class' => '\kartik\grid\EditableColumn',
+            //     'editableOptions' => [
+            //         'inputType' => \kartik\editable\Editable::INPUT_DROPDOWN_LIST,
+            //         'formOptions' => ['action' => Url::toRoute('editColumn')],
+            //         'data' => EntityModelStatus::getHashMap('id', 'label'),
+            //         'displayValueConfig' => EntityModelStatus::getHashMap('id', 'label'),
+            //     ],
+            //     'filter' => EntityModelStatus::getHashMap('id', 'label'),
+            //     'value' => function ($model) {
+            //         return $model->getStatusLabel();
+            //     }
+            // ],
+            // [
+            //     'class' => '\kartik\grid\ActionColumn',
+            //     'buttons' => [
+            //         'update' => function ($url, $model, $key) {
+            //             return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['edit', 'id' => $model->id], [
+            //                 'title' => Yii::t('app', 'Info'),
+            //                 'data-pjax' => '0',
+            //             ]);
+            //         }
+            //     ]
+            // ],
 
         ],
     ]); ?>

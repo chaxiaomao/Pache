@@ -11,7 +11,7 @@ use yii\widgets\DetailView;
 
 <div class="row pt10">
     <div class="col-xs-4">客户：<?= $model->user->username ?></div>
-    <div class="col-xs-4">PO.NO:<?= $model->order_no ?></div>
+    <div class="col-xs-4">PO.NO:<?= $model->code ?></div>
     <div class="col-xs-4">排产日期：<?= date('Y-m-d', strtotime($model->production_date)) ?></div>
 </div>
 <div class="row pt10">
@@ -34,19 +34,19 @@ use yii\widgets\DetailView;
     <?php foreach ($model->orderItems as $item): ?>
         <tr class="tc">
             <td class="success"><?= $item->product->sku ?></td>
-            <td class="success"><?= $item->product->name ?></td>
-            <td class="success"><?= $item->num ?></td>
+            <td class="success"><?= $item->label ?></td>
+            <td class="success"><?= $item->productPack->pre_num ?></td>
             <td class="success"><?= $item->pieces ?></td>
-            <td class="success"><?= $item->packing ?></td>
-            <td class="success"><?= $item->size ?></td>
-            <td class="success"><?= $item->gross_weight ?></td>
-            <td class="success"><?= $item->net_weight ?></td>
+            <td class="success"><?= $item->productPack->label ?></td>
+            <td class="success"><?= $item->productPack->outpackMaterial->value ?></td>
+            <td class="success"><?= $item->productPack->gross_weight ?></td>
+            <td class="success"><?= $item->productPack->net_weight ?></td>
             <td class="success"><?= $item->memo ?></td>
         </tr>
     <?php foreach ($item->product->getMaterialOptions('id', 'label', ['withValue' => true]) as $item): ?>
         <tr class="tc">
-            <td class=""></td>
-            <td class=""><?= $item ?></td>
+            <td class=""><?= $item['code'] ?></td>
+            <td class=""><?= $item['label'] ?></td>
             <td class=""></td>
             <td class=""></td>
             <td class=""></td>
@@ -59,5 +59,9 @@ use yii\widgets\DetailView;
 
     <?php endforeach; ?>
 
+
 </table>
 
+<div>
+    <?= $model->memo ?>
+</div>

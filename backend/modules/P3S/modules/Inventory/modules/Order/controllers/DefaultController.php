@@ -27,6 +27,9 @@ class DefaultController extends Controller
             ],
             'product-materials' => [
                 'class' => 'common\components\actions\ProductMaterialOptionsAction',
+            ],
+            'product-pack' => [
+                'class' => 'common\components\actions\ProductPackOptionsAction'
             ]
         ]);
     }
@@ -122,6 +125,23 @@ class DefaultController extends Controller
     }
 
     public function actionEnsureDo($id)
+    {
+        try {
+            $model = $this->retrieveModel($id);
+            if ($model) {
+                $model->setStateToUntracked();
+                $responseData = ResponseDatum::getSuccessDatum(['message' => Yii::t('cza', 'Operation completed successfully!')], $id);
+            } else {
+                $responseData = ResponseDatum::getErrorDatum(['message' => Yii::t('cza', 'Error: operation can not finish!')], $id);
+            }
+        } catch (\Exception $ex) {
+            $responseData = ResponseDatum::getErrorDatum(['message' => $ex->getMessage()], $id);
+        }
+
+        return $this->asJson($responseData);
+    }
+
+    public function actionFinishOrder($id)
     {
         try {
             $model = $this->retrieveModel($id);

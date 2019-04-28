@@ -75,7 +75,7 @@ $form = ActiveForm::begin([
                         'label' => Yii::t('app.c2', 'Sales order Code'),
                         'options' => [
                             'language' => Yii::$app->language,
-                            'initValueText' => $model->isNewRecord ? "" : $model->order->order_no,
+                            'initValueText' => $model->isNewRecord ? "" : $model->order->code,
                             'options' => [
                                 'multiple' => false,
                                 'placeholder' => Yii::t('app.c2', 'Search {s1}...', ['s1' => Yii::t('app.c2', 'Sales order Code')]),
@@ -140,43 +140,42 @@ $form = ActiveForm::begin([
             //     ]
             // ]);
 
-            if (!$model->isNewRecord) {
-                echo Html::beginTag('div', ['class' => 'well', 'style' => 'background-color:#fff;']);
-                $multipleItemsId = $model->getPrefixName('items');
-                echo Form::widget([
-                    'model' => $model,
-                    'form' => $form,
-                    'columns' => 1,
-                    'attributes' => [
-                        'items' => [
-                            'type' => Form::INPUT_WIDGET,
-                            'widgetClass' => unclead\multipleinput\MultipleInput::className(),
-                            'options' => [
-                                'id' => $multipleItemsId,
-                                'data' => $model->items,
-                                //                        'max' => 4,
-                                'allowEmptyList' => true,
-                                'rowOptions' => function ($model, $index, $context) use ($multipleItemsId) {
-                                    return ['id' => "row{multiple_index_{$multipleItemsId}}", 'data-id' => $model['id']];
-                                },
-                                'columns' => [
-                                    [
-                                        'name' => 'id',
-                                        'type' => 'hiddenInput',
-                                    ],
-                                    [
-                                        'name' => 'product_id',
-                                        // 'type' => 'dropDownList',
-                                        'title' => Yii::t('app.c2', 'Product Sku2'),
-                                        'enableError' => true,
-                                        // 'items' => ['' => Yii::t("app.c2", "Select options ..")] + \common\models\c2\entity\ProductModel::getHashMap('id', 'sku', ['status' => EntityModelStatus::STATUS_ACTIVE]),
-                                        'type' => \kartik\select2\Select2::className(),
-                                        'options' => [
-                                            'data' => ['' => Yii::t("app.c2", "Select options ..")] + \common\models\c2\entity\ProductModel::getHashMap('id', 'sku'),
-                                            'pluginEvents' => [
-                                                'change' => "function() {
+            echo Html::beginTag('div', ['class' => 'well', 'style' => 'background-color:#fff;']);
+            $multipleItemsId = $model->getPrefixName('items');
+            echo Form::widget([
+                'model' => $model,
+                'form' => $form,
+                'columns' => 1,
+                'attributes' => [
+                    'items' => [
+                        'type' => Form::INPUT_WIDGET,
+                        'widgetClass' => unclead\multipleinput\MultipleInput::className(),
+                        'options' => [
+                            'id' => $multipleItemsId,
+                            'data' => $model->items,
+                            //                        'max' => 4,
+                            'allowEmptyList' => true,
+                            'rowOptions' => function ($model, $index, $context) use ($multipleItemsId) {
+                                return ['id' => "row{multiple_index_{$multipleItemsId}}", 'data-id' => $model['id']];
+                            },
+                            'columns' => [
+                                [
+                                    'name' => 'id',
+                                    'type' => 'hiddenInput',
+                                ],
+                                [
+                                    'name' => 'product_id',
+                                    // 'type' => 'dropDownList',
+                                    'title' => Yii::t('app.c2', 'Product Sku2'),
+                                    'enableError' => true,
+                                    // 'items' => ['' => Yii::t("app.c2", "Select options ..")] + \common\models\c2\entity\ProductModel::getHashMap('id', 'sku', ['status' => EntityModelStatus::STATUS_ACTIVE]),
+                                    'type' => \kartik\select2\Select2::className(),
+                                    'options' => [
+                                        'data' => ['' => Yii::t("app.c2", "Select options ..")] + \common\models\c2\entity\ProductModel::getHashMap('id', 'sku'),
+                                        'pluginEvents' => [
+                                            'change' => "function() {
                                                 $.post('" . Url::toRoute(['product']) . "', {'depdrop_all_params[product_id]':$(this).val(),'depdrop_parents[]':$(this).val()}, function(data) {
-                                                    $('#subcat-{multiple_index_{$multipleItemsId}}').val(data._data);
+                                                    $('#name-{multiple_index_{$multipleItemsId}}').val(data._data);
                                                     // if(data.output !== undefined) {
                                                     //     $('select#subcat-{multiple_index_{$multipleItemsId}}').empty();
                                                     //     $.each(data.output, function(key, item){
@@ -184,153 +183,118 @@ $form = ActiveForm::begin([
                                                     //         });
                                                     // }
                                                 })
+                                                $.post('" . Url::toRoute(['product-pack']) . "', {'depdrop_all_params[product_id]':$(this).val(),'depdrop_parents[]':$(this).val()}, function(data){
+                                                        if(data.output !== undefined){
+                                                            $('select#subcat-{multiple_index_{$multipleItemsId}}').empty();
+                                                            $.each(data.output, function(key, item){
+                                                                $('select#subcat-{multiple_index_{$multipleItemsId}}').append('<option value=' + item.id + '>' + item.label + '</option>');
+                                                            });
+                                                        }
+                                                    });
                                             }",
-                                            ],
                                         ],
                                     ],
-                                    // [
-                                    //     'name' => 'comment',
-                                    //     'type' => 'static',
-                                    //     'headerOptions' => [
-                                    //         // 'style' => 'width: 70px;',
-                                    //     ],
-                                    //     'value' => function ($data) {
-                                    //         if (is_object($data)) {
-                                    //             return Html::textInput('', $data->product->sku, [
-                                    //                 'class' => 'form-control',
-                                    //                 'disabled' => true
-                                    //             ]);
-                                    //         }
-                                    //
-                                    //     },
-                                    //     'options' => [
-                                    //
-                                    //     ]
-                                    // ],
-                                    // [
-                                    //     'name' => 'comment',
-                                    //     'type' => 'static',
-                                    //     'headerOptions' => [
-                                    //         // 'style' => 'width: 70px;',
-                                    //     ],
-                                    //     'value' => function ($data) {
-                                    //         if (is_object($data)) {
-                                    //             return Html::textInput('', $data->product->name, [
-                                    //                 'class' => 'form-control',
-                                    //                 'data-toggle' => 'tooltip',
-                                    //                 'data-placement' => 'top',
-                                    //                 'data-html' => 'true',
-                                    //                 // 'disabled' => true,
-                                    //                 'title' => $data->product->getProductMaterialVer(),
-                                    //             ]);
-                                    //         }
-                                    //
-                                    //     },
-                                    //     'options' => [
-                                    //
-                                    //     ]
-                                    // ],
-                                    // [
-                                    //     'name' => 'product_sku_id',
-                                    //     'type' => 'dropDownList',
-                                    //     'title' => Yii::t('app.c2', 'Product/Sku'),
-                                    //     'enableError' => true,
-                                    //     'items' => $model->isNewRecord ? [] : function ($data) {
-                                    //         if (is_object($data)) {
-                                    //             return $data->product->getProductSkuOptionsList();
-                                    //         }
-                                    //         return [];
-                                    //         // return \common\models\c2\entity\ProductModel::getHashMap('id', 'name');
-                                    //     },
-                                    //     'options' => [
-                                    //         'id' => "subcat-{multiple_index_{$multipleItemsId}}",
-                                    //     ],
-                                    // ],
-                                    [
-                                        'name' => 'sku_label',
-                                        'title' => Yii::t('app.c2', 'Product/Sku'),
-                                        'options' => [
-                                            'id' => "subcat-{multiple_index_{$multipleItemsId}}",
-                                        ],
+                                ],
+                                [
+                                    'name' => 'sku_label',
+                                    'title' => Yii::t('app.c2', 'Product/Sku'),
+                                    'options' => [
+                                        'id' => "name-{multiple_index_{$multipleItemsId}}",
                                     ],
-                                    [
-                                        'name' => 'measure_id',
-                                        'title' => Yii::t('app.c2', 'Measure'),
-                                        'type' => 'dropDownList',
-                                        'headerOptions' => ['style' => 'width: 70px',],
-                                        'enableError' => true,
-                                        'items' => \common\models\c2\entity\MeasureModel::getHashMap('id', 'label'),
+                                ],
+                                // [
+                                //     'name' => 'measure_id',
+                                //     'title' => Yii::t('app.c2', 'Measure'),
+                                //     'type' => 'dropDownList',
+                                //     'headerOptions' => ['style' => 'width: 70px',],
+                                //     'enableError' => true,
+                                //     'items' => \common\models\c2\entity\MeasureModel::getHashMap('id', 'label'),
+                                // ],
+                                [
+                                    'name' => 'factory_price',
+                                    'title' => Yii::t('app.c2', 'PrePrice'),
+                                    'defaultValue' => '0.00',
+                                    'enableError' => true,
+                                    'options' => [
+                                        'id' => "price-{multiple_index_{$multipleItemsId}}",
                                     ],
-                                    [
-                                        'name' => 'factory_price',
-                                        'title' => Yii::t('app.c2', 'Factory Price'),
-                                        'defaultValue' => '0.00',
-                                        'enableError' => true,
-                                        'options' => [
-                                            'id' => "price-{multiple_index_{$multipleItemsId}}",
-                                        ],
+                                ],
+                                // [
+                                //     'name' => 'quantity',
+                                //     // 'type' => kartik\widgets\TouchSpin::className(),
+                                //     'title' => Yii::t('app.c2', 'Quantity'),
+                                //     'defaultValue' => 1,
+                                //     'options' => [
+                                //         'type' => 'number',
+                                //         'min' => 0,
+                                //         'id' => "quantity-{multiple_index_{$multipleItemsId}}",
+                                //     ]
+                                // ],
+                                [
+                                    'name' => 'pieces',
+                                    'title' => Yii::t('app.c2', 'Pieces'),
+                                    'enableError' => true,
+                                    'defaultValue' => 1,
+                                    'options' => [
+                                        'type' => 'number',
+                                        'min' => 1,
+                                    ]
+                                ],
+                                [
+                                    'name' => 'product_pack_id',
+                                    'title' => Yii::t('app.c2', 'Packing'),
+                                    'type' => 'dropDownList',
+                                    'enableError' => true,
+                                    'items' => $model->isNewRecord ? [] : function ($data) {
+                                        if (is_object($data)) {
+                                            return $data->saleProduct->getPackItemsOptions();
+                                        }
+                                        return [];
+                                    },
+                                    'options' => [
+                                        'id' => "subcat-{multiple_index_{$multipleItemsId}}",
                                     ],
-                                    [
-                                        'name' => 'quantity',
-                                        // 'type' => kartik\widgets\TouchSpin::className(),
-                                        'title' => Yii::t('app.c2', 'Quantity'),
-                                        'defaultValue' => 1,
-                                        'options' => [
-                                            'type' => 'number',
-                                            'min' => 0,
-                                            'id' => "quantity-{multiple_index_{$multipleItemsId}}",
-                                            // 'pluginOptions' => [
-                                            //     'buttondown_txt' => '<i class="glyphicon glyphicon-minus-sign"></i>',
-                                            //     'buttonup_txt' => '<i class="glyphicon glyphicon-plus-sign"></i>',
-                                            // ],
-                                        ]
+                                ],
+                                // [
+                                //     'name' => 'comment',
+                                //     'type' => 'static',
+                                //     'value' => function ($model) use ($multipleItemsId) {
+                                //         return Html::button(Yii::t('app.c2', 'Calculate'), [
+                                //             'class' => 'btn btn-success',
+                                //             'onclick' => "(function(e) {
+                                //                     var price = $('#price-{multiple_index_{$multipleItemsId}}').val();
+                                //                     var num = $('#quantity-{multiple_index_{$multipleItemsId}}').val();
+                                //                      $('#subtotal-{multiple_index_{$multipleItemsId}}').val(strip(num * price).toFixed(2));
+                                //                 })();",
+                                //             // 'id' => "calculate-{multiple_index_{$multipleItemsId}}",
+                                //         ]);
+                                //     },
+                                //     'headerOptions' => [
+                                //         // 'style' => 'width: 70px;',
+                                //     ],
+                                //     'options' => [
+                                //
+                                //     ]
+                                // ],
+                                [
+                                    'name' => 'subtotal',
+                                    'title' => Yii::t('app.c2', 'Subtotal'),
+                                    'enableError' => true,
+                                    'defaultValue' => '0.00',
+                                    'options' => [
+                                        'id' => "subtotal-{multiple_index_{$multipleItemsId}}",
                                     ],
-                                    [
-                                        'name' => 'comment',
-                                        'type' => 'static',
-                                        'value' => function ($model) use ($multipleItemsId) {
-                                            return Html::button(Yii::t('app.c2', 'Calculate'), [
-                                                'class' => 'btn btn-success',
-                                                'onclick' => "(function(e) { 
-                                                    var price = $('#price-{multiple_index_{$multipleItemsId}}').val();
-                                                    var num = $('#quantity-{multiple_index_{$multipleItemsId}}').val();
-                                                     $('#subtotal-{multiple_index_{$multipleItemsId}}').val(strip(num * price).toFixed(2));
-                                                })();",
-                                                // 'id' => "calculate-{multiple_index_{$multipleItemsId}}",
-                                            ]);
-                                        },
-                                        'headerOptions' => [
-                                            // 'style' => 'width: 70px;',
-                                        ],
-                                        'options' => [
-
-                                        ]
-                                    ],
-                                    // [
-                                    //     'name' => 'pieces',
-                                    //     'title' => Yii::t('app.c2', 'Pieces'),
-                                    //     'enableError' => true,
-                                    // ],
-                                    [
-                                        'name' => 'subtotal',
-                                        'title' => Yii::t('app.c2', 'Subtotal'),
-                                        'enableError' => true,
-                                        'defaultValue' => '0.00',
-                                        'options' => [
-                                            'id' => "subtotal-{multiple_index_{$multipleItemsId}}",
-                                        ],
-                                    ],
-                                    [
-                                        'name' => 'memo',
-                                        'title' => Yii::t('app.c2', 'Memo'),
-                                        'enableError' => true,
-                                    ],
-                                ]
-                            ],
+                                ],
+                                [
+                                    'name' => 'memo',
+                                    'title' => Yii::t('app.c2', 'Memo'),
+                                    'enableError' => true,
+                                ],
+                            ]
                         ],
-                    ]
-                ]);
-            }
+                    ],
+                ]
+            ]);
 
 
             echo Html::endTag('div');

@@ -3,6 +3,7 @@
 namespace backend\modules\Database\modules\Product\widgets;
 
 use backend\models\c2\form\EavSkuForm;
+use backend\models\c2\form\ProductPackForm;
 use common\models\c2\statics\ProductType;
 use Yii;
 use cza\base\widgets\ui\common\part\EntityDetail as DetailWidget;
@@ -53,8 +54,9 @@ class EntityDetail extends DetailWidget
         if (!isset($this->_tabs['SKU_TAB'])) {
             if (!$this->model->isNewRecord) {
                 $this->_tabs['SKU_TAB'] = [
-                    'label' => Yii::t('app.c2', 'Product Sku Management'),
-                    'content' => $this->controller->renderPartial('/default/_sku_form', ['model' => new EavSkuForm(['entityModel' => $this->model])]),
+                    'label' => Yii::t('app.c2', 'Packing'),
+                    'content' => $this->controller->renderPartial('/default/_pack_form', ['model' => new ProductPackForm(['entityModel' => $this->model])]),
+                    // 'content' => $this->controller->renderPartial('/default/_sku_form', ['model' => new EavSkuForm(['entityModel' => $this->model])]),
                     // 'content' => $this->controller->renderPartial('/default/_material_form', ['model' => $this->model->loadItems()]),
                     'enable' => true
                 ];

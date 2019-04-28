@@ -18,8 +18,8 @@ class WarehouseDeliveryCommitItemSearch extends WarehouseDeliveryCommitItemModel
     public function rules()
     {
         return [
-            [['id', 'note_id', 'product_id', 'product_sku_id', 'customer_id', 'quantity', 'actual_quantity', 'stock_quantity', 'measure_id', 'position'], 'integer'],
-            [['sku_label', 'volume', 'weight', 'pieces', 'memo', 'status', 'created_at', 'updated_at'], 'safe'],
+            [['id', 'note_id', 'product_id', 'product_sku_id',  'quantity', 'actual_quantity', 'stock_quantity', 'measure_id', 'position'], 'integer'],
+            [['sku_label',  'pieces', 'memo', 'status', 'created_at', 'updated_at'], 'safe'],
             [['product_price', 'factory_price', 'subtotal'], 'number'],
         ];
     }
@@ -68,7 +68,6 @@ class WarehouseDeliveryCommitItemSearch extends WarehouseDeliveryCommitItemModel
             'note_id' => $this->note_id,
             'product_id' => $this->product_id,
             'product_sku_id' => $this->product_sku_id,
-            'customer_id' => $this->customer_id,
             'quantity' => $this->quantity,
             'actual_quantity' => $this->actual_quantity,
             'stock_quantity' => $this->stock_quantity,
@@ -82,8 +81,6 @@ class WarehouseDeliveryCommitItemSearch extends WarehouseDeliveryCommitItemModel
         ]);
 
         $query->andFilterWhere(['like', 'sku_label', $this->sku_label])
-            ->andFilterWhere(['like', 'volume', $this->volume])
-            ->andFilterWhere(['like', 'weight', $this->weight])
             ->andFilterWhere(['like', 'pieces', $this->pieces])
             ->andFilterWhere(['like', 'memo', $this->memo])
             ->andFilterWhere(['like', 'status', $this->status]);

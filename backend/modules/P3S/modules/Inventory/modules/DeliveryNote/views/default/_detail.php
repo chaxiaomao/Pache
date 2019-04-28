@@ -1,4 +1,3 @@
-box120
 <h2 class="tc" style="font-size: 30px;">中山市祥丰家居用品有限公司</h2>
 <h5 class="tc p20" style="font-size: 18px;">送货订单</h5>
 
@@ -56,5 +55,5 @@ box120
 </div>
 
 <div>
-    <p><?= $model->memo ?></p>
+    <?= $model->memo ?>
 </div>

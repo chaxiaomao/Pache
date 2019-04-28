@@ -84,10 +84,10 @@ use yii\helpers\Html;
                                 </li>
                                 <li>
                                     <a href="#">
-                                        <div class="pull-left">
-                                            <img src="/images/thumbnail/128x128/thumb-test-image.jpg" class="img-circle"
-                                                 alt="user image"/>
-                                        </div>
+<!--                                        <div class="pull-left">-->
+<!--                                            <img src="/images/thumbnail/128x128/thumb-test-image.jpg" class="img-circle"-->
+<!--                                                 alt="user image"/>-->
+<!--                                        </div>-->
                                         <h4>
                                             Reviewers
                                             <small><i class="fa fa-clock-o"></i> 2 days</small>
@@ -228,7 +228,6 @@ use yii\helpers\Html;
 
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="<?=\Yii::$app->user->avatarUrl?>" class="user-image" alt="User Image"/>
                         <span class="hidden-xs"><?=\Yii::$app->user->username?></span>
                     </a>
                     <ul class="dropdown-menu">

@@ -43,12 +43,13 @@ class DefaultController extends Controller
         $searchModel = new OrderItemConsumptionSearch();
         $searchModel->status = EntityModelStatus::STATUS_ACTIVE;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $model = OrderItemConsumptionModel::find()->where(['material_id' => Yii::$app->request->queryParams['OrderItemConsumptionSearch']['material_id']])->one();
+        $material_id = Yii::$app->request->queryParams['OrderItemConsumptionSearch']['material_item_id'];
+        $model = ProductMaterialItemModel::findOne($material_id);
         return $this->render('index2', [
             'model' => $this->retrieveModel(),
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'stock' => $model->materialProductStock,
+            'stock' => $model->stock,
         ]);
     }
 

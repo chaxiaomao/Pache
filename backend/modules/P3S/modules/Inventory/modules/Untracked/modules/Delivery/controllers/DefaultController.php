@@ -50,13 +50,6 @@ class DefaultController extends Controller
         ]);
     }
 
-    public function actionView($id) {
-        $this->layout = "/print_modal";
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
     public function actionCheck($id = null)
     {
         $model = $this->retrieveModel($id);
@@ -80,7 +73,7 @@ class DefaultController extends Controller
         try {
             $model = $this->retrieveModel($id);
             if ($model) {
-                $model->commitWarehouseDeliveryItems();
+                $model->commit();
                 $responseData = ResponseDatum::getSuccessDatum(['message' => Yii::t('cza', 'Operation completed successfully!')], $id);
             } else {
                 $responseData = ResponseDatum::getErrorDatum(['message' => Yii::t('cza', 'Error: operation can not finish!')], $id);

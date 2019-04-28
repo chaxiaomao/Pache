@@ -32,10 +32,13 @@ class DefaultController extends Controller {
                 'modelClass' => \common\models\c2\entity\OrderModel::className(),
                 'listMethod' => 'getOptionsListCallable',
                 'keyAttribute' => 'id',
-                'valueAttribute' => 'order_no',
-                'queryAttribute' => 'order_no',
+                'valueAttribute' => 'code',
+                'queryAttribute' => 'code',
                 'checkAccess' => [$this, 'checkAccess'],
             ],
+            'product-pack' => [
+                'class' => 'common\components\actions\ProductPackOptionsAction'
+            ]
         ]);
     }
 
@@ -119,7 +122,7 @@ class DefaultController extends Controller {
         try {
             $model = $this->retrieveModel($id);
             if ($model) {
-                $model->setStateToFinish();
+                $model->setStateToUntacked();
                 $responseData = ResponseDatum::getSuccessDatum(['message' => Yii::t('cza', 'Operation completed successfully!')], $id);
             } else {
                 $responseData = ResponseDatum::getErrorDatum(['message' => Yii::t('cza', 'Error: operation can not finish!')], $id);

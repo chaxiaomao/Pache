@@ -18,6 +18,7 @@ use Yii;
  * @property string $measure_id
  * @property string $volume
  * @property string $weight
+ * @property string $product_pack_id
  * @property string $pieces
  * @property string $product_price
  * @property string $factory_price
@@ -43,7 +44,7 @@ class InventoryDeliveryNoteItemModel extends \cza\base\models\ActiveRecord
     public function rules()
     {
         return [
-            [['note_id', 'product_id', 'product_sku_id', 'customer_id', 'quantity', 'measure_id', 'position'], 'integer'],
+            [['note_id', 'product_id', 'product_sku_id', 'customer_id', 'quantity', 'measure_id', 'position', 'product_pack_id'], 'integer'],
             [['product_price', 'factory_price', 'subtotal'], 'number'],
             [['created_at', 'updated_at'], 'safe'],
             [['product_price', 'factory_price'], 'default', 'value' => 0],
@@ -106,6 +107,11 @@ class InventoryDeliveryNoteItemModel extends \cza\base\models\ActiveRecord
         return $this->hasOne(ProductModel::className(), ['id' => 'product_id']);
     }
 
+    public function getSaleProduct()
+    {
+        return $this->hasOne(\backend\models\c2\entity\ProductModel::className(), ['id' => 'product_id']);
+    }
+
     public function getProductSku()
     {
         return $this->hasOne(ProductSkuModel::className(), ['id' => 'product_sku_id']);
@@ -130,5 +136,11 @@ class InventoryDeliveryNoteItemModel extends \cza\base\models\ActiveRecord
     {
         return $this->hasMany(ProductMaterialRsModel::className(), ['product_id' => 'product_id']);
     }
+
+    public function getProductPack()
+    {
+        return $this->hasOne(ProductPackModel::className(), ['id' => 'product_pack_id']);
+    }
+
 
 }

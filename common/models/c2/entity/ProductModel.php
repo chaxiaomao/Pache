@@ -329,11 +329,15 @@ class ProductModel extends \cza\base\models\ActiveRecord
         if (isset($params['withValue']) && $params['withValue']) {
             foreach ($this->productMaterialRs as $model) {
                 $item = $model->productMaterialItem;
-                $options[$item->id] = $item->label . ":" . $item->value . Yii::t('app.c2', 'Num {s1}', ['s1' => $model->num]);
+                $options[] = [
+                    'label' => $item->label . ":" . $item->value . Yii::t('app.c2', 'Num {s1}', ['s1' => $model->num]),
+                    'code' => $item->code
+                ];
             }
         } else {
             $options = self::getHashMap($key, $val);
         }
+        Yii::info($options);
         return $options;
     }
 

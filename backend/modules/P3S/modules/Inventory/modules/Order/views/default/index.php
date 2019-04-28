@@ -78,7 +78,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         return $model->user->username;
                     }
                 ],
-                'order_no',
+                'code',
                 // 'production_date',
                 // 'delivery_date',
                 [
@@ -117,7 +117,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 [
                     'class' => '\common\widgets\grid\ActionColumn',
-                    'template' => '{ensure-do} {update} {delete} {view} {exception}',
+                    'template' => '{ensure-do} {update} {delete} {view} {exception} {finish}',
                     'width' => '200px',
                     'visibleButtons' => [
                         'view' => function ($model) {
@@ -133,7 +133,10 @@ $this->params['breadcrumbs'][] = $this->title;
                             return $model->isStateInit();
                         },
                         'exception' => function ($model) {
-                            return $model->isStateFinish() || $model->isStateUntracked();
+                            return $model->isStateUntracked();
+                        },
+                        'finish' => function ($model) {
+                            return $model->isStateUntracked();
                         },
                     ],
                     'buttons' => [
@@ -175,6 +178,15 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'class' => 'exception'
                             ]);
                         },
+                        'finish' => function ($url, $model, $key) {
+                            $title = Yii::t('app.c2', 'Finish order');
+                            return Html::a(Html::tag('span', '', ['class' => "glyphicon glyphicon-copy"]), ['finish-order', 'id' => $model->id], [
+                                'title' => $title,
+                                'aria-label' => $title,
+                                'data-pjax' => '0',
+                                'class' => 'finish'
+                            ]);
+                        },
                     ],
                 ],
 
@@ -210,6 +222,38 @@ $js .= "jQuery(document).off('click', '.order-model-index a.ensure-do').on('clic
                 var lib = window['krajeeDialog'];
                 var url = jQuery(e.currentTarget).attr('href');
                 lib.confirm('" . Yii::t('app.c2', 'Are you sure?') . "', function (result) {
+                    if (!result) {
+                        return;
+                    }
+                    
+                    jQuery.ajax({
+                            url: url,
+                            success: function(data) {
+                                var lifetime = 6500;
+                                if(data._meta.result == '" . cza\base\models\statics\OperationResult::SUCCESS . "'){
+                                    jQuery('#{$model->getPrefixName('grid')}').trigger('" . OperationEvent::REFRESH . "');
+                                }
+                                else{
+                                  lifetime = 16500;
+                                }
+                                jQuery.msgGrowl ({
+                                        type: data._meta.type, 
+                                        title: '" . Yii::t('cza', 'Tips') . "',
+                                        text: data._meta.message,
+                                        position: 'top-center',
+                                        lifetime: lifetime,
+                                });
+                            },
+                            error :function(data){alert(data._meta.message);}
+                    });
+                });
+            });";
+
+$js .= "jQuery(document).off('click', '.order-model-index a.finish').on('click', '.order-model-index a.finish', function(e) {
+                e.preventDefault();
+                var lib = window['krajeeDialog'];
+                var url = jQuery(e.currentTarget).attr('href');
+                lib.confirm('" . Yii::t('app.c2', 'Are you sure Finish order') . "', function (result) {
                     if (!result) {
                         return;
                     }
