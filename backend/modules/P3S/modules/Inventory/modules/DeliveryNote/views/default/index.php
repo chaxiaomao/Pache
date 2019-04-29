@@ -96,7 +96,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             'occurrence_date',
-            'grand_total',
+            // 'grand_total',
+            [
+                'attribute' => 'grand_total',
+                'format' => ['decimal', 2],
+                'pageSummary' => true,
+            ],
             // 'arrival_number',
             // 'buyer_name',
             // 'dept_manager_name',

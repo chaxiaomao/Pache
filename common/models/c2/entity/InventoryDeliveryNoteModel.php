@@ -41,7 +41,6 @@ use yii\validators\RequiredValidator;
 class InventoryDeliveryNoteModel extends \cza\base\models\ActiveRecord
 {
     public $items;
-    public $flag = true;
 
     /**
      * @inheritdoc
@@ -314,6 +313,7 @@ class InventoryDeliveryNoteModel extends \cza\base\models\ActiveRecord
 
     public function setInventoryItems()
     {
+        $grand_total = 0;
         if (!empty($this->items)) {
             foreach ($this->items as $item) {
                 $productPack = ProductPackModel::findOne($item['product_pack_id']);
@@ -321,6 +321,8 @@ class InventoryDeliveryNoteModel extends \cza\base\models\ActiveRecord
                     $piece = isset($item['pieces']) ? $item['pieces'] : 1;
                     $quantity = $productPack->pre_num * $piece;
                     $factory_price = isset($item['factory_price']) ? $item['factory_price'] : 0.00;
+                    $subtotal = $factory_price * $quantity;
+                    $grand_total += $subtotal;
                     $attributes = [
                         'product_id' => $item['product_id'],
                         'sku_label' => $item['sku_label'],
@@ -329,7 +331,7 @@ class InventoryDeliveryNoteModel extends \cza\base\models\ActiveRecord
                         'measure_id' => $item['measure_id'],
                         'pieces' => $piece,
                         'product_pack_id' => $item['product_pack_id'],
-                        'subtotal' => $factory_price * $quantity,
+                        'subtotal' => $subtotal,
                         'memo' => isset($item['memo']) ? $item['memo'] : "",
                     ];
                     if (isset($item['id']) && $item['id'] == 0) {  // create new items
@@ -344,8 +346,8 @@ class InventoryDeliveryNoteModel extends \cza\base\models\ActiveRecord
                     }
                 }
             }
-
         }
+        return $this->updateAttributes(['grand_total' => $grand_total]);
     }
 
     public function lordOrderItem($insert)
