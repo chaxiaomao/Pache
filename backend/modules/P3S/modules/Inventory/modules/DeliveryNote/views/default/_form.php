@@ -202,14 +202,13 @@ $form = ActiveForm::begin([
                                         'id' => "name-{multiple_index_{$multipleItemsId}}",
                                     ],
                                 ],
-                                // [
-                                //     'name' => 'measure_id',
-                                //     'title' => Yii::t('app.c2', 'Measure'),
-                                //     'type' => 'dropDownList',
-                                //     'headerOptions' => ['style' => 'width: 70px',],
-                                //     'enableError' => true,
-                                //     'items' => \common\models\c2\entity\MeasureModel::getHashMap('id', 'label'),
-                                // ],
+                                [
+                                    'name' => 'measure_id',
+                                    'title' => Yii::t('app.c2', 'Measure'),
+                                    'type' => 'dropDownList',
+                                    'enableError' => true,
+                                    'items' => \common\models\c2\entity\MeasureModel::getHashMap('id', 'label'),
+                                ],
                                 [
                                     'name' => 'factory_price',
                                     'title' => Yii::t('app.c2', 'PrePrice'),
