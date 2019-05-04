@@ -45,7 +45,7 @@ use yii\widgets\DetailView;
         </tr>
     <?php foreach ($item->product->getMaterialOptions('id', 'label', ['withValue' => true]) as $item): ?>
         <tr class="tc">
-            <td class=""><?= $item['code'] ?></td>
+            <td class=""></td>
             <td class=""><?= $item['label'] ?></td>
             <td class=""></td>
             <td class=""></td>

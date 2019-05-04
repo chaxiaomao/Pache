@@ -217,7 +217,7 @@ class OrderModel extends \cza\base\models\ActiveRecord
                 if (!empty($productPack->outpack_id)) {
                     $attrs = [
                         'product_id' => $item->product_id,
-                        'material_id' => $productPack->inpackMaterial->product_id,
+                        'material_id' => $productPack->outpackMaterial->product_id,
                         'material_item_id' => $productPack->outpack_id,
                         'quantity' => $item->pieces,
                         'consumed_num' => $productPack->outpack_num,

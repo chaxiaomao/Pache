@@ -146,6 +146,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'title' => $title,
                                 'aria-label' => $title,
                                 'data-pjax' => '0',
+                                'target' => 'blank',
                                 'class' => 'view'
                             ]);
                         },
@@ -212,10 +213,10 @@ $js = "";
 //                 jQuery('#order-modal').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(jQuery(e.currentTarget).attr('href'));
 //             });";
 
-$js .= "jQuery(document).off('click', '.order-model-index a.view').on('click', '.order-model-index a.view', function(e) {
-                e.preventDefault();
-                jQuery('#order-modal').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(jQuery(e.currentTarget).attr('href'));
-            });";
+// $js .= "jQuery(document).off('click', '.order-model-index a.view').on('click', '.order-model-index a.view', function(e) {
+//                 e.preventDefault();
+//                 jQuery('#order-modal').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(jQuery(e.currentTarget).attr('href'));
+//             });";
 
 $js .= "jQuery(document).off('click', '.order-model-index a.ensure-do').on('click', '.order-model-index a.ensure-do', function(e) {
                 e.preventDefault();

@@ -7,8 +7,8 @@ use yii\helpers\Html;
 
 // yii\bootstrap\BootstrapAsset::register($this);
 
-$theme = $this->theme;
-$this->registerCssFile($theme->getUrl('css/print.css'));
+// $theme = $this->theme;
+// $this->registerCssFile($theme->getUrl('css/print.css'));
 ?>
 
 <?php
@@ -75,12 +75,6 @@ $this->registerJs($js);
 <body class="bg-f5">
 <?php $this->beginBody() ?>
 
-<div class="modal-header">
-    <button type="button" class="fa fa-close close" data-dismiss="modal" aria-hidden="true"></button>
-    <button type="button" class="fa fa-window-maximize close"></button>
-    <i class="fa fa-th"></i> <?= $this->title ?>
-</div>
-
 <div id="print-content" class="modal-body">
     <?= $content; ?>
 </div>
@@ -89,7 +83,7 @@ $this->registerJs($js);
     <div class="pull-left">
     </div>
 
-    <div class="pull-right hidden-print">
+    <div class="pull-left hidden-print">
         <button class="btn btn-primary" id="btn-print"><?= Yii::t('app.c2', "Print") ?></button>
         <button class="btn btn-primary" data-dismiss="modal"><?= Yii::t('app.c2', "Close") ?></button>
     </div>
