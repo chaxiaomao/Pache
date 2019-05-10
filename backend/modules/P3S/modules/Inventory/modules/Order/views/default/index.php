@@ -175,7 +175,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'title' => $title,
                                 'aria-label' => $title,
                                 'data-pjax' => '0',
-                                'target' => 'blank',
+                                'target' => '_blank',
                                 'class' => 'exception'
                             ]);
                         },

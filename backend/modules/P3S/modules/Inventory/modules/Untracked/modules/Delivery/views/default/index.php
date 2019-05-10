@@ -170,7 +170,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'aria-label' => $title,
                             'data-pjax' => '0',
                             'class' => 'view',
-                            'target' => 'blank',
+                            'target' => '_blank',
                         ]);
                     },
                     'check' => function ($url, $model, $key) {

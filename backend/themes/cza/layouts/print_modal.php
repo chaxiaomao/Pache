@@ -7,8 +7,8 @@ use yii\helpers\Html;
 
 // yii\bootstrap\BootstrapAsset::register($this);
 
-// $theme = $this->theme;
-// $this->registerCssFile($theme->getUrl('css/print.css'));
+$theme = $this->theme;
+$this->registerCssFile($theme->getUrl('css/print.css'));
 ?>
 
 <?php

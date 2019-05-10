@@ -158,11 +158,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 'buttons' => [
                     'view' => function ($url, $model, $key) {
                         $title = Yii::t('app.c2', 'View');
-                        return Html::a(Html::tag('span', '', ['class' => "glyphicon glyphicon-print"]), [$url,], [
+                        return Html::a(Html::tag('span', '', ['class' => "glyphicon glyphicon-print"]), ['/p3s/inventory/receipt-note/default/view', 'id' => $model->id], [
                             'title' => $title,
                             'aria-label' => $title,
                             'data-pjax' => '0',
-                            'class' => 'view'
+                            // 'class' => 'view',
+                            'target' => '_blank'
                         ]);
                     },
                     'check' => function ($url, $model, $key) {
@@ -207,10 +208,10 @@ $js .= "jQuery(document).off('click', '.inventory-receipt-note-model-index a.che
                 jQuery('#inventory-receipt-note-modal').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(jQuery(e.currentTarget).attr('href'));
             });";
 
-$js .= "jQuery(document).off('click', '.inventory-receipt-note-model-index a.view').on('click', '.inventory-receipt-note-model-index a.view', function(e) {
-                e.preventDefault();
-                jQuery('#inventory-receipt-note-modal').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(jQuery(e.currentTarget).attr('href'));
-            });";
+// $js .= "jQuery(document).off('click', '.inventory-receipt-note-model-index a.view').on('click', '.inventory-receipt-note-model-index a.view', function(e) {
+//                 e.preventDefault();
+//                 jQuery('#inventory-receipt-note-modal').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(jQuery(e.currentTarget).attr('href'));
+//             });";
 
 $js .= "jQuery(document).off('click', '.inventory-receipt-note-model-index a.commit').on('click', '.inventory-receipt-note-model-index a.commit', function(e) {
                 e.preventDefault();
