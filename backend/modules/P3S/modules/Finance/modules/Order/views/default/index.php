@@ -7,13 +7,13 @@ use cza\base\models\statics\EntityModelStatus;
 use cza\base\models\statics\OperationEvent;
 
 /* @var $this yii\web\View */
-/* @var $searchModel common\models\c2\entity\FeUserSearch */
+/* @var $searchModel common\models\c2\search\OrderSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app.c2', 'Fe User Models');
+$this->title = Yii::t('app.c2', 'Order Models');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="well fe-user-model-index">
+<div class="well order-model-index">
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
@@ -59,41 +59,16 @@ $this->params['breadcrumbs'][] = $this->title;
                     return GridView::ROW_COLLAPSED;
                 },
             ],
-            // 'id',
-            // 'type',
-            [
-                'attribute' => 'type',
-                'filter' => \common\models\c2\statics\FeUserType::getHashMap('id', 'label'),
-                'value' => function ($model) {
-                    return \common\models\c2\statics\FeUserType::getLabel($model->type);
-                }
-            ],
-            // 'attributeset_id',
-            'username',
-            'email:email',
-            // 'password_hash',
-            // 'auth_key',
-            // 'confirmed_at',
-            // 'unconfirmed_email:email',
-            // 'blocked_at',
-            // 'registration_ip',
-            // 'registration_src_type',
-            // 'flags',
-            // 'level',
-            // 'last_login_at',
-            // 'last_login_ip',
-            // 'open_id',
-            // 'wechat_union_id',
-            // 'wechat_open_id',
-            'mobile_number',
-            // 'sms_receipt',
-            // 'access_token',
-            // 'password_reset_token',
-            // 'district_id',
-            // 'province_id',
-            // 'city_id',
+            'id',
+            'user_id',
+            'code',
+            'label',
+            'production_date',
+            'delivery_date',
             // 'created_by',
             // 'updated_by',
+            'memo',
+            // 'state',
             // 'status',
             // 'position',
             // 'created_at',

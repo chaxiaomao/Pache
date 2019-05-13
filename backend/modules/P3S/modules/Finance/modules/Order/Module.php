@@ -1,16 +1,16 @@
 <?php
 
-namespace backend\modules\P3S\modules\Finance;
+namespace backend\modules\P3S\modules\Finance\modules\Order;
 
 /**
- * finance module definition class
+ * order module definition class
  */
 class Module extends \yii\base\Module
 {
     /**
      * {@inheritdoc}
      */
-    public $controllerNamespace = 'backend\modules\P3S\modules\Finance\controllers';
+    public $controllerNamespace = 'backend\modules\P3S\modules\Finance\modules\Order\controllers';
 
     /**
      * {@inheritdoc}
