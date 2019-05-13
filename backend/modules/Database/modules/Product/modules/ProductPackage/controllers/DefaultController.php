@@ -1,29 +1,41 @@
 <?php
 
-namespace backend\modules\Database\modules\User\controllers;
+namespace backend\modules\Database\modules\Product\modules\ProductPackage\controllers;
 
+use common\models\c2\entity\ProductPackageItemModel;
+use cza\base\models\statics\ResponseDatum;
 use Yii;
-use common\models\c2\entity\FeUserModel;
-use common\models\c2\search\FeUserSearch;
+use common\models\c2\entity\ProductPackageModel;
+use common\models\c2\search\ProductPackageSearch;
 
 use cza\base\components\controllers\backend\ModelController as Controller;
+use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * DefaultController implements the CRUD actions for FeUserModel model.
+ * DefaultController implements the CRUD actions for ProductPackageModel model.
  */
 class DefaultController extends Controller
 {
-    public $modelClass = 'common\models\c2\entity\FeUserModel';
+    public $modelClass = 'common\models\c2\entity\ProductPackageModel';
+
+    public function actions()
+    {
+        return ArrayHelper::merge(parent::actions(), [
+            'product' => [
+                'class' => 'common\components\actions\ProductOptionsAction',
+            ],
+        ]);
+    }
     
     /**
-     * Lists all FeUserModel models.
+     * Lists all ProductPackageModel models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new FeUserSearch();
+        $searchModel = new ProductPackageSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -34,7 +46,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * Displays a single FeUserModel model.
+     * Displays a single ProductPackageModel model.
      * @param string $id
      * @return mixed
      */
@@ -46,7 +58,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * create/update a FeUserModel model.
+     * create/update a ProductPackageModel model.
      * fit to pajax call
      * @return mixed
      */
@@ -61,23 +73,37 @@ class DefaultController extends Controller
                 Yii::$app->session->setFlash($model->getMessageName(), $model->errors);
             }
         }
-        
+        $model->loadItems();
         return (Yii::$app->request->isAjax) ? $this->renderAjax('edit', [ 'model' => $model,]) : $this->render('edit', [ 'model' => $model,]);
     }
     
     /**
-     * Finds the FeUserModel model based on its primary key value.
+     * Finds the ProductPackageModel model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id
-     * @return FeUserModel the loaded model
+     * @return ProductPackageModel the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = FeUserModel::findOne($id)) !== null) {
+        if (($model = ProductPackageModel::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+    public function actionDeleteSubitem($id)
+    {
+
+        if (($model = ProductPackageItemModel::findOne($id)) !== null) {
+            if ($model->delete()) {
+                $responseData = ResponseDatum::getSuccessDatum(['message' => Yii::t('cza', 'Operation completed successfully!')], $id);
+            } else {
+                $responseData = ResponseDatum::getErrorDatum(['message' => Yii::t('cza', 'Error: operation can not finish!!')], $id);
+            }
+        }
+        return $this->asJson($responseData);
+    }
+
+
 }

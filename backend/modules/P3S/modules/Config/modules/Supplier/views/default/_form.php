@@ -49,7 +49,7 @@ $form = ActiveForm::begin([
                 'code' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('code')]],
                 'name' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('name')]],
                 'label' => [
-                        'type' => Form::INPUT_TEXT,
+                    'type' => Form::INPUT_TEXT,
                     'label' => Yii::t('app.c2', 'Username'),
                     'options' => ['placeholder' => $model->getAttributeLabel('label')]
                 ],
