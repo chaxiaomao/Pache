@@ -59,9 +59,9 @@ $form = ActiveForm::begin([
                 'delivery_date' => ['type' => Form::INPUT_WIDGET, 'widgetClass' => '\kartik\widgets\DateTimePicker', 'options' => [
                     'options' => ['placeholder' => Yii::t('app.c2', 'Date Time...')], 'pluginOptions' => ['format' => 'yyyy-mm-dd hh:ii:ss', 'autoclose' => true],
                 ],],
-                'state' => ['type' => Form::INPUT_WIDGET, 'widgetClass' => '\kartik\checkbox\CheckboxX', 'options' => [
-                    'pluginOptions' => ['threeState' => false],
-                ],],
+                // 'state' => ['type' => Form::INPUT_WIDGET, 'widgetClass' => '\kartik\checkbox\CheckboxX', 'options' => [
+                //     'pluginOptions' => ['threeState' => false],
+                // ],],
                 'status' => ['type' => Form::INPUT_DROPDOWN_LIST, 'items' => EntityModelStatus::getHashMap('id', 'label')],
                 'position' => ['type' => Form::INPUT_WIDGET, 'widgetClass' => '\kartik\touchspin\TouchSpin', 'options' => [
                     'pluginOptions' => [
@@ -127,43 +127,57 @@ $form = ActiveForm::begin([
                                 'options' => [
                                     'data' => [
                                             '' => Yii::t("app.c2", "Select options ..")] + \common\models\c2\entity\ProductModel::getHashMap('id', 'sku', [
-                                            'type' => \common\models\c2\statics\ProductType::TYPE_MATERIAL,
+                                            'type' => \common\models\c2\statics\ProductType::TYPE_PRODUCT,
                                             'status' => EntityModelStatus::STATUS_ACTIVE
                                         ]),
                                     'pluginEvents' => [
                                         'change' => "function() {
-                                                $.post('" . Url::toRoute(['product']) . "', {'depdrop_all_params[product_id]':$(this).val(),'depdrop_parents[]':$(this).val()}, function(data) {
-                                                    // if(data.output !== undefined) {
-                                                    //     $('select#subcat-{multiple_index_{$multipleItemsId}}').empty();
-                                                    //     $.each(data.output, function(key, item){
-                                                    //             $('select#subcat-{multiple_index_{$multipleItemsId}}').append('<option value=' + item.id + '>' + item.name + '</option>');
-                                                    //         });
-                                                    // }
+                                                $.post('" . Url::toRoute(['product-attachment']) . "', {'depdrop_all_params[product_id]':$(this).val(),'depdrop_parents[]':$(this).val()}, function(data) {
+                                                    if(data.output !== undefined) {
+                                                        $('select#combination-{multiple_index_{$multipleItemsId}}').empty();
+                                                        $('select#package-{multiple_index_{$multipleItemsId}}').empty();
+                                                        $.each(data.output.combination, function(key, item){
+                                                                $('select#combination-{multiple_index_{$multipleItemsId}}').append('<option value=' + item.id + '>' + item.label + '</option>');
+                                                            });
+                                                        $.each(data.output.package, function(key, item){
+                                                            $('select#package-{multiple_index_{$multipleItemsId}}').append('<option value=' + item.id + '>' + item.label + '</option>');
+                                                        });
+                                                    }
                                                 })
                                             }",
                                     ],
                                 ],
                             ],
-                            // [
-                            //     'name' => 'code',
-                            //     'title' => Yii::t('app.c2', 'Sku'),
-                            //     'options' => [
-                            //         'id' => "code-{multiple_index_{$multipleItemsId}}",
-                            //         'readonly' => true,
-                            //     ],
-                            // ],
-                            // [
-                            //     'name' => 'label',
-                            //     'title' => Yii::t('app.c2', 'Label'),
-                            //     'options' => [
-                            //     ],
-                            // ],
+                            [
+                                'name' => 'product_combination_id',
+                                'type' => 'dropDownList',
+                                'items' => $model->isNewRecord ? [] : \common\models\c2\entity\ProductCombinationModel::getHashMap('id', 'label'),
+                                'title' => Yii::t('app.c2', 'Product Combination'),
+                                'options' => [
+                                    'id' => "combination-{multiple_index_{$multipleItemsId}}",
+                                ],
+                            ],
+                            [
+                                'name' => 'product_package_id',
+                                'type' => 'dropDownList',
+                                'items' => $model->isNewRecord ? [] : \common\models\c2\entity\ProductPackageModel::getHashMap('id', 'label'),
+                                'title' => Yii::t('app.c2', 'Product Package'),
+                                'options' => [
+                                    'id' => "package-{multiple_index_{$multipleItemsId}}",
+                                ],
+                            ],
+                            [
+                                'name' => 'label',
+                                'title' => Yii::t('app.c2', 'Label'),
+                                'options' => [
+                                ],
+                            ],
                             [
                                 'name' => 'measure_id',
                                 'title' => Yii::t('app.c2', 'Measure'),
                                 'type' => 'dropDownList',
                                 'enableError' => true,
-                                'items' => [],
+                                'items' => \common\models\c2\entity\MeasureModel::getHashMap('id', 'label'),
                                 'options' => [
 
                                 ]
@@ -177,6 +191,12 @@ $form = ActiveForm::begin([
                                     'type' => 'number',
                                     'min' => 1,
                                 ]
+                            ],
+                            [
+                                'name' => 'memo',
+                                'title' => Yii::t('app.c2', 'Memo'),
+                                'options' => [
+                                ],
                             ],
                         ]
                     ],

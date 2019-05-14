@@ -50,8 +50,19 @@ $form = ActiveForm::begin([
                 'name' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('name')]],
                 'label' => [
                     'type' => Form::INPUT_TEXT,
-                    'label' => Yii::t('app.c2', 'Username'),
                     'options' => ['placeholder' => $model->getAttributeLabel('label')]
+                ],
+                'contact_name' => [
+                    'type' => Form::INPUT_TEXT,
+                    'options' => ['placeholder' => $model->getAttributeLabel('contact_name')]
+                ],
+                'contact_phone' => [
+                    'type' => Form::INPUT_TEXT,
+                    'options' => ['placeholder' => $model->getAttributeLabel('contact_phone')]
+                ],
+                'fax' => [
+                    'type' => Form::INPUT_TEXT,
+                    'options' => ['placeholder' => $model->getAttributeLabel('fax')]
                 ],
                 // 'province_id' => [
                 //     'type' => Form::INPUT_DROPDOWN_LIST,
@@ -81,22 +92,21 @@ $form = ActiveForm::begin([
                 //         ],
                 //     ],
                 // ],
-                'geo_longitude' => [
-                    'label' => Yii::t('app.c2', 'Contact phone'),
-                    'type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('geo_longitude')]
-                ],
-                'geo_latitude' => [
-                    'label' => Yii::t('app.c2', 'Fax'),
-                    'type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('geo_latitude')]
-                ],
+                // 'geo_longitude' => [
+                //     'type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('geo_longitude')]
+                // ],
+                // 'geo_latitude' => [
+                //     'type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('geo_latitude')]
+                // ],
                 // 'geo_marker_color' => [
                 //     'type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('geo_marker_color')]
                 // ],
                 'description' => [
-                    'label' => Yii::t('app.c2', 'Address'),
-                    'type' => Form::INPUT_WIDGET, 'widgetClass' => '\vova07\imperavi\Widget',
+                    'type' => Form::INPUT_WIDGET,
+                    'widgetClass' => '\vova07\imperavi\Widget',
                     'options' => [
                         'settings' => [
+                            'placeholder' => Yii::t('app.c2', 'Placeholder Address'),
                             'minHeight' => 150,
                             'buttonSource' => true,
                             'lang' => $regularLangName,

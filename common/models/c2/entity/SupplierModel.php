@@ -11,6 +11,9 @@ use Yii;
  * @property string $code
  * @property string $name
  * @property string $label
+ * @property string $contact_name
+ * @property string $contact_phone
+ * @property string $fax
  * @property string $province_id
  * @property string $city_id
  * @property string $district_id
@@ -44,7 +47,7 @@ class SupplierModel extends \cza\base\models\ActiveRecord
             [['province_id', 'city_id', 'district_id', 'position'], 'integer'],
             [['description'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
-            [['code', 'name', 'label', 'geo_longitude', 'geo_latitude', 'geo_marker_color'], 'string', 'max' => 255],
+            [['code', 'name', 'label', 'contact_name', 'contact_phone', 'fax', 'geo_longitude', 'geo_latitude', 'geo_marker_color'], 'string', 'max' => 255],
             [['is_default', 'status'], 'integer', 'max' => 4],
         ];
     }
@@ -59,6 +62,9 @@ class SupplierModel extends \cza\base\models\ActiveRecord
             'code' => Yii::t('app.c2', 'Code'),
             'name' => Yii::t('app.c2', 'Name'),
             'label' => Yii::t('app.c2', 'Label'),
+            'contact_name' => Yii::t('app.c2', 'Contact Name'),
+            'contact_phone' => Yii::t('app.c2', 'Contact Phone'),
+            'fax' => Yii::t('app.c2', 'Fax'),
             'province_id' => Yii::t('app.c2', 'Province ID'),
             'city_id' => Yii::t('app.c2', 'City ID'),
             'district_id' => Yii::t('app.c2', 'District ID'),
@@ -76,11 +82,11 @@ class SupplierModel extends \cza\base\models\ActiveRecord
 
     /**
      * @inheritdoc
-     * @return \common\models\c2\query\SupplierQuery the active query used by this AR class.
+     * @return \common\models\c2\query\C2Query the active query used by this AR class.
      */
     public static function find()
     {
-        return new \common\models\c2\query\SupplierQuery(get_called_class());
+        return new \common\models\c2\query\C2Query(get_called_class());
     }
     
     /**

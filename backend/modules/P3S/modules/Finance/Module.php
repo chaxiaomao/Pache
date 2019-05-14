@@ -10,7 +10,8 @@ class Module extends \yii\base\Module
     /**
      * {@inheritdoc}
      */
-    public $controllerNamespace = 'backend\modules\P3S\modules\Finance\\\controllers';
+
+    public $controllerNamespace = 'backend\modules\P3S\modules\Finance\controllers';
 
     /**
      * {@inheritdoc}

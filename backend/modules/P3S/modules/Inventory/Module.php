@@ -28,6 +28,9 @@ class Module extends \yii\base\Module
             'commit-item' => ['class' => 'backend\modules\P3S\modules\Inventory\modules\CommitItem\Module',],
             'untracked' => ['class' => 'backend\modules\P3S\modules\Inventory\modules\Untracked\\Module',],
             'es-consumption' => ['class' => 'backend\modules\P3S\modules\Inventory\modules\EsConsumption\Module',],
+            'product-stock' => [
+                'class' => 'backend\modules\P3S\modules\Inventory\modules\ProductStock\Module',
+            ],
         ];
         // custom initialization code goes here
     }

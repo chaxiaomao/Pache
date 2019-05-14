@@ -14,7 +14,7 @@ class InventoryExeState {
 
     const INIT = 1;
     const CANCEL = 2;
-    const UNTRACKED = 3;
+    const UNTRACK = 3;
     const FINISH = 4;
 
     protected static $_data;
@@ -28,10 +28,10 @@ class InventoryExeState {
     public static function getData($id = '', $attr = '') {
         if (is_null(static::$_data)) {
             static::$_data = [
-                static::INIT => ['id' => static::INIT, 'label' => Yii::t('app.c2', 'New')],
+                static::INIT => ['id' => static::INIT, 'label' => Yii::t('app.c2', 'Init')],
                 static::FINISH => ['id' => static::FINISH, 'label' => Yii::t('app.c2', 'Finish')],
                 static::CANCEL => ['id' => static::CANCEL, 'label' => Yii::t('app.c2', 'Cancel')],
-                static::UNTRACKED => ['id' => static::UNTRACKED, 'label' => Yii::t('app.c2', 'Untracked')],
+                static::UNTRACK => ['id' => static::UNTRACK, 'label' => Yii::t('app.c2', 'Untrack')],
             ];
         }
         if ($id !== '' && !empty($attr)) {

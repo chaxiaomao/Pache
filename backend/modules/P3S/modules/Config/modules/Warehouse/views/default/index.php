@@ -65,6 +65,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
             'code',
             'contact_name',
+            'contact_phone',
+            'fax',
             // 'phone',
             // 'eshop_id',
             // 'entity_id',

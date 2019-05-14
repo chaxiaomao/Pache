@@ -63,7 +63,7 @@ use yii\helpers\Html;
                             ],
                             ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Warehouse')]), 'icon' => 'fa fa-circle-o', 'url' => ['#'], 'options' => ['class' => 'treeview'],
                                 'items' => [
-                                    ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Product Stock')]), 'icon' => 'fa fa-circle-o', 'url' => ['/p3s/inventory/stock']],
+                                    ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Product Stock')]), 'icon' => 'fa fa-circle-o', 'url' => ['/p3s/inventory/product-stock']],
                                     [
                                         'label' => Yii::t('app.c2', 'Untracked Notes'), 'icon' => 'fa fa-circle-o', 'url' => ['#'], 'options' => ['class' => 'treeview'],
                                         'items' => [

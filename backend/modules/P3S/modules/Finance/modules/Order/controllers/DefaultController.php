@@ -2,11 +2,13 @@
 
 namespace backend\modules\P3S\modules\Finance\modules\Order\controllers;
 
+use cza\base\models\statics\ResponseDatum;
 use Yii;
 use common\models\c2\entity\OrderModel;
 use common\models\c2\search\OrderSearch;
 
 use cza\base\components\controllers\backend\ModelController as Controller;
+use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -16,6 +18,15 @@ use yii\filters\VerbFilter;
 class DefaultController extends Controller
 {
     public $modelClass = 'common\models\c2\entity\OrderModel';
+
+    public function actions()
+    {
+        return ArrayHelper::merge(parent::actions(), [
+            'product-attachment' => [
+                'class' => 'common\components\actions\ProductAttachmentOptionsAction',
+            ],
+        ]);
+    }
     
     /**
      * Lists all OrderModel models.
@@ -40,6 +51,7 @@ class DefaultController extends Controller
      */
     public function actionView($id)
     {
+        $this->layout = '/print_modal';
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -80,4 +92,73 @@ class DefaultController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    public function actionOrderCancel($id)
+    {
+        try {
+            $model = $this->retrieveModel($id);
+            if ($model) {
+                $model->setStateToCancel();
+                $responseData = ResponseDatum::getSuccessDatum(['message' => Yii::t('cza', 'Operation completed successfully!')], $id);
+            } else {
+                $responseData = ResponseDatum::getErrorDatum(['message' => Yii::t('cza', 'Error: operation can not finish!')], $id);
+            }
+        } catch (\Exception $ex) {
+            $responseData = ResponseDatum::getErrorDatum(['message' => $ex->getMessage()], $id);
+        }
+
+        return $this->asJson($responseData);
+    }
+
+    public function actionOrderInit($id)
+    {
+        try {
+            $model = $this->retrieveModel($id);
+            if ($model) {
+                $model->setStateToInit();
+                $responseData = ResponseDatum::getSuccessDatum(['message' => Yii::t('cza', 'Operation completed successfully!')], $id);
+            } else {
+                $responseData = ResponseDatum::getErrorDatum(['message' => Yii::t('cza', 'Error: operation can not finish!')], $id);
+            }
+        } catch (\Exception $ex) {
+            $responseData = ResponseDatum::getErrorDatum(['message' => $ex->getMessage()], $id);
+        }
+
+        return $this->asJson($responseData);
+    }
+
+    public function actionOrderConfirm($id)
+    {
+        try {
+            $model = $this->retrieveModel($id);
+            if ($model) {
+                $model->setStateToUntrack();
+                $responseData = ResponseDatum::getSuccessDatum(['message' => Yii::t('cza', 'Operation completed successfully!')], $id);
+            } else {
+                $responseData = ResponseDatum::getErrorDatum(['message' => Yii::t('cza', 'Error: operation can not finish!')], $id);
+            }
+        } catch (\Exception $ex) {
+            $responseData = ResponseDatum::getErrorDatum(['message' => $ex->getMessage()], $id);
+        }
+
+        return $this->asJson($responseData);
+    }
+
+    public function actionOrderFinish($id)
+    {
+        try {
+            $model = $this->retrieveModel($id);
+            if ($model) {
+                $model->setStateToFinish();
+                $responseData = ResponseDatum::getSuccessDatum(['message' => Yii::t('cza', 'Operation completed successfully!')], $id);
+            } else {
+                $responseData = ResponseDatum::getErrorDatum(['message' => Yii::t('cza', 'Error: operation can not finish!')], $id);
+            }
+        } catch (\Exception $ex) {
+            $responseData = ResponseDatum::getErrorDatum(['message' => $ex->getMessage()], $id);
+        }
+
+        return $this->asJson($responseData);
+    }
+
 }

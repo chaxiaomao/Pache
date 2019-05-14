@@ -5,10 +5,10 @@ use yii\helpers\Html;
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-// yii\bootstrap\BootstrapAsset::register($this);
+yii\bootstrap\BootstrapAsset::register($this);
 
-// $theme = $this->theme;
-// $this->registerCssFile($theme->getUrl('css/print.css'));
+$theme = $this->theme;
+$this->registerCssFile($theme->getUrl('css/print.css'));
 ?>
 
 <?php
@@ -68,8 +68,8 @@ $this->registerJs($js);
     <meta name="screen-orientation" content="portrait">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"-->
+<!--          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
     <?php $this->head() ?>
 </head>
 <body class="bg-f5">

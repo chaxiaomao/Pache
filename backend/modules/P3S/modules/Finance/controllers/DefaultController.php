@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\modules\P3S\modules\Finance\\\controllers;
+namespace backend\modules\P3S\modules\Finance\controllers;
 
 use yii\web\Controller;
 

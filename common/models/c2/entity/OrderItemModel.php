@@ -60,8 +60,8 @@ class OrderItemModel extends \cza\base\models\ActiveRecord
             'number' => Yii::t('app.c2', 'Number'),
             'measure_id' => Yii::t('app.c2', 'Measure ID'),
             'pieces' => Yii::t('app.c2', 'Pieces'),
-            'product_combination_id' => Yii::t('app.c2', 'Product Combination ID'),
-            'product_package_id' => Yii::t('app.c2', 'Product Package ID'),
+            'product_combination_id' => Yii::t('app.c2', 'Product Combination'),
+            'product_package_id' => Yii::t('app.c2', 'Product Package'),
             'type' => Yii::t('app.c2', 'Type'),
             'memo' => Yii::t('app.c2', 'Memo'),
             'status' => Yii::t('app.c2', 'Status'),
@@ -86,5 +86,37 @@ class OrderItemModel extends \cza\base\models\ActiveRecord
     public function loadDefaultValues($skipIfSet = true) {
         parent::loadDefaultValues($skipIfSet);
     }
+
+    public function getOwner()
+    {
+        return $this->hasOne(OrderModel::className(), ['id' => 'order_id']);
+    }
+
+    public function getProduct()
+    {
+        return $this->hasOne(ProductModel::className(), ['id' => 'product_id']);
+    }
+
+    public function getProductCombination()
+    {
+        return $this->hasOne(ProductCombinationModel::className(), ['id' => 'product_combination_id']);
+    }
+
+    public function getProductPackage()
+    {
+        return $this->hasOne(ProductPackageModel::className(), ['id' => 'product_package_id']);
+    }
+
+    public function getSummerProduct()
+    {
+        $packageModel = $this->productPackage;
+        return $this->number * $packageModel->number;
+    }
+
+    public function getMeasure()
+    {
+        return $this->hasOne(MeasureModel::className(), ['id' => 'measure_id']);
+    }
+
 
 }

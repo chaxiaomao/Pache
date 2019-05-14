@@ -18,8 +18,9 @@ class WareHouseSearch extends WarehouseModel
     public function rules()
     {
         return [
-            [['id', 'phone', 'eshop_id', 'entity_id', 'country_id', 'province_id', 'city_id', 'district_id', 'area_id', 'position'], 'integer'],
-            [['label', 'name', 'code', 'contact_name', 'entity_class', 'address', 'geo_longitude', 'geo_latitude', 'geo_marker_color', 'state', 'status', 'created_at', 'updated_at'], 'safe'],
+            [['id', 'eshop_id', 'entity_id', 'country_id', 'province_id', 'city_id', 'district_id', 'area_id', 'position'], 'integer'],
+            [['label', 'name', 'code', 'contact_name', 'entity_class', 'address', 'geo_longitude', 'geo_latitude', 'geo_marker_color',
+                'state', 'status', 'created_at', 'updated_at', 'contact_name', 'contact_phone', 'fax',], 'safe'],
         ];
     }
 
@@ -64,7 +65,6 @@ class WareHouseSearch extends WarehouseModel
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'phone' => $this->phone,
             'eshop_id' => $this->eshop_id,
             'entity_id' => $this->entity_id,
             'country_id' => $this->country_id,
@@ -81,6 +81,8 @@ class WareHouseSearch extends WarehouseModel
             ->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'code', $this->code])
             ->andFilterWhere(['like', 'contact_name', $this->contact_name])
+            ->andFilterWhere(['like', 'contact_name', $this->contact_phone])
+            ->andFilterWhere(['like', 'contact_name', $this->fax])
             ->andFilterWhere(['like', 'entity_class', $this->entity_class])
             ->andFilterWhere(['like', 'address', $this->address])
             ->andFilterWhere(['like', 'geo_longitude', $this->geo_longitude])
