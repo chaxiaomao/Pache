@@ -50,9 +50,11 @@ $form = ActiveForm::begin([
                 'name' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('name')]],
                 'code' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('code')]],
                 'contact_name' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('contact_name')]],
-                'phone' => [
-                    'label' => Yii::t('app.c2', 'Fax'),
-                    'type' => Form::INPUT_TEXT, 'options' => ['placeholder' => Yii::t('app.c2', 'Fax')]
+                'contact_phone' => [
+                    'type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('contact_phone')]
+                ],
+                'fax' => [
+                    'type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('fax')]
                 ],
                 // 'eshop_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('eshop_id')]],
                 // 'entity_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('entity_id')]],
@@ -86,11 +88,28 @@ $form = ActiveForm::begin([
                         ],
                     ],
                 ],
-                // 'area_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('area_id')]],
-                'address' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('address')]],
-                'geo_longitude' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('geo_longitude')]],
-                'geo_latitude' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('geo_latitude')]],
-                'geo_marker_color' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('geo_marker_color')]],
+                // 'geo_longitude' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('geo_longitude')]],
+                // 'geo_latitude' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('geo_latitude')]],
+                // 'geo_marker_color' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('geo_marker_color')]],
+                'address' => [
+                    'type' => Form::INPUT_WIDGET,
+                    'widgetClass' => '\vova07\imperavi\Widget',
+                    'options' => [
+                        'settings' => [
+                            'placeholder' => Yii::t('app.c2', 'Placeholder Address'),
+                            'minHeight' => 150,
+                            'buttonSource' => true,
+                            'lang' => $regularLangName,
+                            'plugins' => [
+                                'fontsize',
+                                'fontfamily',
+                                'fontcolor',
+                                'table',
+                                'textdirection',
+                                'fullscreen',
+                            ],
+                        ]
+                    ],],
                 'state' => ['type' => Form::INPUT_WIDGET, 'widgetClass' => '\kartik\checkbox\CheckboxX', 'options' => [
                     'pluginOptions' => ['threeState' => false],
                 ],],

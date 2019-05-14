@@ -27,7 +27,7 @@ class ProductType extends AbstractStaticClass {
         if (is_null(static::$_data)) {
             static::$_data = [
                 static::TYPE_PRODUCT => ['id' => static::TYPE_PRODUCT, 'label' => Yii::t('app.c2', 'Product'), 'editUrl' => 'edit', 'editForm' => '_form'],
-                static::TYPE_MATERIAL => ['id' => static::TYPE_MATERIAL, 'label' => Yii::t('app.c2', 'Material'), 'editUrl' => 'material-edit', 'editForm' => '_material_form'],
+                static::TYPE_MATERIAL => ['id' => static::TYPE_MATERIAL, 'label' => Yii::t('app.c2', 'Material'), 'editUrl' => 'edit-material', 'editForm' => '_material_form'],
             ];
         }
         if ($id !== '' && !empty($attr)) {

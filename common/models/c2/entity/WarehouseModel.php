@@ -12,7 +12,8 @@ use Yii;
  * @property string $name
  * @property string $code
  * @property string $contact_name
- * @property string $phone
+ * @property string $contact_phone
+ * @property string $fax
  * @property string $eshop_id
  * @property string $entity_id
  * @property string $entity_class
@@ -49,7 +50,7 @@ class WarehouseModel extends \cza\base\models\ActiveRecord
         return [
             [['eshop_id', 'entity_id', 'country_id', 'province_id', 'city_id', 'district_id', 'area_id', 'position'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
-            [['phone', 'label', 'name', 'code', 'contact_name', 'entity_class', 'address', 'geo_longitude', 'geo_latitude', 'geo_marker_color'], 'string', 'max' => 255],
+            [['label', 'name', 'code', 'contact_name', 'contact_phone', 'fax', 'entity_class', 'address', 'geo_longitude', 'geo_latitude', 'geo_marker_color'], 'string', 'max' => 255],
             [['state', 'status'], 'integer', 'max' => 4],
         ];
     }
@@ -65,7 +66,8 @@ class WarehouseModel extends \cza\base\models\ActiveRecord
             'name' => Yii::t('app.c2', 'Name'),
             'code' => Yii::t('app.c2', 'Code'),
             'contact_name' => Yii::t('app.c2', 'Contact Name'),
-            'phone' => Yii::t('app.c2', 'Phone'),
+            'contact_phone' => Yii::t('app.c2', 'Contact Phone'),
+            'fax' => Yii::t('app.c2', 'Fax'),
             'eshop_id' => Yii::t('app.c2', 'Eshop ID'),
             'entity_id' => Yii::t('app.c2', 'Entity ID'),
             'entity_class' => Yii::t('app.c2', 'Entity Class'),

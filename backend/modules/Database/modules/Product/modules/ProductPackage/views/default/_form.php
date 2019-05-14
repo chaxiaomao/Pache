@@ -30,7 +30,7 @@ $form = ActiveForm::begin([
                 'messages' => Yii::$app->session->getFlash($messageName),
             ]);
             $this->registerJs(
-                "jQuery('#product-package-gird').trigger('" . OperationEvent::REFRESH . "');"
+                "jQuery('{$model->getPrefixName('grid', true)}').trigger('" . OperationEvent::REFRESH . "');"
             );
         } else {
             echo InfoBox::widget([
@@ -114,6 +114,7 @@ $form = ActiveForm::begin([
                                                 $.post('" . Url::toRoute(['product']) . "', {'depdrop_all_params[product_id]':$(this).val(),'depdrop_parents[]':$(this).val()}, function(data) {
                                                     $('#code-{multiple_index_{$multipleItemsId}}').val(data.output.sku);
                                                     $('#name-{multiple_index_{$multipleItemsId}}').val(data.output.name);
+                                                    $('#value-{multiple_index_{$multipleItemsId}}').val(data.output.value);
                                                     // if(data.output !== undefined) {
                                                     //     $('select#subcat-{multiple_index_{$multipleItemsId}}').empty();
                                                     //     $.each(data.output, function(key, item){
@@ -142,15 +143,16 @@ $form = ActiveForm::begin([
                                 ],
                             ],
                             [
-                                'name' => 'label',
-                                'title' => Yii::t('app.c2', 'Label'),
+                                'name' => 'value',
+                                'title' => Yii::t('app.c2', 'Value'),
                                 'options' => [
+                                    'id' => "value-{multiple_index_{$multipleItemsId}}",
+                                    'readonly' => true,
                                 ],
                             ],
                             [
-                                'name' => 'value',
-                                'type' => 'hiddenInput',
-                                'title' => Yii::t('app.c2', 'Value'),
+                                'name' => 'label',
+                                'title' => Yii::t('app.c2', 'Label'),
                                 'options' => [
                                 ],
                             ],
