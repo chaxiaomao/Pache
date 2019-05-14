@@ -82,6 +82,7 @@ $form = ActiveForm::begin([
             'attributes' => [
                 'items' => [
                     'type' => Form::INPUT_WIDGET,
+                    'label' => Yii::t('app.c2', 'Add Product Package Items'),
                     'widgetClass' => unclead\multipleinput\MultipleInput::className(),
                     'options' => [
                         'id' => $multipleItemsId,

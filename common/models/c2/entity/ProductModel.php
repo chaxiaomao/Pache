@@ -2,6 +2,7 @@
 
 namespace common\models\c2\entity;
 
+use cza\base\models\statics\EntityModelStatus;
 use Yii;
 
 /**
@@ -69,11 +70,13 @@ class ProductModel extends \cza\base\models\ActiveRecord
             [['eshop_id', 'brand_id', 'supplier_id', 'currency_id', 'measure_id', 'views_count',
                 'comment_count', 'sold_count', 'virtual_sold_count', 'created_by', 'updated_by', 'position'], 'integer'],
             [['label', 'name', 'sku'], 'required'],
+            [['is_released'], 'default', 'value' => EntityModelStatus::STATUS_ACTIVE],
             [['meta_description', 'summary', 'description'], 'string'],
             [['score', 'gift_score', 'install_price', 'low_price', 'sales_price', 'cost_price', 'market_price'], 'number'],
             [['released_at', 'created_at', 'updated_at'], 'safe'],
             [['type', 'is_score_exchange', 'score_exchange_method', 'require_setup', 'is_install', 'is_released'], 'integer', 'max' => 4],
-            [['seo_code', 'sku', 'serial_number', 'breadcrumb', 'name', 'label', 'meta_title', 'meta_keywords', 'value'], 'string', 'max' => 255],
+            [['seo_code', 'sku', 'serial_number', 'breadcrumb', 'name', 'label', 'meta_title',
+                'meta_keywords', 'value'], 'string', 'max' => 255],
         ];
     }
 
@@ -149,9 +152,21 @@ class ProductModel extends \cza\base\models\ActiveRecord
         return $this->hasMany(ProductCombinationModel::className(), ['product_id' => 'id']);
     }
 
+    public function getActiveProductCombination()
+    {
+        return $this->hasMany(ProductCombinationModel::className(), ['product_id' => 'id'])
+            ->where(['status' => EntityModelStatus::STATUS_ACTIVE]);
+    }
+
     public function getProductPackage()
     {
         return $this->hasMany(ProductPackageModel::className(), ['product_id' => 'id']);
+    }
+
+    public function getActiveProductPackage()
+    {
+        return $this->hasMany(ProductPackageModel::className(), ['product_id' => 'id'])
+            ->where(['status' => EntityModelStatus::STATUS_ACTIVE]);
     }
 
     public function afterSave($insert, $changedAttributes)

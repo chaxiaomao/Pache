@@ -136,7 +136,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 [
                     'class' => '\common\widgets\grid\ActionColumn',
-                    'template' => '{product-update} {material-update}',
+                    'template' => '{product-update} {material-update} {delete}',
                     'visibleButtons' => [
                         'product-update' => function ($model) {
                             return ($model->type == \common\models\c2\statics\ProductType::TYPE_PRODUCT);

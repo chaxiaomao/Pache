@@ -3,6 +3,8 @@
 namespace backend\modules\Database\modules\Product\controllers;
 
 use common\models\c2\statics\ProductType;
+use cza\base\models\statics\EntityModelStatus;
+use cza\base\models\statics\ResponseDatum;
 use Yii;
 use common\models\c2\entity\ProductModel;
 use common\models\c2\search\ProductSearch;
@@ -25,6 +27,7 @@ class DefaultController extends Controller
     public function actionIndex()
     {
         $searchModel = new ProductSearch();
+        $searchModel->is_released = EntityModelStatus::STATUS_ACTIVE;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -98,4 +101,28 @@ class DefaultController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    public function actionDelete($id) {
+        if ($this->findModel($id)->updateAttributes(['is_released' => EntityModelStatus::STATUS_INACTIVE])) {
+            $responseData = ResponseDatum::getSuccessDatum(['message' => Yii::t('cza', 'Operation completed successfully!')], $id);
+        } else {
+            $responseData = ResponseDatum::getErrorDatum(['message' => Yii::t('cza', 'Error: operation can not finish!!')], $id);
+        }
+        return $this->asJson($responseData);
+    }
+
+    public function actionMultipleDelete(array $ids) {
+        $models = ProductModel::findAll($ids);
+        foreach ($models as $model) {
+            $model->updateAttributes(['is_released' => EntityModelStatus::STATUS_INACTIVE]);
+        }
+        if (true) {
+            $responseData = ResponseDatum::getSuccessDatum(['message' => Yii::t('cza', 'Operation completed successfully!')], $ids);
+        } else {
+            $responseData = ResponseDatum::getErrorDatum(['message' => Yii::t('cza', 'Error: operation can not finish!!')], $ids);
+        }
+        return $this->asJson($responseData);
+    }
+
+
 }

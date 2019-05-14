@@ -23,8 +23,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
         'pjax' => true,
         'hover' => true,
-        'showPageSummary' => true,
-        'panel' => ['type' => GridView::TYPE_PRIMARY, 'heading' => Yii::t('app.c2', 'Items')],
+        // 'showPageSummary' => true,
+        'panel' => ['type' => GridView::TYPE_PRIMARY, 'heading' => Yii::t('app.c2', 'Expend item to show product combination.')],
         'toolbar' => [
             [
                 'content' =>
@@ -89,20 +89,20 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'position',
             // 'created_at',
             // 'updated_at',
-            [
-                'attribute' => 'status',
-                'class' => '\kartik\grid\EditableColumn',
-                // 'editableOptions' => [
-                //     'inputType' => \kartik\editable\Editable::INPUT_DROPDOWN_LIST,
-                //     'formOptions' => ['action' => Url::toRoute('editColumn')],
-                //     'data' => EntityModelStatus::getHashMap('id', 'label'),
-                //     'displayValueConfig' => EntityModelStatus::getHashMap('id', 'label'),
-                // ],
-                // 'filter' => EntityModelStatus::getHashMap('id', 'label'),
-                'value' => function ($model) {
-                    return $model->getStatusLabel();
-                }
-            ],
+            // [
+            //     'attribute' => 'status',
+            //     'class' => '\kartik\grid\EditableColumn',
+            //     'editableOptions' => [
+            //         'inputType' => \kartik\editable\Editable::INPUT_DROPDOWN_LIST,
+            //         'formOptions' => ['action' => Url::toRoute('editColumn')],
+            //         'data' => EntityModelStatus::getHashMap('id', 'label'),
+            //         'displayValueConfig' => EntityModelStatus::getHashMap('id', 'label'),
+            //     ],
+            //     'filter' => EntityModelStatus::getHashMap('id', 'label'),
+            //     'value' => function ($model) {
+            //         return $model->getStatusLabel();
+            //     }
+            // ],
             // [
             //     'class' => '\kartik\grid\ActionColumn',
             //     'buttons' => [

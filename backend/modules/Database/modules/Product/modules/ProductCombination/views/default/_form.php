@@ -60,7 +60,7 @@ $form = ActiveForm::begin([
                 'name' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('name')]],
                 'label' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('label')]],
                 // 'value' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('value')]],
-                'status' => ['type' => Form::INPUT_DROPDOWN_LIST, 'items' => EntityModelStatus::getHashMap('id', 'label')],
+                // 'status' => ['type' => Form::INPUT_DROPDOWN_LIST, 'items' => EntityModelStatus::getHashMap('id', 'label')],
                 'position' => ['type' => Form::INPUT_WIDGET, 'widgetClass' => '\kartik\touchspin\TouchSpin', 'options' => [
                     'pluginOptions' => [
                         'buttondown_txt' => '<i class="glyphicon glyphicon-minus-sign"></i>',
@@ -78,6 +78,7 @@ $form = ActiveForm::begin([
             'attributes' => [
                 'items' => [
                     'type' => Form::INPUT_WIDGET,
+                    'label' => Yii::t('app.c2', 'Add Product Combination Items'),
                     'widgetClass' => unclead\multipleinput\MultipleInput::className(),
                     'options' => [
                         'id' => $multipleItemsId,
@@ -103,6 +104,7 @@ $form = ActiveForm::begin([
                                     'data' => [
                                             '' => Yii::t("app.c2", "Select options ..")] + \common\models\c2\entity\ProductModel::getHashMap('id', 'sku', [
                                             'type' => \common\models\c2\statics\ProductType::TYPE_MATERIAL,
+                                            'is_released' => EntityModelStatus::STATUS_ACTIVE,
                                             'status' => EntityModelStatus::STATUS_ACTIVE
                                         ]),
                                     'pluginEvents' => [

@@ -138,6 +138,10 @@ return [
     'Subtotal' => '小计',
     'Consumer Exception' => '消耗预算',
     'Total Grand' => '总计',
+    'Expend item to show product combination.' => '点击+号查看产品组合。',
+    'Add Order Items' => '点击右侧加号添加订单细项',
+    'Add Product Combination Items' => '点击右侧加号添加产品组合细项',
+    'Add Product Package Items' => '点击右侧加号添加产品包装细项',
     '' => '',
 ];
 

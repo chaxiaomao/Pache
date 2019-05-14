@@ -45,9 +45,10 @@ $form = ActiveForm::begin([
             'columns' => 2,
             'attributes' => [
                 'user_id' => [
-                        'items' => \common\models\c2\entity\FeUserModel::getHashMap('id', 'username', [
-                                'type' => \common\models\c2\statics\FeUserType::TYPE_CUSTOMER
-                        ]),
+                    'items' => \common\models\c2\entity\FeUserModel::getHashMap('id', 'username', [
+                        'status' => EntityModelStatus::STATUS_ACTIVE,
+                        'type' => \common\models\c2\statics\FeUserType::TYPE_CUSTOMER
+                    ]),
                     'type' => Form::INPUT_DROPDOWN_LIST,
                     'options' => ['placeholder' => $model->getAttributeLabel('user_id')]
                 ],
@@ -103,6 +104,7 @@ $form = ActiveForm::begin([
             'attributes' => [
                 'items' => [
                     'type' => Form::INPUT_WIDGET,
+                    'label' => Yii::t('app.c2', 'Add Order Items'),
                     'widgetClass' => unclead\multipleinput\MultipleInput::className(),
                     'options' => [
                         'id' => $multipleItemsId,
@@ -128,7 +130,8 @@ $form = ActiveForm::begin([
                                     'data' => [
                                             '' => Yii::t("app.c2", "Select options ..")] + \common\models\c2\entity\ProductModel::getHashMap('id', 'sku', [
                                             'type' => \common\models\c2\statics\ProductType::TYPE_PRODUCT,
-                                            'status' => EntityModelStatus::STATUS_ACTIVE
+                                            'is_released' => EntityModelStatus::STATUS_ACTIVE,
+                                            'status' => EntityModelStatus::STATUS_ACTIVE,
                                         ]),
                                     'pluginEvents' => [
                                         'change' => "function() {
@@ -177,7 +180,9 @@ $form = ActiveForm::begin([
                                 'title' => Yii::t('app.c2', 'Measure'),
                                 'type' => 'dropDownList',
                                 'enableError' => true,
-                                'items' => \common\models\c2\entity\MeasureModel::getHashMap('id', 'label'),
+                                'items' => \common\models\c2\entity\MeasureModel::getHashMap('id', 'label', [
+                                    'status' => EntityModelStatus::STATUS_ACTIVE,
+                                ]),
                                 'options' => [
 
                                 ]

@@ -3,6 +3,7 @@
 namespace backend\modules\Database\modules\Product\modules\ProductCombination\controllers;
 
 use common\models\c2\entity\ProductCombinationItemModel;
+use cza\base\models\statics\EntityModelStatus;
 use cza\base\models\statics\ResponseDatum;
 use Yii;
 use common\models\c2\entity\ProductCombinationModel;
@@ -36,6 +37,7 @@ class DefaultController extends Controller
     public function actionIndex()
     {
         $searchModel = new ProductCombinationSearch();
+        $searchModel->status = EntityModelStatus::STATUS_ACTIVE;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -104,6 +106,15 @@ class DefaultController extends Controller
             } else {
                 $responseData = ResponseDatum::getErrorDatum(['message' => Yii::t('cza', 'Error: operation can not finish!!')], $id);
             }
+        }
+        return $this->asJson($responseData);
+    }
+
+    public function actionDelete($id) {
+        if ($this->findModel($id)->updateAttributes(['status' => EntityModelStatus::STATUS_INACTIVE])) {
+            $responseData = ResponseDatum::getSuccessDatum(['message' => Yii::t('cza', 'Operation completed successfully!')], $id);
+        } else {
+            $responseData = ResponseDatum::getErrorDatum(['message' => Yii::t('cza', 'Error: operation can not finish!!')], $id);
         }
         return $this->asJson($responseData);
     }

@@ -71,7 +71,7 @@ class ProductAttachmentOptionsAction extends \yii\base\Action {
         ];
 
         $options = [];
-        foreach ($model->getProductCombination()->all() as $item) {
+        foreach ($model->activeProductCombination as $item) {
             $options[] = [
                 'id' => $item->id,
                 'label' =>  $item->label
@@ -80,7 +80,7 @@ class ProductAttachmentOptionsAction extends \yii\base\Action {
         $result['output']['combination'] = $options;
 
         $options = [];
-        foreach ($model->getProductPackage()->all() as $item) {
+        foreach ($model->activeProductPackage as $item) {
             $options[] = [
                 'id' => $item->id,
                 'label' =>  $item->label

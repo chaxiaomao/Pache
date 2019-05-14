@@ -92,20 +92,20 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'position',
             // 'created_at',
             // 'updated_at',
-            [
-                'attribute' => 'status',
-                // 'class' => '\kartik\grid\EditableColumn',
-                // 'editableOptions' => [
-                //     'inputType' => \kartik\editable\Editable::INPUT_DROPDOWN_LIST,
-                //     'formOptions' => ['action' => Url::toRoute('editColumn')],
-                //     'data' => EntityModelStatus::getHashMap('id', 'label'),
-                //     'displayValueConfig' => EntityModelStatus::getHashMap('id', 'label'),
-                // ],
-                // 'filter' => EntityModelStatus::getHashMap('id', 'label'),
-                'value' => function ($model) {
-                    return $model->getStatusLabel();
-                }
-            ],
+            // [
+            //     'attribute' => 'status',
+            //     'class' => '\kartik\grid\EditableColumn',
+            //     'editableOptions' => [
+            //         'inputType' => \kartik\editable\Editable::INPUT_DROPDOWN_LIST,
+            //         'formOptions' => ['action' => Url::toRoute('editColumn')],
+            //         'data' => EntityModelStatus::getHashMap('id', 'label'),
+            //         'displayValueConfig' => EntityModelStatus::getHashMap('id', 'label'),
+            //     ],
+            //     'filter' => EntityModelStatus::getHashMap('id', 'label'),
+            //     'value' => function ($model) {
+            //         return $model->getStatusLabel();
+            //     }
+            // ],
             // [
             //     'class' => '\kartik\grid\ActionColumn',
             //     'template' => '{view}',
