@@ -65,10 +65,10 @@ use yii\helpers\Html;
                                 'items' => [
                                     ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Product Stock')]), 'icon' => 'fa fa-circle-o', 'url' => ['/p3s/inventory/product-stock']],
                                     [
-                                        'label' => Yii::t('app.c2', 'Untracked Notes'), 'icon' => 'fa fa-circle-o', 'url' => ['#'], 'options' => ['class' => 'treeview'],
+                                        'label' => Yii::t('app.c2', 'Untrack Notes'), 'icon' => 'fa fa-circle-o', 'url' => ['#'], 'options' => ['class' => 'treeview'],
                                         'items' => [
-                                            ['label' => Yii::t('app.c2', 'Inventory Receipt Notes'), 'icon' => 'fa fa-circle-o', 'url' => ['/p3s/inventory/untracked/receipt-note']],
-                                            ['label' => Yii::t('app.c2', 'Inventory Delivery Notes'), 'icon' => 'fa fa-circle-o', 'url' => ['/p3s/inventory/untracked/delivery-note']],
+                                            ['label' => Yii::t('app.c2', 'Inventory Receipt Notes'), 'icon' => 'fa fa-circle-o', 'url' => ['/p3s/inventory/untrack/receipt-note']],
+                                            ['label' => Yii::t('app.c2', 'Inventory Delivery Notes'), 'icon' => 'fa fa-circle-o', 'url' => ['/p3s/inventory/untrack/delivery-note']],
                                         ],
                                     ],
                                 ]

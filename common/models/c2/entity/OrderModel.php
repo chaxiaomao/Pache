@@ -177,7 +177,7 @@ class OrderModel extends \cza\base\models\ActiveRecord
         return ($this->state == InventoryExeState::INIT);
     }
 
-    public function isStateUntack()
+    public function isStateUntrack()
     {
         return ($this->state == InventoryExeState::UNTRACK);
     }

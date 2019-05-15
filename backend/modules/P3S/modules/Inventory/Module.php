@@ -26,11 +26,9 @@ class Module extends \yii\base\Module
             'logs' => ['class' => 'backend\modules\P3S\modules\Inventory\modules\Logs\Module',],
             'order' => ['class' => 'backend\modules\P3S\modules\Inventory\modules\Order\Module',],
             'commit-item' => ['class' => 'backend\modules\P3S\modules\Inventory\modules\CommitItem\Module',],
-            'untracked' => ['class' => 'backend\modules\P3S\modules\Inventory\modules\Untracked\\Module',],
             'es-consumption' => ['class' => 'backend\modules\P3S\modules\Inventory\modules\EsConsumption\Module',],
-            'product-stock' => [
-                'class' => 'backend\modules\P3S\modules\Inventory\modules\ProductStock\Module',
-            ],
+            'product-stock' => ['class' => 'backend\modules\P3S\modules\Inventory\modules\ProductStock\Module',],
+            'untrack' => ['class' => 'backend\modules\P3S\modules\Inventory\modules\Untrack\Module',],
         ];
         // custom initialization code goes here
     }

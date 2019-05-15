@@ -29,9 +29,9 @@ class InventoryExeState {
         if (is_null(static::$_data)) {
             static::$_data = [
                 static::INIT => ['id' => static::INIT, 'label' => Yii::t('app.c2', 'Init')],
-                static::FINISH => ['id' => static::FINISH, 'label' => Yii::t('app.c2', 'Finish')],
                 static::CANCEL => ['id' => static::CANCEL, 'label' => Yii::t('app.c2', 'Cancel')],
                 static::UNTRACK => ['id' => static::UNTRACK, 'label' => Yii::t('app.c2', 'Untrack')],
+                static::FINISH => ['id' => static::FINISH, 'label' => Yii::t('app.c2', 'Finish')],
             ];
         }
         if ($id !== '' && !empty($attr)) {
@@ -57,6 +57,15 @@ class InventoryExeState {
         }
 
         return $data;
+    }
+
+    public static function getHashMap8Ids(array $ids)
+    {
+        $arr = [];
+        foreach ($ids as $id) {
+            array_push($arr, static::getData($id));
+        }
+        return ArrayHelper::map($arr, 'id', 'label');
     }
 
 }

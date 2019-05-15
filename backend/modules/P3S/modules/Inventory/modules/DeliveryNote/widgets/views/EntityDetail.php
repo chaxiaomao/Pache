@@ -3,6 +3,13 @@ use yii\helpers\Html;
 use cza\base\widgets\ui\adminlte2\Box;
 use cza\base\widgets\ui\common\form\Tabs;
 
+Box::begin([
+    'options' => ['id' => $this->context->model->getPrefixName('box')],
+    'config' => [
+        'header' => [ 'tools' => '{collapse}',],
+    ]
+]);
+
 echo Html::beginTag('div', [ "class" => "nav-tabs-custom"]);
 echo Tabs::widget([
     'id' => $this->context->getTabsId(),
@@ -17,3 +24,4 @@ echo Tabs::widget([
 ]);
 
 echo Html::endTag('div');
+Box::end();

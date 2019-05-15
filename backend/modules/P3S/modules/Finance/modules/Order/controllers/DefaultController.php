@@ -2,6 +2,7 @@
 
 namespace backend\modules\P3S\modules\Finance\modules\Order\controllers;
 
+use common\models\c2\entity\OrderItemModel;
 use cza\base\models\statics\ResponseDatum;
 use Yii;
 use common\models\c2\entity\OrderModel;
@@ -158,6 +159,19 @@ class DefaultController extends Controller
             $responseData = ResponseDatum::getErrorDatum(['message' => $ex->getMessage()], $id);
         }
 
+        return $this->asJson($responseData);
+    }
+
+    public function actionDeleteSubitem($id)
+    {
+
+        if (($model = OrderItemModel::findOne($id)) !== null) {
+            if ($model->delete()) {
+                $responseData = ResponseDatum::getSuccessDatum(['message' => Yii::t('cza', 'Operation completed successfully!')], $id);
+            } else {
+                $responseData = ResponseDatum::getErrorDatum(['message' => Yii::t('cza', 'Error: operation can not finish!!')], $id);
+            }
+        }
         return $this->asJson($responseData);
     }
 

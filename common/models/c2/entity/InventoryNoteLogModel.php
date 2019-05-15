@@ -120,6 +120,13 @@ class InventoryNoteLogModel extends \cza\base\models\ActiveRecord
         return static::log(ArrayHelper::merge($defaults, $attributes));
     }
 
+    public static function logOrderNote($attributes) {
+        $defaults = [
+            'type' => InventoryLogType::TYPE_ORDER,
+        ];
+        return static::log(ArrayHelper::merge($defaults, $attributes));
+    }
+
     public function getTypeLabel() {
         return InventoryNoteType::getLabel($this->type);
     }

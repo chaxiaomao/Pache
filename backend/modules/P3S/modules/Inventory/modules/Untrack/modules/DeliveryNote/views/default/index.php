@@ -126,7 +126,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function ($model) {
                     return \common\models\c2\statics\InventoryExeState::getData($model->state, 'label');
                 },
-                'filter' => \common\models\c2\statics\InventoryExeState::getHashMap('id', 'label')
+                'filter' => \common\models\c2\statics\InventoryExeState::getHashMap8Ids([\common\models\c2\statics\InventoryExeState::UNTRACK,
+                    \common\models\c2\statics\InventoryExeState::FINISH])
             ],
             // 'status',
             // 'position',
@@ -149,54 +150,39 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'class' => '\common\widgets\grid\ActionColumn',
                 'width' => '200px',
-                'template' => '{note-confirm} {note-cancel} {note-init} {update} {view}',
+                'template' => '{note-checkout} {note-send} {view}',
                 'visibleButtons' => [
                     'update' => function ($model) {
-                        return $model->isStateInit();
+                        return $model->isStateFinish();
                     },
-                    'note-confirm' => function ($model) {
-                        return $model->isStateInit();
+                    'note-checkout' => function ($model) {
+                        return $model->isStateUntrack();
                     },
-                    'note-cancel' => function ($model) {
-                        return $model->isStateInit() || $model->isStateUntrack();
-                    },
-                    'note-init' => function ($model) {
-                        return $model->isStateCancel();
+                    'note-send' => function ($model) {
+                        return $model->isStateUntrack();
                     },
                 ],
                 'buttons' => [
-                    'update' => function ($url, $model, $key) {
-                        return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['edit', 'id' => $model->id], [
-                            'title' => Yii::t('app', 'Update'),
+                    'note-checkout' => function ($url, $model, $key) {
+                        return Html::a(Yii::t('app.c2', 'Checkout'), ['edit', 'id' => $model->id], [
+                            'title' => Yii::t('app.c2', 'Checkout'),
                             'data-pjax' => '0',
+                            'class' => 'btn btn-success btn-xs checkout',
+                        ]);
+                    },
+                    'note-send' => function ($url, $model, $key) {
+                        return Html::a(Yii::t('app.c2', 'Confirm Send'), ['note-commit', 'id' => $model->id], [
+                            'title' => Yii::t('app.c2', 'Confirm Send'),
+                            'data-pjax' => '0',
+                            'class' => 'btn btn-danger btn-xs send',
                         ]);
                     },
                     'view' => function ($url, $model, $key) {
-                        return Html::a(Html::tag('span', Yii::t('app.c2', 'Print'), ['class' => "glyphicon glyphicon-print"]), ['view', 'id' => $model->id], [
-                            'title' => Yii::t('app.c2', 'Print'),
+                        return Html::a(Yii::t('app.c2', 'View'), ['view', 'id' => $model->id], [
+                            'title' => Yii::t('app.c2', 'View'),
                             'data-pjax' => '0',
-                            'target' => '_blank'
-                        ]);
-                    },
-                    'note-confirm' => function ($url, $model, $key) {
-                        return Html::a(Yii::t('app.c2', 'Confirm Action'), ['note-confirm', 'id' => $model->id], [
-                            'title' => Yii::t('app.c2', 'Confirm Action'),
-                            'data-pjax' => '0',
-                            'class' => 'btn btn-success btn-xs confirm',
-                        ]);
-                    },
-                    'note-cancel' => function ($url, $model, $key) {
-                        return Html::a(Yii::t('app.c2', 'Cancel'), ['note-cancel', 'id' => $model->id], [
-                            'title' => Yii::t('app.c2', 'Cancel'),
-                            'data-pjax' => '0',
-                            'class' => 'btn btn-danger btn-xs cancel'
-                        ]);
-                    },
-                    'note-init' => function ($url, $model, $key) {
-                        return Html::a(Yii::t('app.c2', 'Init'), ['note-init', 'id' => $model->id], [
-                            'title' => Yii::t('app.c2', 'Init'),
-                            'data-pjax' => '0',
-                            'class' => 'btn btn-success btn-xs cancel'
+                            'class' => 'btn btn-success btn-xs',
+                            'target' => '_blank',
                         ]);
                     },
                 ]
@@ -207,46 +193,21 @@ $this->params['breadcrumbs'][] = $this->title;
 
 </div>
 <?php
-Modal::begin([
-    'id' => 'order-modal',
-    'size' => 'modal-lg',
+\yii\bootstrap\Modal::begin([
+    'id' => 'edit-checkout-modal',
+    'size' => 'modal-lg'
 ]);
-Modal::end();
+
+\yii\bootstrap\Modal::end();
 
 $js = "";
 
-$js .= "jQuery(document).off('click', 'a.init').on('click', 'a.init', function(e) {
-                e.preventDefault();
-                var lib = window['krajeeDialog'];
-                var url = jQuery(e.currentTarget).attr('href');
-                lib.confirm('" . Yii::t('app.c2', 'Are you sure?') . "', function (result) {
-                    if (!result) {
-                        return;
-                    }
-                    jQuery.ajax({
-                            url: url,
-                            success: function(data) {
-                                var lifetime = 6500;
-                                if(data._meta.result == '" . cza\base\models\statics\OperationResult::SUCCESS . "'){
-                                    jQuery('#{$model->getPrefixName('grid')}').trigger('" . OperationEvent::REFRESH . "');
-                                }
-                                else{
-                                  lifetime = 16500;
-                                }
-                                jQuery.msgGrowl ({
-                                        type: data._meta.type, 
-                                        title: '" . Yii::t('cza', 'Tips') . "',
-                                        text: data._meta.message,
-                                        position: 'top-center',
-                                        lifetime: lifetime,
-                                });
-                            },
-                            error :function(data){alert(data._meta.message);}
-                    });
-                });
-            });";
+$js .= "jQuery(document).off('click', 'a.checkout').on('click', 'a.checkout', function(e) {
+            e.preventDefault();
+            jQuery('#edit-checkout-modal').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(jQuery(e.currentTarget).attr('href'));
+        });";
 
-$js .= "jQuery(document).off('click', 'a.cancel').on('click', 'a.cancel', function(e) {
+$js .= "jQuery(document).off('click', 'a.send').on('click', 'a.send', function(e) {
                 e.preventDefault();
                 var lib = window['krajeeDialog'];
                 var url = jQuery(e.currentTarget).attr('href');
@@ -277,73 +238,6 @@ $js .= "jQuery(document).off('click', 'a.cancel').on('click', 'a.cancel', functi
                     });
                 });
             });";
-
-$js .= "jQuery(document).off('click', 'a.confirm').on('click', 'a.confirm', function(e) {
-                e.preventDefault();
-                var lib = window['krajeeDialog'];
-                var url = jQuery(e.currentTarget).attr('href');
-                lib.confirm('" . Yii::t('app.c2', 'Are you sure?') . "', function (result) {
-                    if (!result) {
-                        return;
-                    }
-                    
-                    jQuery.ajax({
-                            url: url,
-                            success: function(data) {
-                                var lifetime = 6500;
-                                if(data._meta.result == '" . cza\base\models\statics\OperationResult::SUCCESS . "'){
-                                    jQuery('#{$model->getPrefixName('grid')}').trigger('" . OperationEvent::REFRESH . "');
-                                }
-                                else{
-                                  lifetime = 16500;
-                                }
-                                jQuery.msgGrowl ({
-                                        type: data._meta.type, 
-                                        title: '" . Yii::t('cza', 'Tips') . "',
-                                        text: data._meta.message,
-                                        position: 'top-center',
-                                        lifetime: lifetime,
-                                });
-                            },
-                            error :function(data){alert(data._meta.message);}
-                    });
-                });
-            });";
-
-$js .= "jQuery(document).off('click', 'a.finish').on('click', 'a.finish', function(e) {
-                e.preventDefault();
-                var lib = window['krajeeDialog'];
-                var url = jQuery(e.currentTarget).attr('href');
-                lib.confirm('" . Yii::t('app.c2', 'Are you sure Finish order') . "', function (result) {
-                    if (!result) {
-                        return;
-                    }
-                    
-                    jQuery.ajax({
-                            url: url,
-                            success: function(data) {
-                                var lifetime = 6500;
-                                if(data._meta.result == '" . cza\base\models\statics\OperationResult::SUCCESS . "'){
-                                    jQuery('#{$model->getPrefixName('grid')}').trigger('" . OperationEvent::REFRESH . "');
-                                }
-                                else{
-                                  lifetime = 16500;
-                                }
-                                jQuery.msgGrowl ({
-                                        type: data._meta.type, 
-                                        title: '" . Yii::t('cza', 'Tips') . "',
-                                        text: data._meta.message,
-                                        position: 'top-center',
-                                        lifetime: lifetime,
-                                });
-                            },
-                            error :function(data){alert(data._meta.message);}
-                    });
-                });
-            });";
-
-
-$js .= "$.fn.modal.Constructor.prototype.enforceFocus = function(){};";   // fix select2 widget input-bug in popup
 
 $this->registerJs($js);
 ?>

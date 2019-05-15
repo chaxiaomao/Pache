@@ -117,25 +117,25 @@ $this->params['breadcrumbs'][] = $this->title;
                     'template' => '{order-confirm} {order-cancel} {order-finish} {order-init} {order-items} {update} {view}',
                     'visibleButtons' => [
                         'update' => function ($model) {
-                            return $model->isStateInit() || $model->isStateUntack();
+                            return $model->isStateInit();
                         },
                         'order-confirm' => function ($model) {
                             return $model->isStateInit();
                         },
                         'order-cancel' => function ($model) {
-                            return $model->isStateInit() || $model->isStateUntack();
+                            return $model->isStateInit() || $model->isStateUntrack();
                         },
                         'order-init' => function ($model) {
                             return $model->isStateCancel();
                         },
                         'order-finish' => function ($model) {
-                            return $model->isStateUntack();
+                            return $model->isStateUntrack();
                         },
-                        'delete' => function ($model) {
-                            return $model->isStateInit();
-                        },
+                        // 'delete' => function ($model) {
+                        //     return $model->isStateInit();
+                        // },
                         'order-items' => function ($model) {
-                            return $model->isStateUntack();
+                            return $model->isStateUntrack();
                         },
                     ],
                     'buttons' => [
@@ -143,6 +143,13 @@ $this->params['breadcrumbs'][] = $this->title;
                             return Html::a(Html::tag('span', '', ['class' => "glyphicon glyphicon-pencil"]), ['edit', 'id' => $model->id], [
                                 'title' => Yii::t('app.c2', 'Update'),
                                 'data-pjax' => '0',
+                            ]);
+                        },
+                        'view' => function ($url, $model, $key) {
+                            return Html::a(Html::tag('span', Yii::t('app.c2', 'Print'), ['class' => "glyphicon glyphicon-print"]), ['view', 'id' => $model->id], [
+                                'title' => Yii::t('app.c2', 'Print'),
+                                'data-pjax' => '0',
+                                'target' => '_blank'
                             ]);
                         },
                         'order-confirm' => function ($url, $model, $key) {
@@ -179,13 +186,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'OrderItemSearch[order_id]' => $model->id
                             ], [
                                 'title' => Yii::t('app.c2', 'Order Item Models'),
-                                'data-pjax' => '0',
-                                'target' => '_blank'
-                            ]);
-                        },
-                        'view' => function ($url, $model, $key) {
-                            return Html::a(Yii::t('app.c2', 'Print'), ['view', 'id' => $model->id], [
-                                'title' => Yii::t('app.c2', 'Print'),
                                 'data-pjax' => '0',
                                 'target' => '_blank'
                             ]);

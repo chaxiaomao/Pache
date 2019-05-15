@@ -113,12 +113,6 @@ $form = ActiveForm::begin([
                                                     $('#code-{multiple_index_{$multipleItemsId}}').val(data.output.sku);
                                                     $('#name-{multiple_index_{$multipleItemsId}}').val(data.output.name);
                                                     $('#value-{multiple_index_{$multipleItemsId}}').val(data.output.value);
-                                                    // if(data.output !== undefined) {
-                                                    //     $('select#subcat-{multiple_index_{$multipleItemsId}}').empty();
-                                                    //     $.each(data.output, function(key, item){
-                                                    //             $('select#subcat-{multiple_index_{$multipleItemsId}}').append('<option value=' + item.id + '>' + item.name + '</option>');
-                                                    //         });
-                                                    // }
                                                 })
                                             }",
                                     ],

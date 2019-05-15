@@ -4,11 +4,11 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\c2\search\InventoryDeliveryNote */
+/* @var $model common\models\c2\search\InventoryDeliveryNoteSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="inventory-delivery-note-search">
+<div class="inventory-delivery-note-model-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
@@ -33,15 +33,13 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'grand_total') ?>
 
-    <?php // echo $form->field($model, 'arrival_number') ?>
+    <?php // echo $form->field($model, 'contact_man') ?>
 
-    <?php // echo $form->field($model, 'buyer_name') ?>
+    <?php // echo $form->field($model, 'cs_name') ?>
 
-    <?php // echo $form->field($model, 'dept_manager_name') ?>
+    <?php // echo $form->field($model, 'sender_name') ?>
 
     <?php // echo $form->field($model, 'financial_name') ?>
-
-    <?php // echo $form->field($model, 'receiver_name') ?>
 
     <?php // echo $form->field($model, 'payment_method') ?>
 

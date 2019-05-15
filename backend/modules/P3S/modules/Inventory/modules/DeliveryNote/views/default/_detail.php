@@ -4,8 +4,8 @@
 
 <div class="row pt10">
     <div class="col-xs-3">SO:0085</div>
-    <div class="col-xs-3">电话：</div>
-    <div class="col-xs-3">传真：<?= $model->warehouse->phone ?></div>
+    <div class="col-xs-3">电话：<?= $model->warehouse->contact_phone ?></div>
+    <div class="col-xs-3">传真：<?= $model->warehouse->fax ?></div>
     <div class="col-xs-3">送货日期：<?= date('Y-m-d', strtotime($model->occurrence_date))?></div>
 </div>
 
@@ -15,7 +15,7 @@
 
 <table class="table table-bordered mt10">
     <?php
-        $grand_total = 0;
+    $grand_total = 0;
     ?>
     <tr class="tc">
         <td class="box120" >型号</td>
@@ -27,13 +27,13 @@
         <td class="memo">备注</td>
     </tr>
 
-    <?php foreach ($model->activeNoteItems as $item): ?>
+    <?php foreach ($model->noteItems as $item): ?>
         <tr class="tc">
             <td class=""><?= $item->product->sku ?></td>
             <td class=""><?= $item->product->name ?></td>
             <td class=""><?= $item->measure->label ?></td>
             <td class=""><?= $item->quantity ?></td>
-            <td class=""><?= $item->factory_price ?></td>
+            <td class=""><?= $item->product_price ?></td>
             <td class=""><?= $item->subtotal ?></td>
             <td class=""><?= $item->memo ?></td>
             <?php $grand_total += $item->subtotal ?>

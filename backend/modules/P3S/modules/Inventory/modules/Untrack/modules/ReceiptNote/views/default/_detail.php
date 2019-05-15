@@ -9,15 +9,15 @@
 </div>
 <div class="row pt10">
     <div class="col-xs-3">厂商名称：<?= $model->supplier->name ?></div>
-    <div class="col-xs-3">联系人：<?= $model->supplier->label ?></div>
-    <div class="col-xs-3">传真：<?= $model->supplier->geo_latitude ?></div>
-    <div class="col-xs-3">联系电话：<?= $model->supplier->geo_longitude ?></div>
+    <div class="col-xs-3">联系人：<?= $model->supplier->contact_name ?></div>
+    <div class="col-xs-3">传真：<?= $model->supplier->fax ?></div>
+    <div class="col-xs-3">联系电话：<?= $model->supplier->contact_phone ?></div>
 </div>
 
 <div class="row pt10">
     <!--    <div class="col-xs-3">订购日期：</div>-->
     <div class="col-xs-3">地址：<?= strip_tags($model->supplier->description) ?></div>
-    <div class="col-xs-3">运输方式：<?= $model->receiver_name ?></div>
+    <div class="col-xs-3">运输方式：</div>
     <div class="col-xs-3">部门：<?= $model->dept_manager_name ?></div>
     <div class="col-xs-3">经手人：<?= $model->financial_name ?></div>
 </div>
@@ -34,12 +34,12 @@
         <td class="memo">备注</td>
     </tr>
 
-    <?php foreach ($model->activeNoteItems as $item): ?>
+    <?php foreach ($model->noteItems as $item): ?>
         <tr class="tc">
-            <td class=""><?= $item->productMaterialItem->value ?></td>
-            <td class=""><?= $item->productMaterialItem->label ?></td>
-            <td class=""><?= $item->measure->label ?></td>
-            <td class=""><?= $item->quantity ?></td>
+            <td class=""><?= $item->product->sku ?></td>
+            <td class=""><?= $item->product->name ?></td>
+            <td class=""><?= $item->measure->name ?></td>
+            <td class=""><?= $item->number ?></td>
             <td class=""><?= $item->until_price ?></td>
             <td class=""><?= $item->subtotal ?></td>
             <td class=""><?= $item->memo ?></td>
@@ -50,5 +50,5 @@
 </table>
 
 <div class="container-fluid">
-   <?= $model->memo ?>
+    <p>备注：<?= $model->memo ?></p>
 </div>
