@@ -158,6 +158,7 @@ return [
     'Checkout Note Items' => '检查细项',
     'Pls fix the note items if there have wrongs.' => '请核对数据，如需要修正请在输入框修改。<br>修正后保存后将对仓库操作，请慎重确认。',
     'Checking for receipt note.' => '正在对采购单进仓细项核对：',
+    'Checking for delivery note.' => '正在对出货单进仓细项核对：',
     'The note state has been change, pls reload.' => '状态发生变化，请重新加载。',
     'Saved successful.' => '保存成功',
     'Commit Warehouse' => '确认进库',
@@ -171,6 +172,7 @@ return [
     'Add Delivery Note Items' => '添加送货细项',
     'To Company Name' => '收货单位',
     'Pieces' => '件数',
+    'Product Stock Models' => '库存列表',
     '' => '',
 ];
 

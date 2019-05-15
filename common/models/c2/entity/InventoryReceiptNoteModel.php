@@ -145,6 +145,7 @@ class InventoryReceiptNoteModel extends \cza\base\models\ActiveRecord
             'memo' => $this->memo,
         ]);
         if (!empty($this->items)) {
+            Yii::info($this->items);
             foreach ($this->items as $item) {
                 $untilPrice = isset($item['until_price']) ? $item['until_price'] : 0;
                 $number = isset($item['number']) ? $item['number'] : 0;
@@ -158,7 +159,7 @@ class InventoryReceiptNoteModel extends \cza\base\models\ActiveRecord
                     'measure_id' => isset($item['measure_id']) ? $item['measure_id'] : 0,
                     'until_price' => $untilPrice,
                     'number' => $number,
-                    'subtotal' => isset($item['subtotal']) ? $item['subtotal'] : $untilPrice * $number,
+                    'subtotal' => (isset($item['subtotal']) && $item['subtotal'] == '') ? $untilPrice * $number : $item['subtotal'],
                     'memo' => isset($item['memo']) ? $item['memo'] : 0,
                 ];
                 if (isset($item['id']) && $item['id'] == '') {

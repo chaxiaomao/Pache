@@ -3,6 +3,7 @@
 namespace backend\modules\P3S\modules\Inventory\modules\ReceiptNote\controllers;
 
 use common\models\c2\entity\InventoryReceiptNoteItemModel;
+use common\models\c2\statics\InventoryExeState;
 use cza\base\models\statics\ResponseDatum;
 use Yii;
 use common\models\c2\entity\InventoryReceiptNoteModel;
@@ -115,11 +116,11 @@ class DefaultController extends Controller
     {
         try {
             $model = $this->retrieveModel($id);
-            if ($model) {
+            if ($model && $model->state != InventoryExeState::FINISH) {
                 $model->setStateToCancel();
                 $responseData = ResponseDatum::getSuccessDatum(['message' => Yii::t('cza', 'Operation completed successfully!')], $id);
             } else {
-                $responseData = ResponseDatum::getErrorDatum(['message' => Yii::t('cza', 'Error: operation can not finish!')], $id);
+                $responseData = ResponseDatum::getErrorDatum(['message' => Yii::t('cza', 'The note state has been change, pls reload.')], $id);
             }
         } catch (\Exception $ex) {
             $responseData = ResponseDatum::getErrorDatum(['message' => $ex->getMessage()], $id);
