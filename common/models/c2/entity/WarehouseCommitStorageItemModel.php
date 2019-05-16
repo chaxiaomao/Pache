@@ -5,31 +5,29 @@ namespace common\models\c2\entity;
 use Yii;
 
 /**
- * This is the model class for table "{{%warehouse_commit_item}}".
+ * This is the model class for table "{{%warehouse_commit_storage_item}}".
  *
  * @property string $id
+ * @property integer $type
  * @property string $note_id
  * @property integer $product_id
- * @property string $code
- * @property string $name
- * @property string $label
- * @property string $value
  * @property integer $number
  * @property string $measure_id
  * @property string $memo
+ * @property integer $state
  * @property integer $status
  * @property integer $position
  * @property string $created_at
  * @property string $updated_at
  */
-class WarehouseCommitItemModel extends \cza\base\models\ActiveRecord
+class WarehouseCommitStorageItemModel extends \cza\base\models\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return '{{%warehouse_commit_item}}';
+        return '{{%warehouse_commit_storage_item}}';
     }
 
     /**
@@ -40,8 +38,8 @@ class WarehouseCommitItemModel extends \cza\base\models\ActiveRecord
         return [
             [['note_id', 'product_id', 'number', 'measure_id', 'position'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
-            [['code', 'name', 'label', 'value', 'memo'], 'string', 'max' => 255],
-            [['status'], 'integer', 'max' => 4],
+            [['type', 'state', 'status'], 'integer', 'max' => 4],
+            [['memo'], 'string', 'max' => 255],
         ];
     }
 
@@ -52,15 +50,13 @@ class WarehouseCommitItemModel extends \cza\base\models\ActiveRecord
     {
         return [
             'id' => Yii::t('app.c2', 'ID'),
+            'type' => Yii::t('app.c2', 'Type'),
             'note_id' => Yii::t('app.c2', 'Note ID'),
             'product_id' => Yii::t('app.c2', 'Product ID'),
-            'code' => Yii::t('app.c2', 'Code'),
-            'name' => Yii::t('app.c2', 'Name'),
-            'label' => Yii::t('app.c2', 'Label'),
-            'value' => Yii::t('app.c2', 'Value'),
             'number' => Yii::t('app.c2', 'Number'),
             'measure_id' => Yii::t('app.c2', 'Measure ID'),
             'memo' => Yii::t('app.c2', 'Memo'),
+            'state' => Yii::t('app.c2', 'State'),
             'status' => Yii::t('app.c2', 'Status'),
             'position' => Yii::t('app.c2', 'Position'),
             'created_at' => Yii::t('app.c2', 'Created At'),
@@ -70,11 +66,11 @@ class WarehouseCommitItemModel extends \cza\base\models\ActiveRecord
 
     /**
      * @inheritdoc
-     * @return \common\models\c2\query\WarehouseCommitItemQuery the active query used by this AR class.
+     * @return \common\models\c2\query\WarehouseCommitStorageItemQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new \common\models\c2\query\WarehouseCommitItemQuery(get_called_class());
+        return new \common\models\c2\query\WarehouseCommitStorageItemQuery(get_called_class());
     }
     
     /**
@@ -84,7 +80,7 @@ class WarehouseCommitItemModel extends \cza\base\models\ActiveRecord
         parent::loadDefaultValues($skipIfSet);
     }
 
-    public function getInventoryReceiptNote()
+    public function getNote()
     {
         return $this->hasOne(InventoryReceiptNoteModel::className(), ['id' => 'note_id']);
     }
@@ -92,6 +88,11 @@ class WarehouseCommitItemModel extends \cza\base\models\ActiveRecord
     public function getProduct()
     {
         return $this->hasOne(ProductModel::className(), ['id' => 'product_id']);
+    }
+
+    public function getMeasure()
+    {
+        return $this->hasOne(MeasureModel::className(), ['id' => 'measure_id']);
     }
 
     public function getProductStock()
