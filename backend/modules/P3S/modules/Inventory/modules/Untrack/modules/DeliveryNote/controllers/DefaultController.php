@@ -4,6 +4,7 @@ namespace backend\modules\P3S\modules\Inventory\modules\Untrack\modules\Delivery
 
 use backend\models\c2\form\WarehouseItemSendForm;
 use common\models\c2\entity\InventoryDeliveryNoteModel;
+use common\models\c2\entity\InventoryReceiptNoteModel;
 use common\models\c2\search\InventoryDeliveryNoteSearch;
 use common\models\c2\statics\InventoryExeState;
 use cza\base\components\controllers\backend\ModelController as Controller;
@@ -38,6 +39,8 @@ class DefaultController extends Controller
 
     public function actionNoteCommit($id)
     {
+        // $model = $this->retrieveModel($id);
+        // $model->commitWarehouseItems();
         try {
             $model = $this->retrieveModel($id);
             if ($model) {
@@ -58,6 +61,15 @@ class DefaultController extends Controller
         }
 
         return $this->asJson($responseData);
+    }
+
+    protected function findModel($id)
+    {
+        if (($model = InventoryDeliveryNoteModel::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
     }
 
 }

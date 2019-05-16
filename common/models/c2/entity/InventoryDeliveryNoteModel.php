@@ -5,6 +5,8 @@ namespace common\models\c2\entity;
 use backend\models\c2\entity\rbac\BeUser;
 use common\helpers\CodeGenerator;
 use common\models\c2\statics\InventoryExeState;
+use common\models\c2\statics\WarehouseCommitState;
+use common\models\c2\statics\WarehouseCommitType;
 use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\helpers\ArrayHelper;
@@ -113,11 +115,12 @@ class InventoryDeliveryNoteModel extends \cza\base\models\ActiveRecord
     {
         return new \common\models\c2\query\InventoryDeliveryNoteQuery(get_called_class());
     }
-    
+
     /**
-    * setup default values
-    **/
-    public function loadDefaultValues($skipIfSet = true) {
+     * setup default values
+     **/
+    public function loadDefaultValues($skipIfSet = true)
+    {
         parent::loadDefaultValues($skipIfSet);
         if ($this->isNewRecord) {
             $this->code = CodeGenerator::getCodeByDate($this, 'DN');
@@ -171,6 +174,16 @@ class InventoryDeliveryNoteModel extends \cza\base\models\ActiveRecord
         ]);
         if (!empty($this->items)) {
             foreach ($this->items as $item) {
+                $product_package_id = isset($item['product_package_id']) ? $item['product_package_id'] : 0;
+                $productPackageModel = ProductPackageModel::findOne($product_package_id);
+                $quantity = 0;
+                $pieces = isset($item['pieces']) ? $item['pieces'] : 0;
+                if (!is_null($productPackageModel)) {
+                    $quantity = (isset($item['quantity']) && $item['quantity'] != '') ? $item['quantity'] : $pieces * $productPackageModel->number;
+                }
+                $factory_price = isset($item['factory_price']) ? $item['factory_price'] : 0;
+                $subtotal = (isset($item['subtotal']) && $item['subtotal'] != '') ? $item['subtotal'] : $factory_price * $quantity;
+
                 $attributes = [
                     'product_id' => isset($item['product_id']) ? $item['product_id'] : 0,
                     'code' => isset($item['code']) ? $item['code'] : "",
@@ -178,16 +191,16 @@ class InventoryDeliveryNoteModel extends \cza\base\models\ActiveRecord
                     'label' => isset($item['label']) ? $item['label'] : "",
                     'value' => isset($item['value']) ? $item['value'] : "",
                     'customer_id' => $this->customer_id,
-                    'quantity' => isset($item['quantity']) ? $item['quantity'] : 0,
+                    'quantity' => $quantity,
                     'volume' => isset($item['volume']) ? $item['volume'] : "",
                     'weight' => isset($item['weight']) ? $item['weight'] : "",
                     'measure_id' => isset($item['measure_id']) ? $item['measure_id'] : 0,
-                    'pieces' => isset($item['pieces']) ? $item['pieces'] : 0,
+                    'pieces' => $pieces,
                     'product_combination_id' => isset($item['product_combination_id']) ? $item['product_combination_id'] : 0,
-                    'product_package_id' => isset($item['product_package_id']) ? $item['product_package_id'] : 0,
+                    'product_package_id' => $product_package_id,
                     'product_price' => isset($item['product_price']) ? $item['product_price'] : 0,
-                    'factory_price' => isset($item['factory_price']) ? $item['factory_price'] : 0,
-                    'subtotal' => isset($item['subtotal']) ? $item['subtotal'] : 0,
+                    'factory_price' => $factory_price,
+                    'subtotal' => $subtotal,
                     'memo' => isset($item['memo']) ? $item['memo'] : 0,
                 ];
                 if (isset($item['id']) && $item['id'] == '') {
@@ -254,6 +267,7 @@ class InventoryDeliveryNoteModel extends \cza\base\models\ActiveRecord
                 'product_id' => $item->product_id,
                 'product_combination_id' => $item->product_combination_id,
                 'product_package_id' => $item->product_package_id,
+                'pieces' => $item->pieces,
                 'send_number' => $item->quantity,
                 'production_number' => $item->quantity,
                 'stock_number' => 0,
@@ -283,6 +297,79 @@ class InventoryDeliveryNoteModel extends \cza\base\models\ActiveRecord
 
     public function commitWarehouseItems()
     {
+        $sendItems = $this->getWarehouseSendItems()->all();
+
+        $db = Yii::$app->db->beginTransaction();
+
+        foreach ($sendItems as $sendItem) {
+            // Commit note product items.
+            if ($sendItem->stock_number != 0) {
+                $attributes = [
+                    'type' => WarehouseCommitType::TYPE_SEND,
+                    'note_id' => $this->id,
+                    'product_id' => $sendItem->product_id,
+                    'number' => $sendItem->stock_number,
+                    'measure_id' => $sendItem->measure_id,
+                    'memo' => $sendItem->memo,
+                    'state' => WarehouseCommitState::STATE_FINISH,
+                ];
+                $model = new WarehouseCommitSendItemModel($attributes);
+                $model->setAttributes($attributes);
+                if ($model->save()) {
+                    $sendItem->productStock->updateCounters([
+                        'number' => -($sendItem->stock_number)
+                    ]);
+                }
+            }
+
+            // Commit note product combination items;
+            // $productPackageModel = $sendItem->productPackage;
+
+            foreach ($sendItem->productCombinationItems as $productCombinationItem) {
+                $attributes = [
+                    'type' => WarehouseCommitType::TYPE_SEND,
+                    'note_id' => $this->id,
+                    'product_id' => $sendItem->product_id,
+                    // 'number' => $sendItem->production_number * $productPackageModel->number * $productCombinationItem->number,
+                    'number' => $sendItem->production_number,
+                    'measure_id' => $sendItem->measure_id,
+                    'memo' => $sendItem->memo,
+                    'state' => WarehouseCommitState::STATE_FINISH,
+                ];
+                $model = new WarehouseCommitSendItemModel();
+                $model->setAttributes($attributes);
+                if ($model->save()) {
+                    $productCombinationItem->productStock->updateCounters([
+                        'number' => -($model->number)
+                    ]);
+                }
+            }
+
+            // Commit note product package items;
+            foreach ($sendItem->productPackageItems as $productPackageItem) {
+                $attributes = [
+                    'type' => WarehouseCommitType::TYPE_SEND,
+                    'note_id' => $this->id,
+                    'product_id' => $sendItem->product_id,
+                    'number' => $sendItem->pieces * $productPackageItem->number,
+                    'measure_id' => $sendItem->measure_id,
+                    'memo' => $sendItem->memo,
+                    'state' => WarehouseCommitState::STATE_FINISH,
+                ];
+                $model = new WarehouseCommitSendItemModel($attributes);
+                $model->setAttributes($attributes);
+                if ($model->save()) {
+                    $productPackageItem->productStock->updateCounters([
+                        'number' => -($model->number)
+                    ]);
+                }
+            }
+
+        }
+
+        $db->commit();
+        $this->updateAttributes(['state' => InventoryExeState::FINISH]);
+        return true;
 
     }
 

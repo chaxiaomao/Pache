@@ -21,6 +21,7 @@
         <td class="box120" >型号</td>
         <td class="box120">名称/规格</td>
         <td class="box120">单位</td>
+        <td class="box120">件数</td>
         <td class="box120">数量</td>
         <td class="box120">单价</td>
         <td class="box120">金额/元</td>
@@ -32,6 +33,7 @@
             <td class=""><?= $item->product->sku ?></td>
             <td class=""><?= $item->product->name ?></td>
             <td class=""><?= $item->measure->label ?></td>
+            <td class=""><?= $item->pieces ?></td>
             <td class=""><?= $item->quantity ?></td>
             <td class=""><?= $item->product_price ?></td>
             <td class=""><?= $item->subtotal ?></td>
@@ -44,6 +46,7 @@
     <tr class="">
         <td class="" colspan="5">合计金额大写(人民币)：元整</td>
         <td class="tc"><?= number_format($grand_total, 2) ?></td>
+        <td class=""></td>
         <td class=""></td>
     </tr>
 

@@ -2,6 +2,7 @@
 
 namespace backend\modules\P3S\modules\Inventory\modules\WarehouseSend\controllers;
 
+use common\models\c2\entity\InventoryDeliveryNoteModel;
 use Yii;
 use common\models\c2\entity\WarehouseSendItemModel;
 use common\models\c2\search\WarehouseSendItemSearch;
@@ -25,10 +26,12 @@ class DefaultController extends Controller
     {
         $this->layout = '/main-block';
         $searchModel = new WarehouseSendItemSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $params = Yii::$app->request->queryParams;
+        $model = InventoryDeliveryNoteModel::findOne($params['WarehouseSendItemSearch']['note_id']);
+        $dataProvider = $searchModel->search($params);
 
         return $this->render('index', [
-            'model' => $this->retrieveModel(),
+            'model' => $model,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);

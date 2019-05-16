@@ -70,12 +70,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filter' => \common\models\c2\entity\WarehouseModel::getHashMap('id', 'label')
             ],
             // 'product_id',
-            [
-                'attribute' => 'product_id',
-                'value' => function ($model) {
-                    return $model->product->name;
-                }
-            ],
+            'product.name',
+            'product.sku',
+            'product.value',
             'number',
             // 'state',
             // 'status',

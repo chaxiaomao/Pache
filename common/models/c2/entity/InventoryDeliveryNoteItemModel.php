@@ -48,9 +48,9 @@ class InventoryDeliveryNoteItemModel extends \cza\base\models\ActiveRecord
     {
         return [
             [['note_id', 'product_id', 'customer_id', 'quantity', 'measure_id', 'product_combination_id', 'product_package_id', 'position'], 'integer'],
-            [['product_price', 'factory_price', 'subtotal'], 'number'],
+            [['product_price', 'factory_price', 'subtotal', 'pieces'], 'number'],
             [['created_at', 'updated_at'], 'safe'],
-            [['code', 'name', 'label', 'value', 'volume', 'weight', 'pieces', 'memo'], 'string', 'max' => 255],
+            [['code', 'name', 'label', 'value', 'volume', 'weight', 'memo'], 'string', 'max' => 255],
             [['status'], 'integer', 'max' => 4],
         ];
     }

@@ -176,10 +176,10 @@ return [
     'To Company Name' => '收货单位',
     'Pieces' => '件数',
     'Product Stock Models' => '库存列表',
-    'Warehouse Commit Storage Item Models' => '仓库进出细项核查列表',
-    'Warehouse Commit Storage Item Model' => '仓库进出细项',
-    'Warehouse Send Item Models' => '仓库出货细项核查列表',
-    'Warehouse Send Item Model' => '仓库出货细项',
+    'Warehouse Commit Storage Item Models' => '进仓细项核查列表',
+    'Warehouse Commit Storage Item Model' => '进仓细项',
+    'Warehouse Send Item Models' => '出货细项核查列表',
+    'Warehouse Send Item Model' => '出货细项',
     'Normal Storage' => '正常进仓',
     'Reject Storage' => '拒绝进仓',
     'Warehouse Storage' => '进仓',
@@ -194,6 +194,7 @@ return [
     'Send Items' => '出库细项',
     'Commit remain' => '待进仓',
     'Commit finish' => '已进仓',
+    'Factory Price' => '出厂价',
     '' => '',
 ];
 

@@ -38,7 +38,7 @@ class WarehouseCommitSendItemModel extends \cza\base\models\ActiveRecord
         return [
             [['note_id', 'product_id', 'number', 'measure_id', 'position'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
-            [['type', 'state', 'status'], 'string', 'max' => 4],
+            [['type', 'state', 'status'], 'integer', 'max' => 4],
             [['memo'], 'string', 'max' => 255],
         ];
     }

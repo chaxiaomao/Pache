@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : phpstudy
-Source Server Version : 50553
+Source Server         : localhost
+Source Server Version : 50505
 Source Host           : localhost:3306
 Source Database       : pache2.0
 
 Target Server Type    : MYSQL
-Target Server Version : 50553
+Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2019-05-16 18:03:49
+Date: 2019-05-17 02:10:28
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -86,18 +86,18 @@ CREATE TABLE `c2_auth_item_child` (
 -- ----------------------------
 -- Records of c2_auth_item_child
 -- ----------------------------
-INSERT INTO `c2_auth_item_child` VALUES ('系统管理员', 'P_Api');
 INSERT INTO `c2_auth_item_child` VALUES ('客服', 'P_CRM');
-INSERT INTO `c2_auth_item_child` VALUES ('经理', 'P_CRM');
 INSERT INTO `c2_auth_item_child` VALUES ('客服', 'P_Logistics');
-INSERT INTO `c2_auth_item_child` VALUES ('经理', 'P_Logistics');
 INSERT INTO `c2_auth_item_child` VALUES ('客服', 'P_Sales');
-INSERT INTO `c2_auth_item_child` VALUES ('经理', 'P_Sales');
-INSERT INTO `c2_auth_item_child` VALUES ('经理', 'P_Statistics');
+INSERT INTO `c2_auth_item_child` VALUES ('系统管理员', 'P_Api');
 INSERT INTO `c2_auth_item_child` VALUES ('系统管理员', 'P_System');
 INSERT INTO `c2_auth_item_child` VALUES ('系统管理员', '客服');
-INSERT INTO `c2_auth_item_child` VALUES ('经理', '客服');
 INSERT INTO `c2_auth_item_child` VALUES ('系统管理员', '经理');
+INSERT INTO `c2_auth_item_child` VALUES ('经理', 'P_CRM');
+INSERT INTO `c2_auth_item_child` VALUES ('经理', 'P_Logistics');
+INSERT INTO `c2_auth_item_child` VALUES ('经理', 'P_Sales');
+INSERT INTO `c2_auth_item_child` VALUES ('经理', 'P_Statistics');
+INSERT INTO `c2_auth_item_child` VALUES ('经理', '客服');
 
 -- ----------------------------
 -- Table structure for c2_auth_rule
@@ -443,12 +443,15 @@ CREATE TABLE `c2_inventory_delivery_note` (
   KEY `Index_3` (`occurrence_date`),
   KEY `Index_4` (`customer_id`),
   KEY `Index_5` (`sales_order_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of c2_inventory_delivery_note
 -- ----------------------------
 INSERT INTO `c2_inventory_delivery_note` VALUES ('1', '1', 'DN201905152R00000001', 'label2', '1', '1', '1', '2019-03-01 07:35:36', '0.00', null, null, '2', '2', '在线', '货运', '<p>123213</p>', null, '0', '0', '1', '1', '3', '1', '0', '2019-05-15 09:41:26', '2019-05-15 09:01:48');
+INSERT INTO `c2_inventory_delivery_note` VALUES ('2', '1', 'DN201905169T00000002', '蓝菊', '1', '1', '1', '2019-03-01 07:35:36', '0.00', null, null, '2', '2', '在线', '货运', '', null, '0', '0', '1', '1', '3', '1', '0', '2019-05-16 18:11:17', '2019-05-16 18:11:06');
+INSERT INTO `c2_inventory_delivery_note` VALUES ('3', '1', 'DN201905166Y00000003', '蓝菊', '1', '1', '1', null, '0.00', null, null, '2', '2', '在线', '货运', '', null, '0', '0', '1', '1', '1', '1', '0', '2019-05-16 19:24:38', '2019-05-16 18:19:41');
+INSERT INTO `c2_inventory_delivery_note` VALUES ('4', '1', 'DN201905166Y00000003', '蓝菊', '1', '1', '1', null, '0.00', null, null, '2', '2', '在线', '货运', '', null, '0', '0', '1', '1', '4', '1', '0', '2019-05-16 18:20:52', '2019-05-16 18:20:52');
 
 -- ----------------------------
 -- Table structure for c2_inventory_delivery_note_item
@@ -467,7 +470,7 @@ CREATE TABLE `c2_inventory_delivery_note_item` (
   `measure_id` bigint(20) DEFAULT '0',
   `volume` varchar(255) DEFAULT NULL,
   `weight` varchar(255) DEFAULT NULL,
-  `pieces` varchar(255) DEFAULT NULL,
+  `pieces` mediumint(9) DEFAULT NULL,
   `product_combination_id` bigint(20) DEFAULT NULL,
   `product_package_id` bigint(20) DEFAULT NULL,
   `product_price` decimal(10,2) DEFAULT '0.00',
@@ -485,12 +488,16 @@ CREATE TABLE `c2_inventory_delivery_note_item` (
   KEY `Index_4` (`customer_id`,`measure_id`),
   KEY `Index_5` (`product_combination_id`),
   KEY `Index_6` (`product_package_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of c2_inventory_delivery_note_item
 -- ----------------------------
 INSERT INTO `c2_inventory_delivery_note_item` VALUES ('1', '1', '1', '', '', '', '', '1', '100', '1', '', '', '1', '3', '1', '4.00', '3.00', '300.00', '', '1', '0', '2019-05-15 09:01:48', '2019-05-15 09:01:48');
+INSERT INTO `c2_inventory_delivery_note_item` VALUES ('2', '2', '1', '', '', '', '', '1', '1', '1', '', '', '1', '3', '1', '1.00', '1.00', '0.00', '', '1', '0', '2019-05-16 18:11:07', '2019-05-16 18:11:07');
+INSERT INTO `c2_inventory_delivery_note_item` VALUES ('3', '4', '1', '', '', '', '', '1', '100', '1', '', '', '1', '3', '1', '0.00', '0.00', '0.00', '', '1', '0', '2019-05-16 18:20:52', '2019-05-16 18:20:52');
+INSERT INTO `c2_inventory_delivery_note_item` VALUES ('4', '3', '1', '', '', '', '', '1', '500', '1', '', '', '1', '3', '1', '0.00', '9.00', '900.00', '', '1', '0', '2019-05-16 18:35:21', '2019-05-16 18:35:21');
+INSERT INTO `c2_inventory_delivery_note_item` VALUES ('5', '3', '1', '', '', '', '', '1', '200', '1', '', '', '1', '3', '1', '0.00', '1.00', '200.00', '', '1', '0', '2019-05-16 18:36:22', '2019-05-16 18:36:22');
 
 -- ----------------------------
 -- Table structure for c2_inventory_note_log
@@ -513,7 +520,7 @@ CREATE TABLE `c2_inventory_note_log` (
   PRIMARY KEY (`id`),
   KEY `Index_1` (`note_id`,`type`),
   KEY `Index_2` (`warehouse_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of c2_inventory_note_log
@@ -521,6 +528,15 @@ CREATE TABLE `c2_inventory_note_log` (
 INSERT INTO `c2_inventory_note_log` VALUES ('1', '1', '1', null, '1', '2019-03-01 07:35:36', '<p>123213</p>', '1', '1', '1', '0', '2019-05-15 09:01:48', '2019-05-15 09:01:48');
 INSERT INTO `c2_inventory_note_log` VALUES ('2', '1', '1', null, '1', '2019-03-01 07:35:36', '<p>123213</p>', '1', '1', '1', '0', '2019-05-15 09:41:26', '2019-05-15 09:41:26');
 INSERT INTO `c2_inventory_note_log` VALUES ('3', '2', '2', null, '1', '2019-03-15 14:30:02', '<p>111</p>', '1', '1', '1', '0', '2019-05-16 02:10:15', '2019-05-16 02:10:15');
+INSERT INTO `c2_inventory_note_log` VALUES ('4', '2', '1', null, '1', '2019-03-01 07:35:36', '', '1', '1', '1', '0', '2019-05-16 18:11:07', '2019-05-16 18:11:07');
+INSERT INTO `c2_inventory_note_log` VALUES ('5', '2', '1', null, '1', '2019-03-01 07:35:36', '', '1', '1', '1', '0', '2019-05-16 18:11:17', '2019-05-16 18:11:17');
+INSERT INTO `c2_inventory_note_log` VALUES ('6', '3', '1', null, '1', null, '', '1', '1', '1', '0', '2019-05-16 18:19:41', '2019-05-16 18:19:41');
+INSERT INTO `c2_inventory_note_log` VALUES ('7', '4', '1', null, '1', null, '', '1', '1', '1', '0', '2019-05-16 18:20:52', '2019-05-16 18:20:52');
+INSERT INTO `c2_inventory_note_log` VALUES ('8', '3', '1', null, '1', null, '', '1', '1', '1', '0', '2019-05-16 18:35:21', '2019-05-16 18:35:21');
+INSERT INTO `c2_inventory_note_log` VALUES ('9', '3', '1', null, '1', null, '', '1', '1', '1', '0', '2019-05-16 18:35:40', '2019-05-16 18:35:40');
+INSERT INTO `c2_inventory_note_log` VALUES ('10', '3', '1', null, '1', null, '', '1', '1', '1', '0', '2019-05-16 18:36:21', '2019-05-16 18:36:21');
+INSERT INTO `c2_inventory_note_log` VALUES ('11', '3', '1', null, '1', null, '', '1', '1', '1', '0', '2019-05-16 19:23:52', '2019-05-16 19:23:52');
+INSERT INTO `c2_inventory_note_log` VALUES ('12', '3', '1', null, '1', null, '', '1', '1', '1', '0', '2019-05-16 19:24:38', '2019-05-16 19:24:38');
 
 -- ----------------------------
 -- Table structure for c2_inventory_receipt_note
@@ -919,7 +935,7 @@ CREATE TABLE `c2_product_stock` (
 -- ----------------------------
 -- Records of c2_product_stock
 -- ----------------------------
-INSERT INTO `c2_product_stock` VALUES ('1', '0', '1', '1', '100', '1', '1', '0', '2019-05-14 03:35:17', '2019-05-14 03:38:47');
+INSERT INTO `c2_product_stock` VALUES ('1', '0', '1', '1', '-19905', '1', '1', '0', '2019-05-14 03:35:17', '2019-05-14 03:38:47');
 INSERT INTO `c2_product_stock` VALUES ('2', '0', '1', '2', '100', '1', '1', '0', '2019-05-14 08:48:30', '2019-05-14 08:48:30');
 INSERT INTO `c2_product_stock` VALUES ('3', '0', '1', '4', '200', '1', '1', '0', '2019-05-14 08:48:53', '2019-05-14 08:48:53');
 INSERT INTO `c2_product_stock` VALUES ('4', '0', '1', '5', '300', '1', '1', '0', '2019-05-14 08:49:08', '2019-05-14 08:49:08');
@@ -7969,11 +7985,15 @@ CREATE TABLE `c2_warehouse_commit_send_item` (
   KEY `Index_1` (`note_id`),
   KEY `Index_2` (`product_id`),
   KEY `Index_3` (`measure_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of c2_warehouse_commit_send_item
 -- ----------------------------
+INSERT INTO `c2_warehouse_commit_send_item` VALUES ('1', '2', '4', '1', '10000', '1', '', '2', '1', '0', '2019-05-16 20:00:44', '2019-05-16 20:00:44');
+INSERT INTO `c2_warehouse_commit_send_item` VALUES ('2', '2', '4', '1', '10000', '1', '', '2', '1', '0', '2019-05-16 20:00:44', '2019-05-16 20:00:44');
+INSERT INTO `c2_warehouse_commit_send_item` VALUES ('3', '2', '4', '1', '4', '1', '', '2', '1', '0', '2019-05-16 20:00:44', '2019-05-16 20:00:44');
+INSERT INTO `c2_warehouse_commit_send_item` VALUES ('4', '2', '4', '1', '1', '1', '', '2', '1', '0', '2019-05-16 20:00:44', '2019-05-16 20:00:44');
 
 -- ----------------------------
 -- Table structure for c2_warehouse_commit_storage_item
@@ -8001,4 +8021,41 @@ CREATE TABLE `c2_warehouse_commit_storage_item` (
 -- ----------------------------
 -- Records of c2_warehouse_commit_storage_item
 -- ----------------------------
-INSERT INTO `c2_warehouse_commit_storage_item` VALUES ('1', '1', '2', '7', '1000', '1', '', '1', '1', '0', '2019-05-16 09:47:39', '2019-05-16 09:47:39');
+INSERT INTO `c2_warehouse_commit_storage_item` VALUES ('1', '1', '2', '7', '1200', '1', '<p>11</p>', '1', '1', '0', '2019-05-16 09:47:39', '2019-05-16 09:47:39');
+
+-- ----------------------------
+-- Table structure for c2_warehouse_send_item
+-- ----------------------------
+DROP TABLE IF EXISTS `c2_warehouse_send_item`;
+CREATE TABLE `c2_warehouse_send_item` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `note_id` bigint(20) DEFAULT '0',
+  `product_id` bigint(20) DEFAULT NULL,
+  `product_combination_id` bigint(20) DEFAULT NULL,
+  `product_package_id` bigint(20) DEFAULT NULL,
+  `pieces` mediumint(9) NOT NULL,
+  `send_number` mediumint(9) NOT NULL DEFAULT '0',
+  `production_number` mediumint(9) DEFAULT NULL,
+  `stock_number` mediumint(9) DEFAULT NULL,
+  `measure_id` bigint(20) DEFAULT NULL,
+  `created_by` bigint(20) DEFAULT NULL,
+  `updated_by` bigint(20) DEFAULT NULL,
+  `memo` varchar(255) DEFAULT NULL,
+  `status` tinyint(4) DEFAULT '1',
+  `position` int(11) DEFAULT '0',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `Index_1` (`note_id`),
+  KEY `Index_2` (`product_id`),
+  KEY `Index_3` (`product_combination_id`),
+  KEY `Index_4` (`product_package_id`),
+  KEY `Index_5` (`measure_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Records of c2_warehouse_send_item
+-- ----------------------------
+INSERT INTO `c2_warehouse_send_item` VALUES ('1', '1', '1', '3', '1', '1', '100', '100', '0', '1', null, null, '', '1', '0', '2019-05-16 17:07:39', '2019-05-16 17:07:39');
+INSERT INTO `c2_warehouse_send_item` VALUES ('2', '2', '1', '3', '1', '1', '1', '1', '0', '1', null, null, '', '1', '0', '2019-05-16 18:11:47', '2019-05-16 18:11:47');
+INSERT INTO `c2_warehouse_send_item` VALUES ('3', '4', '1', '3', '1', '1', '100', '100', '0', '1', null, null, '', '1', '0', '2019-05-16 18:22:05', '2019-05-16 18:22:05');

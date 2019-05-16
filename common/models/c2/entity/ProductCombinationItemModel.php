@@ -90,4 +90,9 @@ class ProductCombinationItemModel extends \cza\base\models\ActiveRecord
         return $this->hasOne(ProductModel::className(), ['id' => 'product_id']);
     }
 
+    public function getProductStock()
+    {
+        return $this->hasOne(ProductStockModel::className(), ['product_id' => 'product_id']);
+    }
+
 }

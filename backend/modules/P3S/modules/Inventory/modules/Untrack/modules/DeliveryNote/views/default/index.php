@@ -178,7 +178,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         return Html::a(Yii::t('app.c2', 'Commit Send'), ['note-commit', 'id' => $model->id], [
                             'title' => Yii::t('app.c2', 'Commit Send'),
                             'data-pjax' => '0',
-                            'class' => 'btn btn-danger btn-xs send',
+                            'class' => 'btn btn-danger btn-xs note-commit',
                         ]);
                     },
                     'view' => function ($url, $model, $key) {
@@ -211,7 +211,7 @@ $js = "";
 //             jQuery('#edit-modal').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(jQuery(e.currentTarget).attr('href'));
 //         });";
 
-$js .= "jQuery(document).off('click', 'a.commit').on('click', 'a.commit', function(e) {
+$js .= "jQuery(document).off('click', 'a.note-commit').on('click', 'a.note-commit', function(e) {
                 e.preventDefault();
                 var lib = window['krajeeDialog'];
                 var url = jQuery(e.currentTarget).attr('href');

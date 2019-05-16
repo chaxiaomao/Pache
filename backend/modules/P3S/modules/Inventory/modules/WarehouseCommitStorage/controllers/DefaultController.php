@@ -2,6 +2,8 @@
 
 namespace backend\modules\P3S\modules\Inventory\modules\WarehouseCommitStorage\controllers;
 
+use common\models\c2\entity\InventoryDeliveryNoteModel;
+use common\models\c2\entity\InventoryReceiptNoteModel;
 use Yii;
 use common\models\c2\entity\WarehouseCommitStorageItemModel;
 use common\models\c2\search\WarehouseCommitStorageItemSearch;
@@ -25,10 +27,12 @@ class DefaultController extends Controller
     {
         $this->layout = '/main-block';
         $searchModel = new WarehouseCommitStorageItemSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $params = Yii::$app->request->queryParams;
+        $model = InventoryReceiptNoteModel::findOne($params['WarehouseCommitStorageItemSearch']['note_id']);
+        $dataProvider = $searchModel->search($params);
 
         return $this->render('index', [
-            'model' => $this->retrieveModel(),
+            'model' => $model,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);

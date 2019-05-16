@@ -12,6 +12,7 @@ use Yii;
  * @property string $product_id
  * @property string $product_combination_id
  * @property string $product_package_id
+ * @property integer $pieces
  * @property integer $send_number
  * @property integer $production_number
  * @property integer $stock_number
@@ -41,7 +42,7 @@ class WarehouseSendItemModel extends \cza\base\models\ActiveRecord
     {
         return [
             [['note_id', 'product_id', 'product_combination_id', 'product_package_id', 'send_number', 'production_number',
-                'stock_number', 'created_by', 'updated_by', 'position', 'measure_id'], 'integer'],
+                'stock_number', 'created_by', 'updated_by', 'position', 'measure_id', 'pieces'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['memo'], 'string', 'max' => 255],
             [['status'], 'string', 'max' => 4],
@@ -61,6 +62,7 @@ class WarehouseSendItemModel extends \cza\base\models\ActiveRecord
             'product_combination_id' => Yii::t('app.c2', 'Product Combination ID'),
             'product_package_id' => Yii::t('app.c2', 'Product Package ID'),
             'send_number' => Yii::t('app.c2', 'Send Number'),
+            'pieces' => Yii::t('app.c2', 'Pieces'),
             'production_number' => Yii::t('app.c2', 'Production Number'),
             'stock_number' => Yii::t('app.c2', 'Stock Number'),
             'measure_id' => Yii::t('app.c2', 'Measure'),
@@ -99,6 +101,11 @@ class WarehouseSendItemModel extends \cza\base\models\ActiveRecord
     public function getProduct()
     {
         return $this->hasOne(ProductModel::className(), ['id' => 'product_id']);
+    }
+
+    public function getProductStock()
+    {
+        return $this->hasOne(ProductStockModel::className(), ['product_id' => 'product_id']);
     }
 
     public function getProductCombinationItems()

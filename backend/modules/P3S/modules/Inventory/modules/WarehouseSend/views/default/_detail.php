@@ -1,9 +1,8 @@
-
 <?php
 
 $productPackageModel = $model->productPackage;
+// $model->production_number * $productPackageModel->number * $item->number
 ?>
-
 
 
 <div class="container-fluid pt10">
@@ -34,7 +33,6 @@ $productPackageModel = $model->productPackage;
                         <td class=""><?= $model->measure->name ?></td>
                         <td class=""><?= $productPackageModel->number ?></td>
                         <td class=""><?= $model->production_number ?></td>
-                        <td class=""><?= $model->production_number * $productPackageModel->number *$item->number ?></td>
                     </tr>
 
                 <?php endforeach; ?>
@@ -52,7 +50,7 @@ $productPackageModel = $model->productPackage;
                     <td class="">名称/规格</td>
                     <td class="">名称</td>
                     <td class="">型号</td>
-                    <td class="">个数</td>
+                    <td class="">个/<?= $model->measure->name ?></td>
                     <td class="">件数</td>
                     <td class="">总和</td>
                 </tr>
@@ -64,8 +62,8 @@ $productPackageModel = $model->productPackage;
                         <td class=""><?= $item->product->name ?></td>
                         <td class=""><?= $item->product->value ?></td>
                         <td class=""><?= $item->number ?></td>
-                        <td class=""><?= $model->production_number ?></td>
-                        <td class=""><?= $model->production_number * $item->number ?></td>
+                        <td class=""><?= $model->pieces ?></td>
+                        <td class=""><?= $model->pieces * $item->number ?></td>
                     </tr>
 
                 <?php endforeach; ?>
@@ -73,8 +71,6 @@ $productPackageModel = $model->productPackage;
             </table>
         </div>
     </div>
-
-
 
 
 </div>

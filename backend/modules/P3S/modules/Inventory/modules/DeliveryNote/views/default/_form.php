@@ -254,10 +254,10 @@ $form = ActiveForm::begin([
                                 'name' => 'quantity',
                                 'title' => Yii::t('app.c2', 'Number'),
                                 'enableError' => true,
-                                'defaultValue' => 1,
                                 'options' => [
                                     'type' => 'number',
-                                    'min' => 1,
+                                    'min' => 0,
+                                    'placeholder' => Yii::t('app.c2', 'Auto summary so you can empty this input.')
                                 ]
                             ],
                             [
@@ -270,17 +270,17 @@ $form = ActiveForm::begin([
                                     'min' => 1,
                                 ]
                             ],
-                            [
-                                'name' => 'product_price',
-                                'title' => Yii::t('app.c2', 'Product Price'),
-                                'enableError' => true,
-                                'defaultValue' => '0.00',
-                                'options' => [
-                                    'type' => 'number',
-                                    'min' => '0',
-                                    'step' => '0.01',
-                                ]
-                            ],
+                            // [
+                            //     'name' => 'product_price',
+                            //     'title' => Yii::t('app.c2', 'Product Price'),
+                            //     'enableError' => true,
+                            //     'defaultValue' => '0.00',
+                            //     'options' => [
+                            //         'type' => 'number',
+                            //         'min' => '0',
+                            //         'step' => '0.01',
+                            //     ]
+                            // ],
                             [
                                 'name' => 'factory_price',
                                 'title' => Yii::t('app.c2', 'Factory Price'),
@@ -296,11 +296,11 @@ $form = ActiveForm::begin([
                                 'name' => 'subtotal',
                                 'title' => Yii::t('app.c2', 'Subtotal'),
                                 'enableError' => true,
-                                'defaultValue' => '0.00',
                                 'options' => [
                                     'type' => 'number',
                                     'min' => '0',
                                     'step' => '0.01',
+                                    'placeholder' => Yii::t('app.c2', 'Auto summary so you can empty this input.')
                                 ]
                             ],
                             [
