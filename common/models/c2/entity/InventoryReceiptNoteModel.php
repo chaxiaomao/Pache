@@ -5,6 +5,8 @@ namespace common\models\c2\entity;
 use backend\models\c2\entity\rbac\BeUser;
 use common\helpers\CodeGenerator;
 use common\models\c2\statics\InventoryExeState;
+use common\models\c2\statics\WarehouseCommitState;
+use common\models\c2\statics\WarehouseCommitType;
 use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\helpers\ArrayHelper;
@@ -199,7 +201,7 @@ class InventoryReceiptNoteModel extends \cza\base\models\ActiveRecord
 
     public function getWarehouseCommitItems()
     {
-        return $this->hasMany(WarehouseCommitItemModel::className(), ['note_id' => 'id']);
+        return $this->hasMany(WarehouseCommitStorageItemModel::className(), ['note_id' => 'id']);
     }
 
     public function loadItems()
@@ -237,17 +239,15 @@ class InventoryReceiptNoteModel extends \cza\base\models\ActiveRecord
         $items = $this->getNoteItems()->all();
         foreach ($items as $item) {
             $attributes = [
+                'type' => WarehouseCommitType::TYPE_STORAGE,
                 'note_id' => $item->note_id,
                 'product_id' => $item->product_id,
-                'code' => $item->code,
-                'name' => $item->name,
-                'label' => $item->label,
-                'value' => $item->value,
                 'number' => $item->number,
                 'measure_id' => $item->measure_id,
                 'memo' => $item->memo,
+                'state' => WarehouseCommitState::STATE_REMAIN,
             ];
-            $model = new WarehouseCommitItemModel();
+            $model = new WarehouseCommitStorageItemModel();
             $model->setAttributes($attributes);
             $model->save();
         }
@@ -275,6 +275,7 @@ class InventoryReceiptNoteModel extends \cza\base\models\ActiveRecord
             $productStockModel->updateCounters([
                 'number' => $item->number
             ]);
+            $item->updateAttributes(['state' => WarehouseCommitState::STATE_FINISH]);
         }
         $this->updateAttributes(['state' => InventoryExeState::FINISH]);
         return true;

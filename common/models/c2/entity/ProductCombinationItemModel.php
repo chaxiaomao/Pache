@@ -39,7 +39,7 @@ class ProductCombinationItemModel extends \cza\base\models\ActiveRecord
             [['combination_id', 'product_id', 'number', 'position'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['code', 'name', 'label', 'value'], 'string', 'max' => 255],
-            [['status'], 'string', 'max' => 4],
+            [['status'], 'integer', 'max' => 4],
         ];
     }
 
@@ -83,6 +83,11 @@ class ProductCombinationItemModel extends \cza\base\models\ActiveRecord
     public function getOwner()
     {
         return $this->hasOne(ProductCombinationModel::className(), ['id' => 'combination_id']);
+    }
+
+    public function getProduct()
+    {
+        return $this->hasOne(ProductModel::className(), ['id' => 'product_id']);
     }
 
 }

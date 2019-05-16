@@ -42,7 +42,7 @@ class ProductCombinationModel extends \cza\base\models\ActiveRecord
             [['items'], 'validateItems'],
             [['name'], 'required'],
             [['code', 'name', 'label', 'value'], 'string', 'max' => 255],
-            [['status'], 'string', 'max' => 4],
+            [['status'], 'integer', 'max' => 4],
         ];
     }
 

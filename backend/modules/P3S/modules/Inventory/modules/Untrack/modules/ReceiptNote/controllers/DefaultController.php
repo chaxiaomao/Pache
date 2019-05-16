@@ -20,15 +20,6 @@ class DefaultController extends Controller
 {
     public $modelClass = 'common\models\c2\entity\InventoryReceiptNoteModel';
 
-    public function actions()
-    {
-        return ArrayHelper::merge(parent::actions(), [
-            'product' => [
-                'class' => 'common\components\actions\ProductOptionsAction',
-            ],
-        ]);
-    }
-
     /**
      * Renders the index view for the module
      * @return string
@@ -46,77 +37,27 @@ class DefaultController extends Controller
         ]);
     }
 
-    public function actionView($id)
-    {
-        $this->layout = '/print_modal';
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
-    public function actionEdit($id = null)
-    {
-        $noteModel = $this->retrieveModel($id);
-        $model = new WarehouseItemCommitForm(['entityModel' => $noteModel, 'items' => $noteModel->warehouseCommitItems]);
-        if ($model->load(Yii::$app->request->post())) {
-            if ($model->save()) {
-                Yii::$app->session->setFlash($model->getMessageName(), [Yii::t('app.c2', 'Saved successful.')]);
-            } else {
-                Yii::$app->session->setFlash($model->getMessageName(), $model->errors);
-            }
-        }
-
-        return (Yii::$app->request->isAjax) ? $this->renderAjax('checkout_form', [ 'model' => $model,]) : $this->render('checkout_form', [ 'model' => $model,]);
-    }
-
-    /**
-     * Finds the InventoryReceiptNoteModel model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param string $id
-     * @return InventoryReceiptNoteModel the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = InventoryReceiptNoteModel::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
-
     public function actionNoteCommit($id)
     {
-
-        $model = $this->findModel($id);
-        if ($model->state == InventoryExeState::UNTRACK) {
-            if ($model->commitWarehouseItems()) {
-                $responseData = ResponseDatum::getSuccessDatum(['message' => Yii::t('cza', 'Operation completed successfully!')], $id);
-            } else {
-                $responseData = ResponseDatum::getErrorDatum(['message' => Yii::t('cza', 'Error: operation can not finish!!')], $id);
-            }
-        } else {
-            $responseData = ResponseDatum::getErrorDatum(['message' => Yii::t('cza', 'Error: operation can not finish!!')], $id);
-        }
-        return $this->asJson($responseData);
-    }
-
-    public function actionDeleteSubitem($id)
-    {
-
-        if (($model = WarehouseCommitItemModel::findOne($id)) !== null) {
-            if ($model->inventoryReceiptNote->state == InventoryExeState::UNTRACK) {
-                if ($model->delete()) {
-                    $responseData = ResponseDatum::getSuccessDatum(['message' => Yii::t('cza', 'Operation completed successfully!')], $id);
+        try {
+            $model = $this->retrieveModel($id);
+            if ($model) {
+                if ($model->state == InventoryExeState::UNTRACK) {
+                    if ($model->commitWarehouseItems()) {
+                        $responseData = ResponseDatum::getSuccessDatum(['message' => Yii::t('cza', 'Operation completed successfully!')], $id);
+                    } else {
+                        $responseData = ResponseDatum::getErrorDatum(['message' => Yii::t('cza', 'Error: operation can not finish!')], $id);
+                    }
                 } else {
-                    $responseData = ResponseDatum::getErrorDatum(['message' => Yii::t('cza', 'Error: operation can not finish!!')], $id);
+                    $responseData = ResponseDatum::getErrorDatum(['message' => Yii::t('app.c2', 'The note state has been change, pls reload.')], $id);
                 }
             } else {
-                $responseData = ResponseDatum::getErrorDatum(['message' => Yii::t('app.c2', 'The note state has been change, pls reload.')], $id);
+                $responseData = ResponseDatum::getErrorDatum(['message' => Yii::t('cza', 'Error: operation can not finish!')], $id);
             }
-        } else {
-            $responseData = ResponseDatum::getErrorDatum(['message' => Yii::t('app.c2', 'The note state has been change, pls reload.')], $id);
+        } catch (\Exception $ex) {
+            $responseData = ResponseDatum::getErrorDatum(['message' => $ex->getMessage()], $id);
         }
+
         return $this->asJson($responseData);
     }
 

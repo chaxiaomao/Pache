@@ -7,6 +7,7 @@ use common\models\c2\entity\InventoryDeliveryNoteModel;
 use common\models\c2\search\InventoryDeliveryNoteSearch;
 use common\models\c2\statics\InventoryExeState;
 use cza\base\components\controllers\backend\ModelController as Controller;
+use cza\base\models\statics\ResponseDatum;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
@@ -17,15 +18,6 @@ use yii\web\NotFoundHttpException;
 class DefaultController extends Controller
 {
     public $modelClass = 'common\models\c2\entity\InventoryDeliveryNoteModel';
-
-    public function actions()
-    {
-        return ArrayHelper::merge(parent::actions(), [
-            'product' => [
-                'class' => 'common\components\actions\ProductOptionsAction',
-            ],
-        ]);
-    }
 
     /**
      * Renders the index view for the module
@@ -43,36 +35,29 @@ class DefaultController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
-    public function actionEdit($id = null)
+
+    public function actionNoteCommit($id)
     {
-        $noteModel = $this->retrieveModel($id);
-        $model = new WarehouseItemSendForm(['entityModel' => $noteModel, 'items' => $noteModel->warehouseSendItems]);
-        if ($model->load(Yii::$app->request->post())) {
-            if ($model->save()) {
-                Yii::$app->session->setFlash($model->getMessageName(), [Yii::t('app.c2', 'Saved successful.')]);
+        try {
+            $model = $this->retrieveModel($id);
+            if ($model) {
+                if ($model->state == InventoryExeState::UNTRACK) {
+                    if ($model->commitWarehouseItems()) {
+                        $responseData = ResponseDatum::getSuccessDatum(['message' => Yii::t('cza', 'Operation completed successfully!')], $id);
+                    } else {
+                        $responseData = ResponseDatum::getErrorDatum(['message' => Yii::t('cza', 'Error: operation can not finish!')], $id);
+                    }
+                } else {
+                    $responseData = ResponseDatum::getErrorDatum(['message' => Yii::t('app.c2', 'The note state has been change, pls reload.')], $id);
+                }
             } else {
-                Yii::$app->session->setFlash($model->getMessageName(), $model->errors);
+                $responseData = ResponseDatum::getErrorDatum(['message' => Yii::t('cza', 'Error: operation can not finish!')], $id);
             }
+        } catch (\Exception $ex) {
+            $responseData = ResponseDatum::getErrorDatum(['message' => $ex->getMessage()], $id);
         }
 
-        return (Yii::$app->request->isAjax) ? $this->renderAjax('checkout_form', [ 'model' => $model,]) : $this->render('checkout_form', [ 'model' => $model,]);
+        return $this->asJson($responseData);
     }
-
-    /**
-     * Finds the InventoryReceiptNoteModel model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param string $id
-     * @return InventoryDeliveryNoteModel the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = InventoryDeliveryNoteModel::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
-
 
 }

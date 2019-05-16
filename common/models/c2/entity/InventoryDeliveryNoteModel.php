@@ -252,13 +252,12 @@ class InventoryDeliveryNoteModel extends \cza\base\models\ActiveRecord
             $attributes = [
                 'note_id' => $item->note_id,
                 'product_id' => $item->product_id,
-                'code' => $item->code,
-                'name' => $item->name,
-                'label' => $item->label,
-                'value' => $item->value,
+                'product_combination_id' => $item->product_combination_id,
+                'product_package_id' => $item->product_package_id,
                 'send_number' => $item->quantity,
-                'production_number' => 0,
+                'production_number' => $item->quantity,
                 'stock_number' => 0,
+                'measure_id' => $item->measure_id,
                 'memo' => $item->memo,
             ];
             $model = new WarehouseSendItemModel();
@@ -280,6 +279,11 @@ class InventoryDeliveryNoteModel extends \cza\base\models\ActiveRecord
     public function setStateToInit()
     {
         $this->updateAttributes(['state' => InventoryExeState::INIT]);
+    }
+
+    public function commitWarehouseItems()
+    {
+
     }
 
 }

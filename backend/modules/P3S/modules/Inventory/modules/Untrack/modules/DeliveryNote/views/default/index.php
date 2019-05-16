@@ -11,7 +11,7 @@ use cza\base\models\statics\OperationEvent;
 /* @var $searchModel common\models\c2\search\InventoryDeliveryNoteSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app.c2', 'Inventory Delivery Note Models');
+$this->title = Yii::t('app.c2', 'Untrack Delivery Notes');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="well inventory-delivery-note-model-index">
@@ -150,29 +150,33 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'class' => '\common\widgets\grid\ActionColumn',
                 'width' => '200px',
-                'template' => '{note-checkout} {note-send} {view}',
+                'template' => '{note-checkout} {note-commit} {view}',
                 'visibleButtons' => [
-                    'update' => function ($model) {
+                    'view' => function ($model) {
                         return $model->isStateFinish();
                     },
                     'note-checkout' => function ($model) {
                         return $model->isStateUntrack();
                     },
-                    'note-send' => function ($model) {
+                    'note-commit' => function ($model) {
                         return $model->isStateUntrack();
                     },
                 ],
                 'buttons' => [
                     'note-checkout' => function ($url, $model, $key) {
-                        return Html::a(Yii::t('app.c2', 'Checkout'), ['edit', 'id' => $model->id], [
+                        return Html::a(Yii::t('app.c2', 'Checkout'), [
+                            '/p3s/inventory/warehouse-send',
+                            'WarehouseSendItemSearch[note_id]' => $model->id
+                        ], [
                             'title' => Yii::t('app.c2', 'Checkout'),
                             'data-pjax' => '0',
                             'class' => 'btn btn-success btn-xs checkout',
+                            'target' => '_blank',
                         ]);
                     },
-                    'note-send' => function ($url, $model, $key) {
-                        return Html::a(Yii::t('app.c2', 'Confirm Send'), ['note-commit', 'id' => $model->id], [
-                            'title' => Yii::t('app.c2', 'Confirm Send'),
+                    'note-commit' => function ($url, $model, $key) {
+                        return Html::a(Yii::t('app.c2', 'Commit Send'), ['note-commit', 'id' => $model->id], [
+                            'title' => Yii::t('app.c2', 'Commit Send'),
                             'data-pjax' => '0',
                             'class' => 'btn btn-danger btn-xs send',
                         ]);
@@ -182,7 +186,6 @@ $this->params['breadcrumbs'][] = $this->title;
                             'title' => Yii::t('app.c2', 'View'),
                             'data-pjax' => '0',
                             'class' => 'btn btn-success btn-xs',
-                            'target' => '_blank',
                         ]);
                     },
                 ]
@@ -193,8 +196,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
 </div>
 <?php
+
 \yii\bootstrap\Modal::begin([
-    'id' => 'edit-checkout-modal',
+    'id' => 'edit-modal',
     'size' => 'modal-lg'
 ]);
 
@@ -202,12 +206,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
 $js = "";
 
-$js .= "jQuery(document).off('click', 'a.checkout').on('click', 'a.checkout', function(e) {
-            e.preventDefault();
-            jQuery('#edit-checkout-modal').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(jQuery(e.currentTarget).attr('href'));
-        });";
+// $js .= "jQuery(document).off('click', 'a.checkout').on('click', 'a.checkout', function(e) {
+//             e.preventDefault();
+//             jQuery('#edit-modal').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(jQuery(e.currentTarget).attr('href'));
+//         });";
 
-$js .= "jQuery(document).off('click', 'a.send').on('click', 'a.send', function(e) {
+$js .= "jQuery(document).off('click', 'a.commit').on('click', 'a.commit', function(e) {
                 e.preventDefault();
                 var lib = window['krajeeDialog'];
                 var url = jQuery(e.currentTarget).attr('href');

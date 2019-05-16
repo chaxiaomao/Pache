@@ -29,6 +29,11 @@ class Module extends \yii\base\Module
             'es-consumption' => ['class' => 'backend\modules\P3S\modules\Inventory\modules\EsConsumption\Module',],
             'product-stock' => ['class' => 'backend\modules\P3S\modules\Inventory\modules\ProductStock\Module',],
             'untrack' => ['class' => 'backend\modules\P3S\modules\Inventory\modules\Untrack\Module',],
+            'warehouse-commit-storage' => [
+                'class' => 'backend\modules\P3S\modules\Inventory\modules\WarehouseCommitStorage\Module',
+            ],
+
+            'warehouse-send' => ['class' => 'backend\modules\P3S\modules\Inventory\modules\WarehouseSend\Module',],
         ];
         // custom initialization code goes here
     }

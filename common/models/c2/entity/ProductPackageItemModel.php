@@ -85,4 +85,9 @@ class ProductPackageItemModel extends \cza\base\models\ActiveRecord
         return $this->hasOne(ProductPackageModel::className(), ['id' => 'package_id']);
     }
 
+    public function getProduct()
+    {
+        return $this->hasOne(ProductModel::className(), ['id' => 'product_id']);
+    }
+
 }

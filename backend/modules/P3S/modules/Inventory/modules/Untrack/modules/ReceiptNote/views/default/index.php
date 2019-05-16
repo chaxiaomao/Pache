@@ -12,7 +12,7 @@ use cza\base\models\statics\OperationEvent;
 /* @var $searchModel common\models\c2\search\InventoryReceiptNoteSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app.c2', 'Untrack Notes');
+$this->title = Yii::t('app.c2', 'Untrack Receipt Notes');
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
@@ -31,16 +31,16 @@ $this->params['breadcrumbs'][] = $this->title;
             'toolbar' => [
                 [
                     'content' =>
-                        // Html::a('<i class="glyphicon glyphicon-plus"></i>', ['edit'], [
-                        //     'class' => 'btn btn-success',
-                        //     'title' => Yii::t('app.c2', 'Add'),
-                        //     'data-pjax' => '0',
-                        // ]) . ' ' .
-                        // Html::button('<i class="glyphicon glyphicon-remove"></i>', [
-                        //     'class' => 'btn btn-danger',
-                        //     'title' => Yii::t('app.c2', 'Delete Selected Items'),
-                        //     'onClick' => "jQuery(this).trigger('" . OperationEvent::DELETE_BY_IDS . "', {url:'" . Url::toRoute('multiple-delete') . "'});",
-                        // ]) . ' ' .
+                    // Html::a('<i class="glyphicon glyphicon-plus"></i>', ['edit'], [
+                    //     'class' => 'btn btn-success',
+                    //     'title' => Yii::t('app.c2', 'Add'),
+                    //     'data-pjax' => '0',
+                    // ]) . ' ' .
+                    // Html::button('<i class="glyphicon glyphicon-remove"></i>', [
+                    //     'class' => 'btn btn-danger',
+                    //     'title' => Yii::t('app.c2', 'Delete Selected Items'),
+                    //     'onClick' => "jQuery(this).trigger('" . OperationEvent::DELETE_BY_IDS . "', {url:'" . Url::toRoute('multiple-delete') . "'});",
+                    // ]) . ' ' .
                         Html::a('<i class="glyphicon glyphicon-repeat"></i>', Url::current(), [
                             'class' => 'btn btn-default',
                             'title' => Yii::t('app.c2', 'Reset Grid')
@@ -67,9 +67,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 [
                     'attribute' => 'type',
                     'value' => function ($model) {
-                        return \common\models\c2\statics\InventoryDeliveryType::getData($model->type, 'label');
+                        return \common\models\c2\statics\InventoryReceiptType::getData($model->type, 'label');
                     },
-                    'filter' => \common\models\c2\statics\InventoryDeliveryType::getHashMap('id', 'label')
+                    'filter' => \common\models\c2\statics\InventoryReceiptType::getHashMap('id', 'label')
                 ],
                 'code',
                 'label',
@@ -154,15 +154,19 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                     'buttons' => [
                         'note-checkout' => function ($url, $model, $key) {
-                            return Html::a(Yii::t('app.c2', 'Checkout'), ['edit', 'id' => $model->id], [
+                            return Html::a(Yii::t('app.c2', 'Checkout'), [
+                                '/p3s/inventory/warehouse-commit-storage/',
+                                'WarehouseCommitStorageItemSearch[note_id]' => $model->id,
+                            ], [
                                 'title' => Yii::t('app.c2', 'Checkout'),
                                 'data-pjax' => '0',
+                                'target' => '_blank',
                                 'class' => 'btn btn-success btn-xs checkout',
                             ]);
                         },
                         'note-commit' => function ($url, $model, $key) {
-                            return Html::a(Yii::t('app.c2', 'Commit Warehouse'), ['note-commit', 'id' => $model->id], [
-                                'title' => Yii::t('app.c2', 'Commit Warehouse'),
+                            return Html::a(Yii::t('app.c2', 'Commit Storage'), ['note-commit', 'id' => $model->id], [
+                                'title' => Yii::t('app.c2', 'Commit Storage'),
                                 'data-pjax' => '0',
                                 'class' => 'btn btn-danger btn-xs commit',
                             ]);
@@ -184,8 +188,9 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
 <?php
+
 \yii\bootstrap\Modal::begin([
-    'id' => 'edit-checkout-modal',
+    'id' => 'edit-modal',
     'size' => 'modal-lg'
 ]);
 
@@ -193,10 +198,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
 $js = "";
 
-$js .= "jQuery(document).off('click', 'a.checkout').on('click', 'a.checkout', function(e) {
-            e.preventDefault();
-            jQuery('#edit-checkout-modal').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(jQuery(e.currentTarget).attr('href'));
-        });";
+// $js .= "jQuery(document).off('click', 'a.checkout').on('click', 'a.checkout', function(e) {
+//             e.preventDefault();
+//             jQuery('#edit-modal').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(jQuery(e.currentTarget).attr('href'));
+//         });";
 
 $js .= "jQuery(document).off('click', 'a.commit').on('click', 'a.commit', function(e) {
                 e.preventDefault();
