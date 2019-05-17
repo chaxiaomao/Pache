@@ -147,7 +147,6 @@ class InventoryReceiptNoteModel extends \cza\base\models\ActiveRecord
             'memo' => $this->memo,
         ]);
         if (!empty($this->items)) {
-            Yii::info($this->items);
             foreach ($this->items as $item) {
                 $untilPrice = isset($item['until_price']) ? $item['until_price'] : 0;
                 $number = isset($item['number']) ? $item['number'] : 0;

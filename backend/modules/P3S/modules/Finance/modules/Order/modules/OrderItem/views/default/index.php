@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'pjax' => true,
             'hover' => true,
             // 'showPageSummary' => true,
-            'panel' => ['type' => GridView::TYPE_PRIMARY, 'heading' => Yii::t('app.c2', 'Expend item to show product combination.')],
+            // 'panel' => ['type' => GridView::TYPE_PRIMARY, 'heading' => Yii::t('app.c2', 'Expend item to show product combination.')],
             'toolbar' => [
                 [
                     'content' =>
@@ -126,6 +126,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
             ],
         ]); ?>
+
+        <?php
+        echo Html::beginTag('div', ['class' => 'box-footer']);
+        echo Html::a('<i class="fa fa-arrow-left"></i> ' . Yii::t('app.c2', 'Go Back'), 'javascript:history.go(-1)', ['data-pjax' => '0', 'class' => 'btn btn-default pull-right', 'title' => Yii::t('app.c2', 'Go Back'),]);
+        echo Html::endTag('div');
+        ?>
 
     </div>
 

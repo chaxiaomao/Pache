@@ -95,17 +95,35 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'class' => '\kartik\grid\ActionColumn',
-                'template' => '{update}',
+                'width' => '200px',
+                'template' => '{update} {send-record} {storage-item}',
                 'buttons' => [
                     'update' => function ($url, $model, $key) {
                         return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['edit', 'id' => $model->id], [
                             'title' => Yii::t('app', 'Info'),
                             'data-pjax' => '0',
                         ]);
-                    }
+                    },
+                    'send-record' => function ($url, $model, $key) {
+                        return Html::a(Yii::t('app.c2', 'Send Record'), [
+                            '/p3s/inventory/warehouse-send/commit-send',
+                            'WarehouseCommitSendItemSearch[product_id]' => $model->product_id
+                        ], [
+                            'title' => Yii::t('app', 'Send Record'),
+                            'data-pjax' => '0',
+                        ]);
+                    },
+                    'storage-item' => function ($url, $model, $key) {
+                        return Html::a(Yii::t('app.c2', 'Storage Record'), [
+                            '/p3s/inventory/warehouse-commit-storage/default/record-index',
+                            'WarehouseCommitStorageItemSearch[product_id]' => $model->product_id
+                        ], [
+                            'title' => Yii::t('app', 'Storage Record'),
+                            'data-pjax' => '0',
+                        ]);
+                    },
                 ]
             ],
-
         ],
     ]); ?>
 

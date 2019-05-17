@@ -24,13 +24,27 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
-        $this->layout = '/main-block';
+        // $this->layout = '/main-block';
         $searchModel = new WarehouseSendItemSearch();
         $params = Yii::$app->request->queryParams;
         $model = InventoryDeliveryNoteModel::findOne($params['WarehouseSendItemSearch']['note_id']);
         $dataProvider = $searchModel->search($params);
 
         return $this->render('index', [
+            'model' => $model,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionViewIndex()
+    {
+        $searchModel = new WarehouseSendItemSearch();
+        $params = Yii::$app->request->queryParams;
+        $model = InventoryDeliveryNoteModel::findOne($params['WarehouseSendItemSearch']['note_id']);
+        $dataProvider = $searchModel->search($params);
+
+        return $this->render('view_index', [
             'model' => $model,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

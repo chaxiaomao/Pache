@@ -233,7 +233,6 @@ use yii\helpers\Html;
                     <ul class="dropdown-menu">
                         <!-- User image -->
                         <li class="user-header">
-                            <img src="<?=\Yii::$app->user->avatarUrl?>" class="img-circle" alt="User Image"/>
 
                             <p>
                                 <?=\Yii::$app->user->fullname?>

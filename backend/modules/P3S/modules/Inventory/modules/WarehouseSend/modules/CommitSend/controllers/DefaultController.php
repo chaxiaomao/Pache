@@ -1,30 +1,29 @@
 <?php
 
-namespace backend\modules\P3S\modules\Finance\modules\Order\modules\OrderItem\controllers;
+namespace backend\modules\p3s\modules\Inventory\modules\WarehouseSend\modules\CommitSend\controllers;
 
 use Yii;
-use common\models\c2\entity\OrderItemModel;
-use common\models\c2\search\OrderItemSearch;
+use common\models\c2\entity\WarehouseCommitSendItemModel;
+use common\models\c2\search\WarehouseCommitSendItemSearch;
 
 use cza\base\components\controllers\backend\ModelController as Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * DefaultController implements the CRUD actions for OrderItemModel model.
+ * DefaultController implements the CRUD actions for WarehouseCommitSendItemModel model.
  */
 class DefaultController extends Controller
 {
-    public $modelClass = 'common\models\c2\entity\OrderItemModel';
+    public $modelClass = 'common\models\c2\entity\WarehouseCommitSendItemModel';
     
     /**
-     * Lists all OrderItemModel models.
+     * Lists all WarehouseCommitSendItemModel models.
      * @return mixed
      */
     public function actionIndex()
     {
-        // $this->layout = '/main-block';
-        $searchModel = new OrderItemSearch();
+        $searchModel = new WarehouseCommitSendItemSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -35,7 +34,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * Displays a single OrderItemModel model.
+     * Displays a single WarehouseCommitSendItemModel model.
      * @param string $id
      * @return mixed
      */
@@ -47,7 +46,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * create/update a OrderItemModel model.
+     * create/update a WarehouseCommitSendItemModel model.
      * fit to pajax call
      * @return mixed
      */
@@ -67,19 +66,18 @@ class DefaultController extends Controller
     }
     
     /**
-     * Finds the OrderItemModel model based on its primary key value.
+     * Finds the WarehouseCommitSendItemModel model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id
-     * @return OrderItemModel the loaded model
+     * @return WarehouseCommitSendItemModel the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = OrderItemModel::findOne($id)) !== null) {
+        if (($model = WarehouseCommitSendItemModel::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
-
 }

@@ -160,7 +160,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             ], [
                                 'title' => Yii::t('app.c2', 'Checkout'),
                                 'data-pjax' => '0',
-                                'target' => '_blank',
+                                // 'target' => '_blank',
                                 'class' => 'btn btn-success btn-xs checkout',
                             ]);
                         },
@@ -172,11 +172,13 @@ $this->params['breadcrumbs'][] = $this->title;
                             ]);
                         },
                         'view' => function ($url, $model, $key) {
-                            return Html::a(Yii::t('app.c2', 'View'), ['view', 'id' => $model->id], [
+                            return Html::a(Yii::t('app.c2', 'View'), [
+                                '/p3s/inventory/warehouse-commit-storage/default/view-index',
+                                'WarehouseCommitStorageItemSearch[note_id]' => $model->id,
+                            ], [
                                 'title' => Yii::t('app.c2', 'View'),
                                 'data-pjax' => '0',
                                 'class' => 'btn btn-success btn-xs',
-                                'target' => '_blank',
                             ]);
                         },
                     ]

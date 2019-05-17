@@ -24,75 +24,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="container-fluid">
 
-    <p>订单快照</p>
-
-    <div class="order">
-        <h2 class="tc" style="font-size: 30px;text-align: center">中山市祥丰家居用品有限公司</h2>
-        <h5 class="tc p20" style="font-size: 18px;text-align: center">采购订单</h5>
-
-        <div class="row pt10">
-            <div class="col-xs-3">订单编号：<?= $model->arrival_number ?></div>
-            <div class="col-xs-3">ISO标号：</div>
-            <div class="col-xs-3">订购日期：<?= date('Y-m-d', strtotime($model->occurrence_date)) ?></div>
-            <div class="col-xs-3">交货日期：<?= date('Y-m-d', strtotime($model->arrival_date)) ?></div>
-        </div>
-        <div class="row pt10">
-            <div class="col-xs-3">厂商名称：<?= $model->supplier->name ?></div>
-            <div class="col-xs-3">联系人：<?= $model->supplier->contact_name ?></div>
-            <div class="col-xs-3">传真：<?= $model->supplier->fax ?></div>
-            <div class="col-xs-3">联系电话：<?= $model->supplier->contact_phone ?></div>
-        </div>
-
-        <div class="row pt10">
-            <!--    <div class="col-xs-3">订购日期：</div>-->
-            <div class="col-xs-3">地址：<?= strip_tags($model->supplier->description) ?></div>
-            <div class="col-xs-3">运输方式：</div>
-            <div class="col-xs-3">部门：<?= $model->dept_manager_name ?></div>
-            <div class="col-xs-3">经手人：<?= $model->financial_name ?></div>
-        </div>
-
-        <table class="table table-bordered mt10">
-
-            <tr class="tc">
-                <td class="box120">料号</td>
-                <td class="box120">品名</td>
-                <td class="box120">单位</td>
-                <td class="box120">数量</td>
-                <td class="box120">价格</td>
-                <td class="box120">金额</td>
-                <td class="memo">备注</td>
-            </tr>
-
-            <?php foreach ($model->noteItems as $item): ?>
-                <tr class="tc">
-                    <td class=""><?= $item->product->sku ?></td>
-                    <td class=""><?= $item->product->name ?></td>
-                    <td class=""><?= $item->measure->name ?></td>
-                    <td class=""><?= $item->number ?></td>
-                    <td class=""><?= $item->until_price ?></td>
-                    <td class=""><?= $item->subtotal ?></td>
-                    <td class=""><?= $item->memo ?></td>
-                </tr>
-
-            <?php endforeach; ?>
-
-        </table>
-
-        <div class="container-fluid">
-            <p>备注：<?= $model->memo ?></p>
-        </div>
-    </div>
-
-    <div class="alert alert-warning" role="alert"><?= Yii::t('app.c2', 'Pls fix the note items if there have wrongs.') ?></div>
-
     <?php echo GridView::widget([
         'dataProvider' => $dataProvider,
         // 'filterModel' => $searchModel,
 
         'pjax' => true,
         'hover' => true,
-        // 'showPageSummary' => true,
-        // 'panel' => ['type' => GridView::TYPE_PRIMARY, 'heading' => Yii::t('app.c2', 'Items')],
+        'showPageSummary' => true,
+        'panel' => ['type' => GridView::TYPE_PRIMARY, 'heading' => Yii::t('app.c2', 'Items')],
         'toolbar' => [
             [
                 'content' =>
@@ -136,20 +75,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             'note.code',
+            'product.sku',
             'product.name',
+            'product.value',
             // 'number',
             [
                 'attribute' => 'number',
-                'class' => '\kartik\grid\EditableColumn',
-                'editableOptions' => [
-                    'inputType' => \kartik\editable\Editable::INPUT_TEXT,
-                    'formOptions' => ['action' => Url::toRoute('editColumn')],
-                    // 'data' => EntityModelStatus::getHashMap('id', 'label'),
-                    // 'displayValueConfig' => EntityModelStatus::getHashMap('id', 'label'),
-                ],
             ],
             // 'measure_id',
-            'measure.name',
+            // 'measure.name',
             // 'memo',
             // [
             //     'attribute' => 'memo',
@@ -157,26 +91,19 @@ $this->params['breadcrumbs'][] = $this->title;
             // ],
             [
                 'attribute' => 'memo',
-                'class' => '\kartik\grid\EditableColumn',
-                'format' => 'html',
-                'editableOptions' => [
-                    'inputType' => \kartik\editable\Editable::INPUT_TEXT,
-                    'formOptions' => ['action' => Url::toRoute('editColumn')],
-                    // 'data' => EntityModelStatus::getHashMap('id', 'label'),
-                    // 'displayValueConfig' => EntityModelStatus::getHashMap('id', 'label'),
-                ],
+                'format' => 'html'
             ],
             // 'state',
             [
                 'attribute' => 'state',
                 'value' => function ($model) {
-                    return \common\models\c2\statics\WarehouseCommitState::getData($model->type, 'label');
+                    return \common\models\c2\statics\WarehouseCommitState::getData($model->state, 'label');
                 }
             ],
             // 'status',
             // 'position',
-            // 'created_at',
-            // 'updated_at',
+            'created_at',
+            'updated_at',
             // [
             //     'attribute' => 'status',
             //     'class' => '\kartik\grid\EditableColumn',

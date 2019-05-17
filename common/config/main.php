@@ -10,6 +10,7 @@ return [
     ],
     'version' => '1.0.0',
     'charset' => 'UTF-8',
+    'timeZone'=>'Asia/Shanghai',
     'vendorPath' => $vendorDir,
     'extensions' => require($vendorDir . '/cza/yii2-base/extensions.php'),
     'components' => [

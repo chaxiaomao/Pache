@@ -187,7 +187,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             ], [
                                 'title' => Yii::t('app.c2', 'Order Item Models'),
                                 'data-pjax' => '0',
-                                'target' => '_blank'
+                                // 'target' => '_blank'
                             ]);
                         },
                     ]

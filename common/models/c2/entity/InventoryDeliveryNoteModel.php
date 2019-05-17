@@ -329,7 +329,7 @@ class InventoryDeliveryNoteModel extends \cza\base\models\ActiveRecord
                 $attributes = [
                     'type' => WarehouseCommitType::TYPE_SEND,
                     'note_id' => $this->id,
-                    'product_id' => $sendItem->product_id,
+                    'product_id' => $productCombinationItem->product_id,
                     // 'number' => $sendItem->production_number * $productPackageModel->number * $productCombinationItem->number,
                     'number' => $sendItem->production_number,
                     'measure_id' => $sendItem->measure_id,
@@ -350,7 +350,7 @@ class InventoryDeliveryNoteModel extends \cza\base\models\ActiveRecord
                 $attributes = [
                     'type' => WarehouseCommitType::TYPE_SEND,
                     'note_id' => $this->id,
-                    'product_id' => $sendItem->product_id,
+                    'product_id' => $productPackageItem->product_id,
                     'number' => $sendItem->pieces * $productPackageItem->number,
                     'measure_id' => $sendItem->measure_id,
                     'memo' => $sendItem->memo,

@@ -159,46 +159,19 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'send_number',
             [
                 'attribute' => 'send_number',
-                'class' => '\kartik\grid\EditableColumn',
-                'editableOptions' => [
-                    'inputType' => \kartik\editable\Editable::INPUT_TEXT,
-                    'formOptions' => ['action' => Url::toRoute('editColumn')],
-                    // 'data' => EntityModelStatus::getHashMap('id', 'label'),
-                    // 'displayValueConfig' => EntityModelStatus::getHashMap('id', 'label'),
-                ],
             ],
             // 'production_number',
             [
                 'attribute' => 'production_number',
-                'class' => '\kartik\grid\EditableColumn',
-                'editableOptions' => [
-                    'inputType' => \kartik\editable\Editable::INPUT_TEXT,
-                    'formOptions' => ['action' => Url::toRoute('editColumn')],
-                    // 'data' => EntityModelStatus::getHashMap('id', 'label'),
-                    // 'displayValueConfig' => EntityModelStatus::getHashMap('id', 'label'),
-                ],
             ],
             // 'stock_number',
             [
                 'attribute' => 'stock_number',
-                'class' => '\kartik\grid\EditableColumn',
-                'editableOptions' => [
-                    'inputType' => \kartik\editable\Editable::INPUT_TEXT,
-                    'formOptions' => ['action' => Url::toRoute('editColumn')],
-                    // 'data' => EntityModelStatus::getHashMap('id', 'label'),
-                    // 'displayValueConfig' => EntityModelStatus::getHashMap('id', 'label'),
-                ],
             ],
             // 'memo',
             [
                 'attribute' => 'memo',
-                'class' => '\kartik\grid\EditableColumn',
-                'editableOptions' => [
-                    'inputType' => \kartik\editable\Editable::INPUT_TEXT,
-                    'formOptions' => ['action' => Url::toRoute('editColumn')],
-                    // 'data' => EntityModelStatus::getHashMap('id', 'label'),
-                    // 'displayValueConfig' => EntityModelStatus::getHashMap('id', 'label'),
-                ],
+                'format' => 'html'
             ],
             // 'status',
             // 'position',
@@ -235,7 +208,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
         ],
     ]); ?>
-
 
     <?php
     echo Html::beginTag('div', ['class' => 'box-footer']);

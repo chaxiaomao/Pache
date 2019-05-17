@@ -80,4 +80,14 @@ class WarehouseCommitSendItemModel extends \cza\base\models\ActiveRecord
         parent::loadDefaultValues($skipIfSet);
     }
 
+    public function getNote()
+    {
+        return $this->hasOne(InventoryDeliveryNoteModel::className(), ['id' => 'note_id']);
+    }
+
+    public function getProduct()
+    {
+        return $this->hasOne(ProductModel::className(), ['id' => 'product_id']);
+    }
+
 }

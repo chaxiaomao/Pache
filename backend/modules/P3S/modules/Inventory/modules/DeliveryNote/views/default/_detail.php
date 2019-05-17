@@ -35,7 +35,7 @@
             <td class=""><?= $item->measure->label ?></td>
             <td class=""><?= $item->pieces ?></td>
             <td class=""><?= $item->quantity ?></td>
-            <td class=""><?= $item->product_price ?></td>
+            <td class=""><?= $item->factory_price ?></td>
             <td class=""><?= $item->subtotal ?></td>
             <td class=""><?= $item->memo ?></td>
             <?php $grand_total += $item->subtotal ?>
@@ -44,9 +44,8 @@
     <?php endforeach; ?>
 
     <tr class="">
-        <td class="" colspan="5">合计金额大写(人民币)：元整</td>
+        <td class="" colspan="6">合计金额大写(人民币)：元整</td>
         <td class="tc"><?= number_format($grand_total, 2) ?></td>
-        <td class=""></td>
         <td class=""></td>
     </tr>
 

@@ -140,13 +140,6 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'number',
             [
                 'attribute' => 'number',
-                'class' => '\kartik\grid\EditableColumn',
-                'editableOptions' => [
-                    'inputType' => \kartik\editable\Editable::INPUT_TEXT,
-                    'formOptions' => ['action' => Url::toRoute('editColumn')],
-                    // 'data' => EntityModelStatus::getHashMap('id', 'label'),
-                    // 'displayValueConfig' => EntityModelStatus::getHashMap('id', 'label'),
-                ],
             ],
             // 'measure_id',
             'measure.name',
@@ -157,14 +150,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // ],
             [
                 'attribute' => 'memo',
-                'class' => '\kartik\grid\EditableColumn',
-                'format' => 'html',
-                'editableOptions' => [
-                    'inputType' => \kartik\editable\Editable::INPUT_TEXT,
-                    'formOptions' => ['action' => Url::toRoute('editColumn')],
-                    // 'data' => EntityModelStatus::getHashMap('id', 'label'),
-                    // 'displayValueConfig' => EntityModelStatus::getHashMap('id', 'label'),
-                ],
+                'format' => 'html'
             ],
             // 'state',
             [

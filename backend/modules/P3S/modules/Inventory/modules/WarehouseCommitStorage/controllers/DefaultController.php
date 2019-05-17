@@ -25,7 +25,7 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
-        $this->layout = '/main-block';
+        // $this->layout = '/main-block';
         $searchModel = new WarehouseCommitStorageItemSearch();
         $params = Yii::$app->request->queryParams;
         $model = InventoryReceiptNoteModel::findOne($params['WarehouseCommitStorageItemSearch']['note_id']);
@@ -33,6 +33,35 @@ class DefaultController extends Controller
 
         return $this->render('index', [
             'model' => $model,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionViewIndex()
+    {
+        // $this->layout = '/main-block';
+        $searchModel = new WarehouseCommitStorageItemSearch();
+        $params = Yii::$app->request->queryParams;
+        $model = InventoryReceiptNoteModel::findOne($params['WarehouseCommitStorageItemSearch']['note_id']);
+        $dataProvider = $searchModel->search($params);
+
+        return $this->render('view_index', [
+            'model' => $model,
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionRecordIndex()
+    {
+        // $this->layout = '/main-block';
+        $searchModel = new WarehouseCommitStorageItemSearch();
+        $params = Yii::$app->request->queryParams;
+        $dataProvider = $searchModel->search($params);
+
+        return $this->render('record_index', [
+            'model' => $this->retrieveModel(),
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
