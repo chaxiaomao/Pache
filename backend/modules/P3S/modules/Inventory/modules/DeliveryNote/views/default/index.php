@@ -172,7 +172,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         ]);
                     },
                     'view' => function ($url, $model, $key) {
-                        return Html::a(Html::tag('span', Yii::t('app.c2', 'Print'), ['class' => "glyphicon glyphicon-print"]), ['view', 'id' => $model->id], [
+                        return Html::a(Html::tag('span', '', ['class' => "glyphicon glyphicon-print"]), ['view', 'id' => $model->id], [
                             'title' => Yii::t('app.c2', 'Print'),
                             'data-pjax' => '0',
                             'target' => '_blank'
