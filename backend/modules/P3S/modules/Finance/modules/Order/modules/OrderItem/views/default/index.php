@@ -13,7 +13,7 @@ use cza\base\models\statics\OperationEvent;
 $this->title = Yii::t('app.c2', 'Order Item Models');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-    <div class="well order-item-model-index">
+    <div class="order order-item-model-index">
 
         <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
@@ -111,11 +111,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 // ],
                 [
                     'class' => '\kartik\grid\ActionColumn',
+                    'width' => '100px',
                     'template' => '{view}',
                     'buttons' => [
                         'view' => function ($url, $model, $key) {
                             $url = Url::toRoute(['/p3s/finance/order/consumption/default/index', 'OrderItemConsumptionSearch[order_item_id]' => $model->id]);
-                            return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', $url, [
+                            return Html::a('<span class="glyphicon glyphicon-stats">' . Yii::t('app.c2', 'Consumer Exception') . '</span>', $url, [
                                 'title' => Yii::t('app', 'Info'),
                                 'data-pjax' => '0',
                                 'class' => 'view'
@@ -127,13 +128,13 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]); ?>
 
-        <?php
-        echo Html::beginTag('div', ['class' => 'box-footer']);
-        echo Html::a('<i class="fa fa-arrow-left"></i> ' . Yii::t('app.c2', 'Go Back'), 'javascript:history.go(-1)', ['data-pjax' => '0', 'class' => 'btn btn-default pull-right', 'title' => Yii::t('app.c2', 'Go Back'),]);
-        echo Html::endTag('div');
-        ?>
-
     </div>
+
+<?php
+echo Html::beginTag('div', ['class' => 'box-footer']);
+echo Html::a('<i class="fa fa-arrow-left"></i> ' . Yii::t('app.c2', 'Go Back'), 'javascript:history.go(-1)', ['data-pjax' => '0', 'class' => 'btn btn-default pull-right', 'title' => Yii::t('app.c2', 'Go Back'),]);
+echo Html::endTag('div');
+?>
 
 <?php
 \yii\bootstrap\Modal::begin([

@@ -206,6 +206,7 @@ return [
     'Product Model' => '产品',
     'Storage Record' => '进仓记录',
     'Send Record' => '出仓记录',
+    'Warehouse Commit Send Item Models' => '出货记录',
     '' => '',
 ];
 
