@@ -154,7 +154,13 @@ $form = ActiveForm::begin([
                             [
                                 'name' => 'product_combination_id',
                                 'type' => 'dropDownList',
-                                'items' => $model->isNewRecord ? [] : \common\models\c2\entity\ProductCombinationModel::getHashMap('id', 'label'),
+                                // 'items' => $model->isNewRecord ? [] : \common\models\c2\entity\ProductCombinationModel::getHashMap('id', 'label'),
+                                'items' => $model->isNewRecord ? [] : function($data) {
+                                    if (is_object($data)) {
+                                        return $data->product->getCombinationOptionList();
+                                    }
+                                    return [];
+                                },
                                 'title' => Yii::t('app.c2', 'Product Combination'),
                                 'options' => [
                                     'id' => "combination-{multiple_index_{$multipleItemsId}}",
@@ -163,7 +169,12 @@ $form = ActiveForm::begin([
                             [
                                 'name' => 'product_package_id',
                                 'type' => 'dropDownList',
-                                'items' => $model->isNewRecord ? [] : \common\models\c2\entity\ProductPackageModel::getHashMap('id', 'label'),
+                                'items' => $model->isNewRecord ? [] : function($data) {
+                                    if (is_object($data)) {
+                                        return $data->product->getPackageOptionList();
+                                    }
+                                    return [];
+                                },
                                 'title' => Yii::t('app.c2', 'Product Package'),
                                 'options' => [
                                     'id' => "package-{multiple_index_{$multipleItemsId}}",
@@ -188,12 +199,22 @@ $form = ActiveForm::begin([
                                 ]
                             ],
                             [
+                                'name' => 'pieces',
+                                'title' => Yii::t('app.c2', 'Pieces'),
+                                'enableError' => true,
+                                'defaultValue' => 0,
+                                'options' => [
+                                    'type' => 'number',
+                                    'min' => 0,
+                                ]
+                            ],
+                            [
                                 'name' => 'number',
                                 'title' => Yii::t('app.c2', 'Number'),
                                 'enableError' => true,
-                                'defaultValue' => 1,
                                 'options' => [
                                     'type' => 'number',
+                                    'placeholder' => Yii::t('app.c2', 'Auto summary so you can empty this input.'),
                                     'min' => 1,
                                 ]
                             ],

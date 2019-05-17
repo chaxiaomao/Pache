@@ -156,6 +156,7 @@ return [
     'Until Price' => '单价',
     'Auto summary so you can empty this input.' => '如需系统自动计算则留空。',
     'Checkout' => '检查',
+    'Package Method' => '包装方式',
     'Inventory Receipt Note Models' => '采购单列表',
     'Checkout Note Items' => '检查细项',
     'Pls fix the note items if there have wrongs.' => '请核对数据，如需要修正请在输入框修改。<br>修正后保存后将对仓库操作，请慎重确认。',
@@ -195,6 +196,11 @@ return [
     'Commit remain' => '待进仓',
     'Commit finish' => '已进仓',
     'Factory Price' => '出厂价',
+    'Inventory Note Log' => '排单日志',
+    'Product Package Model' => '包装方式',
+    'Product Combination Model' => '产品规格/组成',
+    'Order Items' => '订单细项',
+    'Product Model' => '产品',
     '' => '',
 ];
 

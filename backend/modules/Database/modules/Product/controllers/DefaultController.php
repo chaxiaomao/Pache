@@ -10,6 +10,7 @@ use common\models\c2\entity\ProductModel;
 use common\models\c2\search\ProductSearch;
 
 use cza\base\components\controllers\backend\ModelController as Controller;
+use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -60,10 +61,19 @@ class DefaultController extends Controller
         $model->type = ProductType::TYPE_PRODUCT;
         
         if ($model->load(Yii::$app->request->post())) {
-            if ($model->save()) {
-                Yii::$app->session->setFlash($model->getMessageName(), [Yii::t('app.c2', 'Saved successful.')]);
+            if ($model->isNewRecord) {
+                if ($model->save()) {
+                    Yii::$app->session->setFlash($model->getMessageName(), [Yii::t('app.c2', 'Saved successful.')]);
+                    return $this->redirect(Url::toRoute(['edit', 'id' => $model->id]));
+                } else {
+                    Yii::$app->session->setFlash($model->getMessageName(), $model->errors);
+                }
             } else {
-                Yii::$app->session->setFlash($model->getMessageName(), $model->errors);
+                if ($model->save()) {
+                    Yii::$app->session->setFlash($model->getMessageName(), [Yii::t('app.c2', 'Saved successful.')]);
+                } else {
+                    Yii::$app->session->setFlash($model->getMessageName(), $model->errors);
+                }
             }
         }
         

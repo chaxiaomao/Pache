@@ -4,6 +4,7 @@ namespace common\models\c2\entity;
 
 use cza\base\models\statics\EntityModelStatus;
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "{{%product}}".
@@ -74,6 +75,7 @@ class ProductModel extends \cza\base\models\ActiveRecord
             [['meta_description', 'summary', 'description'], 'string'],
             [['score', 'gift_score', 'install_price', 'low_price', 'sales_price', 'cost_price', 'market_price'], 'number'],
             [['released_at', 'created_at', 'updated_at'], 'safe'],
+            [['is_released',], 'default', 'value' => 1],
             [['type', 'is_score_exchange', 'score_exchange_method', 'require_setup', 'is_install', 'is_released'], 'integer', 'max' => 4],
             [['seo_code', 'sku', 'serial_number', 'breadcrumb', 'name', 'label', 'meta_title',
                 'meta_keywords', 'value'], 'string', 'max' => 255],
@@ -183,6 +185,24 @@ class ProductModel extends \cza\base\models\ActiveRecord
     public function getSupplier()
     {
         return $this->hasOne(SupplierModel::className(), ['id' => 'supplier_id']);
+    }
+
+    public function getCombinationOptionList($key = 'id', $val = 'label')
+    {
+        // foreach ($this->activeProductPackage as $item) {
+        //     $options[$item->id] = $item->name;
+        // }
+        $options = ArrayHelper::map($this->getActiveProductCombination()->all(), $key, $val);
+        return $options;
+    }
+
+    public function getPackageOptionList($key = 'id', $val = 'label')
+    {
+        // foreach ($this->activeProductPackage as $item) {
+        //     $options[$item->id] = $item->name;
+        // }
+        $options = ArrayHelper::map($this->getActiveProductPackage()->all(), $key, $val);
+        return $options;
     }
 
 }

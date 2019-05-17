@@ -110,7 +110,10 @@ class OrderItemModel extends \cza\base\models\ActiveRecord
     public function getSummerProduct()
     {
         $packageModel = $this->productPackage;
-        return $this->number * $packageModel->number;
+        if (!is_null($packageModel)) {
+            return $this->number * $packageModel->number;
+        }
+        return $this->number;
     }
 
     public function getMeasure()

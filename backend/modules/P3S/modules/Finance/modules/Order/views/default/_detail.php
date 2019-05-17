@@ -35,12 +35,12 @@ use yii\widgets\DetailView;
         <tr class="tc">
             <td class="success"><?= $item->product->sku ?></td>
             <td class="success"><?= $item->product->name ?></td>
-            <td class="success"><?= $item->getSummerProduct() ?></td>
             <td class="success"><?= $item->number ?></td>
-            <td class="success"><?= $item->productPackage->label ?></td>
+            <td class="success"><?= $item->pieces ?></td>
+            <td class="success"><?= $item->productPackage != null ? $item->productPackage->label : '' ?></td>
             <td class="success"></td>
-            <td class="success"><?= $item->productPackage->gross_weight ?></td>
-            <td class="success"><?= $item->productPackage->net_weight ?></td>
+            <td class="success"><?= $item->productPackage != null ? $item->productPackage->gross_weight : '' ?></td>
+            <td class="success"><?= $item->productPackage != null ? $item->productPackage->net_weight : '' ?></td>
             <td class="success"><?= $item->memo ?></td>
         </tr>
 

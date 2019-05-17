@@ -71,7 +71,11 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'product.value'
             ],
-            'product_number',
+            // 'product_number',
+            [
+                'attribute' => 'product_number',
+                'label' => Yii::t('app.c2', 'Number')
+            ],
             'consumed_number',
             'subtotal',
             [

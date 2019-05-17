@@ -113,7 +113,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 [
                     'class' => '\common\widgets\grid\ActionColumn',
-                    'width' => '200px',
+                    'width' => '240px',
                     'template' => '{order-confirm} {order-cancel} {order-finish} {order-init} {order-items} {update} {view}',
                     'visibleButtons' => [
                         'update' => function ($model) {
@@ -181,7 +181,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             ]);
                         },
                         'order-items' => function ($url, $model, $key) {
-                            return Html::a(Html::tag('span', '', ['class' => "glyphicon glyphicon-list-alt"]), [
+                            return Html::a(Html::tag('span', Yii::t('app.c2', 'Order Items'), ['class' => "glyphicon glyphicon-list-alt"]), [
                                 '/p3s/finance/order/order-item/default/index',
                                 'OrderItemSearch[order_id]' => $model->id
                             ], [
