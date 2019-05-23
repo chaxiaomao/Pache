@@ -38,6 +38,34 @@ class DefaultController extends Controller
         ]);
     }
 
+    public function actionProduction()
+    {
+        $searchModel = new ProductSearch();
+        $searchModel->is_released = EntityModelStatus::STATUS_ACTIVE;
+        $searchModel->type = ProductType::TYPE_PRODUCT;
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('production_index', [
+            'model' => $this->retrieveModel(),
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionMaterial()
+    {
+        $searchModel = new ProductSearch();
+        $searchModel->is_released = EntityModelStatus::STATUS_ACTIVE;
+        $searchModel->type = ProductType::TYPE_MATERIAL;
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('material_index', [
+            'model' => $this->retrieveModel(),
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
     /**
      * Displays a single ProductModel model.
      * @param string $id

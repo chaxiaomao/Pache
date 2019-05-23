@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'content' =>
                         Html::a('<i class="glyphicon glyphicon-plus"></i>', [
                             '/database/product/product-package/default/edit',
-                            'id' => $model->id
+                            'product_id' => $product_id
                         ], [
                             'class' => 'btn btn-success',
                             'id' => 'edit-product-package',

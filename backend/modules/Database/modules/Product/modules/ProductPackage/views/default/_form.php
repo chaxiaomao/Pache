@@ -50,8 +50,8 @@ $form = ActiveForm::begin([
             'attributes' => [
                 // 'product_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('product_id')]],
                 'product_id' => [
-                    'type' => Form::INPUT_DROPDOWN_LIST,
-                    'items' => \common\models\c2\entity\ProductModel::getHashMap('id', 'name'),
+                    'type' => Form::INPUT_TEXT,
+                    // 'items' => \common\models\c2\entity\ProductModel::getHashMap('id', 'name'),
                     'options' => [
                         'placeholder' => $model->getAttributeLabel('product_id'),
                         'readonly' => true,
@@ -108,6 +108,7 @@ $form = ActiveForm::begin([
                                     'data' => [
                                             '' => Yii::t("app.c2", "Select options ..")] + \common\models\c2\entity\ProductModel::getHashMap('id', 'sku', [
                                             'type' => \common\models\c2\statics\ProductType::TYPE_MATERIAL,
+                                            'is_released' => EntityModelStatus::STATUS_ACTIVE,
                                             'status' => EntityModelStatus::STATUS_ACTIVE
                                         ]),
                                     'pluginEvents' => [

@@ -7,6 +7,7 @@ use common\models\c2\entity\ProductPackageModel;
 use common\models\c2\entity\ProductStockModel;
 use common\models\c2\search\ProductCombinationSearch;
 use common\models\c2\search\ProductPackageSearch;
+use common\models\c2\statics\ProductType;
 use Yii;
 use cza\base\widgets\ui\common\part\EntityDetail as DetailWidget;
 
@@ -45,11 +46,20 @@ class EntityDetail extends DetailWidget
         }
 
         if ($this->withBaseInfoTab) {
-            $items[] = [
-                'label' => Yii::t('app.c2', 'Base Information'),
-                'content' => $this->controller->renderPartial('_form', ['model' => $this->model,]),
-                'active' => true,
-            ];
+            if ($this->model->type == ProductType::TYPE_PRODUCT) {
+                $items[] = [
+                    'label' => Yii::t('app.c2', 'Base Information'),
+                    'content' => $this->controller->renderPartial('_production_form', ['model' => $this->model,]),
+                    'active' => true,
+                ];
+            } else {
+                $items[] = [
+                    'label' => Yii::t('app.c2', 'Base Information'),
+                    'content' => $this->controller->renderPartial('_material_form', ['model' => $this->model,]),
+                    'active' => true,
+                ];
+            }
+
         }
 
         $items[] = [

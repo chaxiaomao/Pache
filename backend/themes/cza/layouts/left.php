@@ -34,7 +34,13 @@ use yii\helpers\Html;
                     [
                         'label' => Yii::t('app.c2', 'Database'), 'visible' => \Yii::$app->user->can('P_Logistics'), 'icon' => 'fa fa-circle-o', 'url' => ['#'], 'options' => ['class' => 'treeview'],
                         'items' => [
-                            ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Product')]), 'icon' => 'fa fa-circle-o', 'url' => ['/database/product']],
+                            [
+                                'label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Product')]), 'icon' => 'fa fa-circle-o', 'url' => ['#'], 'options' => ['class' => 'treeview'],
+                                'items' => [
+                                    ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Production')]), 'icon' => 'fa fa-circle-o', 'url' => ['/database/product/default/production']],
+                                    ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Material')]), 'icon' => 'fa fa-circle-o', 'url' => ['/database/product/default/material']],
+                                ]
+                            ],
                             ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'User')]), 'icon' => 'fa fa-circle-o', 'url' => ['/database/users']],
                             // ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Attribute')]), 'icon' => 'fa fa-circle-o', 'url' => ['/database/attribute']],
                             // ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Attributeset')]), 'icon' => 'fa fa-circle-o', 'url' => ['/database/attributeset']],
@@ -44,7 +50,9 @@ use yii\helpers\Html;
                         'label' => Yii::t('app.c2', 'Purchase Sale Storage System'), 'icon' => 'fa fa-circle-o', 'url' => ['#'], 'options' => ['class' => 'treeview'],
                         'visible' => \Yii::$app->user->can('P_P3S'),
                         'items' => [
-                            ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Finance')]), 'icon' => 'fa fa-circle-o', 'url' => ['#'], 'options' => ['class' => 'treeview'],
+                            [
+                                'label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Finance')]), 'icon' => 'fa fa-circle-o', 'url' => ['#'], 'options' => ['class' => 'treeview'],
+                                'visible' => \Yii::$app->user->can('P_Finance'),
                                 'items' => [
                                     ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Order')]), 'icon' => 'fa fa-circle-o', 'url' => ['/p3s/finance/order']],
                                     // ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'EsConsumption')]), 'icon' => 'fa fa-circle-o', 'url' => ['/p3s/inventory/es-consumption']],
@@ -52,7 +60,9 @@ use yii\helpers\Html;
                                     ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Inventory Delivery Notes')]), 'icon' => 'fa fa-circle-o', 'url' => ['/p3s/inventory/delivery-note']],
                                 ]
                             ],
-                            ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Warehouse')]), 'icon' => 'fa fa-circle-o', 'url' => ['#'], 'options' => ['class' => 'treeview'],
+                            [
+                                'label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Warehouse')]), 'icon' => 'fa fa-circle-o', 'url' => ['#'], 'options' => ['class' => 'treeview'],
+                                'visible' => \Yii::$app->user->can('P_Warehouse'),
                                 'items' => [
                                     ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Product Stock')]), 'icon' => 'fa fa-circle-o', 'url' => ['/p3s/inventory/product-stock']],
                                     [

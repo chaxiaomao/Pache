@@ -104,12 +104,7 @@ $form = ActiveForm::begin([
                     'items' => \common\models\c2\entity\SupplierModel::getHashMap('id', 'label'),
                     'options' => ['placeholder' => $model->getAttributeLabel('supplier_id')]
                 ],
-                'value' => [
-                    'type' => $model->type == \common\models\c2\statics\ProductType::TYPE_PRODUCT ? Form::INPUT_HIDDEN : Form::INPUT_TEXT,
-                    'options' => [
-                        'placeholder' => Yii::t('app.c2', 'Empty this value weather is product.')
-                    ]
-                ],
+
                 // 'currency_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('currency_id')]],
                 // 'measure_id' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('measure_id')]],
                 // 'summary' => ['type' => Form::INPUT_WIDGET, 'widgetClass' => '\vova07\imperavi\Widget', 'options' => [
@@ -162,11 +157,18 @@ $form = ActiveForm::begin([
                         'buttonup_txt' => '<i class="glyphicon glyphicon-plus-sign"></i>',
                     ],
                 ],],
+                'value' => [
+                    'type' => $model->type == \common\models\c2\statics\ProductType::TYPE_PRODUCT ? Form::INPUT_HIDDEN : Form::INPUT_TEXT,
+                    'options' => [
+                        'placeholder' => Yii::t('app.c2', 'Empty this value weather is product.')
+                    ]
+                ],
+
             ]
         ]);
         echo Html::beginTag('div', ['class' => 'box-footer']);
         echo Html::submitButton('<i class="fa fa-save"></i> ' . Yii::t('app.c2', 'Save'), ['type' => 'button', 'class' => 'btn btn-primary pull-right']);
-        echo Html::a('<i class="fa fa-window-close-o"></i> ' . Yii::t('app.c2', 'Close'), ['index'], ['data-pjax' => '0', 'data-dismiss' => 'modal', 'class' => 'btn btn-default pull-right', 'title' => Yii::t('app.c2', 'Go Back'),]);
+        echo Html::a('<i class="fa fa-window-close-o"></i> ' . Yii::t('app.c2', 'Close'), ['production'], ['data-pjax' => '0', 'data-dismiss' => 'modal', 'class' => 'btn btn-default pull-right', 'title' => Yii::t('app.c2', 'Go Back'),]);
         echo Html::endTag('div');
         ?>
     </div>

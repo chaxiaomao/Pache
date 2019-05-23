@@ -3,6 +3,7 @@
 namespace backend\modules\Database\modules\Product\modules\ProductPackage\controllers;
 
 use common\models\c2\entity\ProductPackageItemModel;
+use common\models\c2\statics\ProductType;
 use cza\base\models\statics\EntityModelStatus;
 use cza\base\models\statics\ResponseDatum;
 use Yii;
@@ -64,9 +65,12 @@ class DefaultController extends Controller
      * fit to pajax call
      * @return mixed
      */
-    public function actionEdit($id = null) 
+    public function actionEdit($id = null, $product_id = null)
     {
         $model = $this->retrieveModel($id);
+        if (!is_null($product_id)) {
+            $model->product_id = $product_id;
+        }
         
         if ($model->load(Yii::$app->request->post())) {
             if ($model->save()) {

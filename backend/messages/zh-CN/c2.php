@@ -55,6 +55,7 @@ return [
     // end
     'Pache Console' => '帕奇管理后台',
     'Refresh' => '刷新',
+    'Production' => '成品',
     'Calculate' => '计算',
     'Material' => '材料',
     'Order' => '订单',

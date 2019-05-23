@@ -49,8 +49,8 @@ $form = ActiveForm::begin([
             'columns' => 2,
             'attributes' => [
                 'product_id' => [
-                    'type' => Form::INPUT_DROPDOWN_LIST,
-                    'items' => \common\models\c2\entity\ProductModel::getHashMap('id', 'name'),
+                    'type' => Form::INPUT_TEXT,
+                    // 'items' => \common\models\c2\entity\ProductModel::getHashMap('id', 'name'),
                     'options' => [
                         'placeholder' => $model->getAttributeLabel('product_id'),
                         'readonly' => true,
@@ -96,7 +96,7 @@ $form = ActiveForm::begin([
                             [
                                 'name' => 'product_id',
                                 // 'type' => 'dropDownList',
-                                'title' => Yii::t('app.c2', 'Sku'),
+                                'title' => Yii::t('app.c2', 'Code'),
                                 'enableError' => true,
                                 // 'items' => ['' => Yii::t("app.c2", "Select options ..")] + \common\models\c2\entity\ProductModel::getHashMap('id', 'sku', ['status' => EntityModelStatus::STATUS_ACTIVE]),
                                 'type' => \kartik\select2\Select2::className(),
@@ -113,6 +113,12 @@ $form = ActiveForm::begin([
                                                     $('#code-{multiple_index_{$multipleItemsId}}').val(data.output.sku);
                                                     $('#name-{multiple_index_{$multipleItemsId}}').val(data.output.name);
                                                     $('#value-{multiple_index_{$multipleItemsId}}').val(data.output.value);
+                                                    // if(data.output !== undefined) {
+                                                    //     $('select#subcat-{multiple_index_{$multipleItemsId}}').empty();
+                                                    //     $.each(data.output, function(key, item){
+                                                    //             $('select#subcat-{multiple_index_{$multipleItemsId}}').append('<option value=' + item.id + '>' + item.name + '</option>');
+                                                    //         });
+                                                    // }
                                                 })
                                             }",
                                     ],
@@ -120,7 +126,7 @@ $form = ActiveForm::begin([
                             ],
                             [
                                 'name' => 'code',
-                                'title' => Yii::t('app.c2', 'Sku'),
+                                'title' => Yii::t('app.c2', 'Code'),
                                 'options' => [
                                     'id' => "code-{multiple_index_{$multipleItemsId}}",
                                     'readonly' => true,
@@ -135,17 +141,17 @@ $form = ActiveForm::begin([
                                 ],
                             ],
                             [
-                                'name' => 'label',
-                                'title' => Yii::t('app.c2', 'Label'),
-                                'options' => [
-                                ],
-                            ],
-                            [
                                 'name' => 'value',
                                 'title' => Yii::t('app.c2', 'Value'),
                                 'options' => [
                                     'id' => "value-{multiple_index_{$multipleItemsId}}",
                                     'readonly' => true,
+                                ],
+                            ],
+                            [
+                                'name' => 'label',
+                                'title' => Yii::t('app.c2', 'Label'),
+                                'options' => [
                                 ],
                             ],
                             [
